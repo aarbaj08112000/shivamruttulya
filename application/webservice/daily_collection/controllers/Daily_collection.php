@@ -192,3 +192,5 @@ class Daily_collection extends My_Api_Controller
         }
     }
 }
+
+/* tests */

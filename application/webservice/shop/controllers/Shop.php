@@ -215,3 +215,5 @@ class Shop extends My_Api_Controller
         }
     }
 }
+
+/* tests */

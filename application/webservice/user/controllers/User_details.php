@@ -46,3 +46,5 @@ class User_details extends My_Api_Controller
         ), REST_Controller::HTTP_OK);
     }
 }
+
+/* tests */

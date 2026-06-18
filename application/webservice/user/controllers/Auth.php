@@ -126,3 +126,5 @@ class Auth extends My_Api_Controller
         }
     }
 }
+
+/* tests */

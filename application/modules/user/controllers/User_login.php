@@ -64,3 +64,5 @@ class User_login extends MX_Controller {
         $api_response->response_return($return_arr, REST_Controller::HTTP_OK);
     }
 }
+
+/* tests */

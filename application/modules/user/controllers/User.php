@@ -110,7 +110,7 @@ class User extends MY_Controller {
         echo json_encode($ret_arr);
     }
 
-
+/* tests */
 	/* group master module */
 	public function groupMaster(){
 		$data['groups'] = $this->User_model->getGroupData();
@@ -299,3 +299,4 @@ class User extends MY_Controller {
 	}
 }
 
+/* tests */

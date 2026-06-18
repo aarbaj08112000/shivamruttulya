@@ -167,3 +167,5 @@ class Franchise extends My_Api_Controller
         }
     }
 }
+
+/* tests */

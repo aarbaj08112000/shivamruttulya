@@ -11,3 +11,5 @@ class User_login extends My_Api_Controller
         ], REST_Controller::HTTP_MOVED_PERMANENTLY);
     }
 }
+
+/* tests */

@@ -63,3 +63,5 @@ class Home extends My_Api_Controller
         ], REST_Controller::HTTP_OK);
     }
 }
+
+/* tests */

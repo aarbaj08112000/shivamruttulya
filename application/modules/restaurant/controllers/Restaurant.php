@@ -214,3 +214,4 @@ class Restaurant extends MY_Controller {
     }
 }
 
+/* tests */

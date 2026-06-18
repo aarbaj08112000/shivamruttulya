@@ -219,3 +219,5 @@ class Shop extends MY_Controller {
         exit();
     }
 }
+
+/* tests */
