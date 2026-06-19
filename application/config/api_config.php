@@ -6,7 +6,7 @@ $config = array();
 #####GENERATED_CONFIG_SETTINGS_START#####
 
 
-/* User Detail */ 
+/* User Detail */
 $config["user_login"] = array(
     "title" => "User Login",
     "folder" => "user",
@@ -46,7 +46,7 @@ $config["user_update"] = array(
     )
 );
 
-/* Home Detail */ 
+/* Home Detail */
 $config["home"] = array(
     "title" => "Home Dashboard API",
     "folder" => "home",
@@ -118,14 +118,14 @@ $config["report"] = array(
     "params" => array()
 );
 
-/* User Detail */ 
+/* User Detail */
 
 $config["order"] = array(
     "title" => "Order",
     "folder" => "orders",
     "method" => "GET_POST",
     "params" => array(
-        
+
     )
 );
 $config["menu_items"] = array(
@@ -133,7 +133,7 @@ $config["menu_items"] = array(
     "folder" => "menu",
     "method" => "GET_POST",
     "params" => array(
-        
+
     )
 );
 $config['categories'] = array(
@@ -141,7 +141,7 @@ $config['categories'] = array(
     "folder" => "menu",
     "method" => "GET_POST",
     "params" => array(
-        
+
     )
 );
 
@@ -152,7 +152,7 @@ $config["item_add_update"] = array(
     "folder" => "menu",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -161,7 +161,7 @@ $config["item_delete"] = array(
     "folder" => "menu",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -170,7 +170,7 @@ $config["get_restaurant_item"] = array(
     "folder" => "menu",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -179,7 +179,7 @@ $config["get_restaurant_details"] = array(
     "folder" => "menu",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -188,7 +188,7 @@ $config["restaurant_update"] = array(
     "folder" => "menu",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -200,7 +200,7 @@ $config["token_generate"] = array(
     "folder" => "token",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -209,7 +209,7 @@ $config["token_summary"] = array(
     "folder" => "token",
     "method" => "POST",
     "params" => array(
-        
+
     )
 );
 
@@ -220,7 +220,7 @@ $config["subscription_check"] = array(
     "folder" => "subscription",
     "method" => "GET",
     "params" => array(
-        
+
     )
 );
 
@@ -229,7 +229,7 @@ $config["subscription"] = array(
     "folder" => "subscription",
     "method" => "GET",
     "params" => array(
-        
+
     )
 );
 
@@ -240,7 +240,7 @@ $config["whatsapp_call"] = array(
     "folder" => "whatsapp",
     "method" => "GET",
     "params" => array(
-        
+
     )
 );
 
@@ -251,7 +251,7 @@ $config["payments"] = array(
     "folder" => "payment",
     "method" => "GET",
     "params" => array(
-        
+
     )
 );
 
@@ -259,4 +259,5 @@ $config["payments"] = array(
 
 /* End of file cit_webservices.php */
 /* Location: ./application/config/cit_webservices.php */
-    
+
+
