@@ -27,13 +27,13 @@ class Shop extends My_Api_Controller
         }
 
         $shops = $this->shop_model->get_all($limit, $offset, $search);
-        
+
         $total_records = $this->shop_model->get_total_count($search);
         $total_pages = $limit ? ceil($total_records / $limit) : 1;
 
         $response_data = [
-            'current_page' => $page ? (int)$page : 1,
-            'per_page' => $per_page ? (int)$per_page : $total_records,
+            'current_page' => $page ? (int) $page : 1,
+            'per_page' => $per_page ? (int) $per_page : $total_records,
             'total_records' => $total_records,
             'total_pages' => $total_pages,
             'data' => $shops
@@ -163,7 +163,7 @@ class Shop extends My_Api_Controller
                 $update_data[$field] = $input[$field];
             }
         }
-        
+
         if (isset($input['opening_date'])) {
             if (!empty($input['opening_date'])) {
                 $date_parts = explode('/', $input['opening_date']);

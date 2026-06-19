@@ -43,46 +43,89 @@ class User_update extends My_Api_Controller
         $this->form_validation->set_rules($config);
         
         if ($this->form_validation->run() === FALSE) {
-            $this->response([
+            return $this->response([
                 'success' => 0,
                 'message' => 'Validation failed',
                 'errors'  => $this->form_validation->error_array(),
                 'data' => (object)[]
             ], REST_Controller::HTTP_BAD_REQUEST);
-            return;
-        } else {
-            $name = $this->security->xss_clean($input["name"]);
-            $mobile = $this->security->xss_clean($input["mobile"]);
-
-            $update_arr = [
-                "name" => $name,
-                "mobile" => $mobile,
-                "updated_by" => $user_id,
-                "updated_date" => date("Y-m-d H:i:s")
-            ];
-            
-            if (isset($input["profile_image"])) {
-                $update_arr["profile_image"] = $this->security->xss_clean($input["profile_image"]);
-            }
-            
-            $affected = $this->user_login_model->update_user($user_id, $update_arr);
-            
-            if ($affected) {
-                $success = 1;
-                $message = "User details updated successfully";
-            } else {
-                $success = 1; // It's still success if nothing changed
-                $message = "No changes made to user details";
-            }
-            
-            $data['id'] = $user_id;
-            
-            return $this->response([
-                "success" => $success,
-                "message" => $message,
-                'data' => $data
-            ], REST_Controller::HTTP_OK);
         }
+
+        $name   = $this->security->xss_clean($input['name']);
+        $mobile = $this->security->xss_clean($input['mobile']);
+
+        $update_arr = [
+            'name'       => $name,
+            'mobile'     => $mobile,
+            'updated_by' => $user_id,
+        ];
+
+        // Handle base64 profile image upload
+        if (!empty($input['profile_image'])) {
+            $base64_string = $input['profile_image'];
+
+            // Strip data URI prefix if present (e.g. "data:image/jpeg;base64,...")
+            if (strpos($base64_string, ';base64,') !== false) {
+                list($type_part, $base64_string) = explode(';base64,', $base64_string);
+                $ext = strtolower(str_replace('data:image/', '', $type_part)); // jpg/png/jpeg
+                if ($ext === 'jpeg') $ext = 'jpg';
+            } else {
+                $ext = 'jpg'; // default
+            }
+
+            $image_data = base64_decode($base64_string);
+
+            if ($image_data === false) {
+                return $this->response([
+                    'success' => 0,
+                    'message' => 'Invalid image data',
+                    'data'    => (object)[]
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+
+            // Encrypted filename: sha256(user_id + timestamp + random)
+            $encrypted_name = hash('sha256', $user_id . time() . mt_rand(1000, 9999)) . '.' . $ext;
+
+            // Upload path: FCPATH = public/
+            $upload_path = FCPATH . 'uploads/users/';
+
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            if (file_put_contents($upload_path . $encrypted_name, $image_data) === false) {
+                return $this->response([
+                    'success' => 0,
+                    'message' => 'Failed to save profile image',
+                    'data'    => (object)[]
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            // Delete old profile image if exists
+            $existing_user = $this->user_login_model->get_by_id($user_id);
+            if ($existing_user && !empty($existing_user->profile_image)) {
+                $old_file = $upload_path . $existing_user->profile_image;
+                if (file_exists($old_file)) {
+                    @unlink($old_file);
+                }
+            }
+
+            $update_arr['profile_image'] = $encrypted_name;
+        }
+
+        $affected = $this->user_login_model->update_user($user_id, $update_arr);
+
+        if ($affected) {
+            $message = 'User details updated successfully';
+        } else {
+            $message = 'No changes made to user details';
+        }
+
+        return $this->response([
+            'success' => 1,
+            'message' => $message,
+            'data'    => ['id' => $user_id]
+        ], REST_Controller::HTTP_OK);
     }
 }
 

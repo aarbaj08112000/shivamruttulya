@@ -46,8 +46,10 @@ class User_login_model extends CI_Model{
         if (isset($data['password'])) {
             // plain text or hash
         }
-        $data['updated_date'] = date('Y-m-d H:i:s');
-        $this->db->where('id', $id)->update($this->table, $data);
+        $this->db->where('id', $id);
+        $this->db->set($data);
+        $this->db->set('updated_date', 'NOW()', false);
+        $this->db->update($this->table);
         return $this->db->affected_rows() > 0;
     }
 

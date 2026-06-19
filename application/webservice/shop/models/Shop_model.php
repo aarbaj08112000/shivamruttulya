@@ -1,13 +1,16 @@
 <?php
-class Shop_model extends CI_Model {
+class Shop_model extends CI_Model
+{
     private $table = 'shops';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
     }
 
-    public function get_all($limit = null, $offset = null, $search = null) {
+    public function get_all($limit = null, $offset = null, $search = null)
+    {
         $this->db->select('id, shop_name, shop_code, contact_person, contact_number, email, address, opening_date, status');
         $this->db->from($this->table);
         $this->db->group_start();
@@ -27,7 +30,8 @@ class Shop_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-    public function get_total_count($search = null) {
+    public function get_total_count($search = null)
+    {
         $this->db->from($this->table);
         $this->db->group_start();
         $this->db->where('is_delete', 0);
@@ -42,7 +46,8 @@ class Shop_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    public function get_by_id($id) {
+    public function get_by_id($id)
+    {
         $this->db->select('id, shop_name, shop_code, contact_person, contact_number, email, address, opening_date, status');
         $this->db->where('id', $id);
         $this->db->group_start();
@@ -64,29 +69,35 @@ class Shop_model extends CI_Model {
         return $result;
     }
 
-    public function insert($data) {
-        $data['added_date'] = date('Y-m-d H:i:s');
-        $this->db->insert($this->table, $data);
+    public function insert($data)
+    {
+        $this->db->set($data);
+        $this->db->set('added_date', 'NOW()', false);
+        $this->db->insert($this->table);
         return $this->db->insert_id();
     }
 
-    public function update($id, $data) {
-        $data['updated_date'] = date('Y-m-d H:i:s');
+    public function update($id, $data)
+    {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, $data);
+        $this->db->set($data);
+        $this->db->set('updated_date', 'NOW()', false);
+        $this->db->update($this->table);
+        return $this->db->affected_rows();
     }
 
-    public function delete($id, $updated_by) {
-        $data = [
-            'is_delete' => 1,
-            'updated_by' => $updated_by,
-            'updated_date' => date('Y-m-d H:i:s')
-        ];
+    public function delete($id, $updated_by)
+    {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, $data);
+        $this->db->set('is_delete', "1");
+        $this->db->set('updated_by', $updated_by);
+        $this->db->set('updated_date', 'NOW()', false);
+        $this->db->update($this->table);
+        return $this->db->affected_rows();
     }
 
-    public function get_next_shop_code() {
+    public function get_next_shop_code()
+    {
         $this->db->select('shop_code');
         $this->db->from($this->table);
         $this->db->where('shop_code LIKE', 'SA-%');
