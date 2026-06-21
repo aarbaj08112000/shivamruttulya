@@ -13,32 +13,39 @@ class User_details extends My_Api_Controller
         $this->getUserDetail();
     }
 
-    public function index_get(){
+    public function index_get()
+    {
         $this->getUserDetail();
     }
 
-    public function getUserDetail(){
+    public function getUserDetail()
+    {
         if ($this->authenticate() !== true) {
             return;
         }
         $user_id = $this->current_user->id; // Using `id` instead of `user_id`
-        
+
         $success = 0;
         $message = "User data not found.";
         $data = [];
-        
+
         $user_data = $this->user_login_model->get_user_details($user_id);
-        
-        if(count($user_data) > 0){
+
+        if (count($user_data) > 0) {
             $success = 1;
             $message = "User data fetched successfully.";
-            
+
             // Remove sensitive details
             unset($user_data['password']);
-            
+            if (!empty($user_data['profile_image'])) {
+                $user_data['profile_image'] = base_url('public/uploads/users/' . $user_data['profile_image']);
+            } else {
+                $user_data['profile_image'] = '';
+            }
+
             $data = $user_data;
-        } 
-        
+        }
+
         return $this->response(array(
             "success" => $success,
             "message" => $message,
