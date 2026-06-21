@@ -77,12 +77,12 @@
                         <table id="erp_users" class="table table-striped w-100">
                            <thead>
                               <tr>
-                                 <th class="hide">Sr No</th> 
-                                 <th>Full Name</th>
-                                 <th>Email</th>
-                                 <th>Mobile</th>
-                                 <th>Status</th>
-                                 <th>Action</th>
+                                 <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;" class="hide">Sr No</th> 
+                                 <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Full Name</th>
+                                 <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Email</th>
+                                 <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Mobile</th>
+                                 <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Status</th>
+                                 <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Action</th>
                                  <th style="display: none;">Details</th>
                               </tr>
                            </thead>

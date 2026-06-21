@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 21, 2026 at 02:14 PM
+-- Generation Time: Jun 21, 2026 at 05:54 PM
 -- Server version: 8.0.46-0ubuntu0.22.04.2
 -- PHP Version: 8.1.2-1ubuntu2.24
 
@@ -79,7 +79,8 @@ CREATE TABLE `expenses` (
 INSERT INTO `expenses` (`id`, `shop_id`, `category_id`, `amount`, `expense_date`, `description`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
 (1, 1, 1, '15000.00', '2026-06-01', 'Monthly Rent', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 16:04:00', '1'),
 (2, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 16:05:05', '0'),
-(3, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 1, '2026-06-17 16:02:53', NULL, NULL, '0');
+(3, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 1, '2026-06-17 16:02:53', NULL, NULL, '0'),
+(4, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 2, '2026-06-21 14:32:06', 2, '2026-06-21 14:32:25', '0');
 
 -- --------------------------------------------------------
 
@@ -121,7 +122,7 @@ CREATE TABLE `franchises` (
   `owner_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `mobile` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `joining_date` datetime DEFAULT NULL,
+  `joining_date` date DEFAULT NULL,
   `address` text COLLATE utf8mb4_general_ci,
   `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
   `added_by` int DEFAULT '1',
@@ -205,6 +206,7 @@ CREATE TABLE `grocery_purchases` (
   `shop_id` int DEFAULT NULL,
   `grocery_item_id` int DEFAULT NULL,
   `vendor_id` int DEFAULT NULL,
+  `vendor_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `purchase_date` date DEFAULT NULL,
   `quantity` decimal(10,2) DEFAULT NULL,
   `rate` decimal(10,2) DEFAULT NULL,
@@ -221,10 +223,10 @@ CREATE TABLE `grocery_purchases` (
 -- Dumping data for table `grocery_purchases`
 --
 
-INSERT INTO `grocery_purchases` (`id`, `shop_id`, `grocery_item_id`, `vendor_id`, `purchase_date`, `quantity`, `rate`, `total_amount`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 1, 1, 1, '2026-06-01', '5.00', '450.00', '2250.00', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 15:33:19', '1'),
-(2, 1, 2, 2, '2026-06-01', '20.00', '60.00', '1200.00', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(3, 1, 2, 1, '2026-06-15', '12.00', '50.00', '500.00', 'active', 1, '2026-06-17 15:25:59', 1, '2026-06-17 15:29:38', '0');
+INSERT INTO `grocery_purchases` (`id`, `shop_id`, `grocery_item_id`, `vendor_id`, `vendor_name`, `purchase_date`, `quantity`, `rate`, `total_amount`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
+(1, 1, 1, 1, NULL, '2026-06-01', '5.00', '450.00', '2250.00', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 15:33:19', '1'),
+(2, 1, 2, 2, NULL, '2026-06-01', '20.00', '60.00', '1200.00', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
+(3, 1, 2, 1, NULL, '2026-06-15', '12.00', '50.00', '500.00', 'active', 1, '2026-06-17 15:25:59', 1, '2026-06-17 15:29:38', '0');
 
 -- --------------------------------------------------------
 
@@ -286,7 +288,8 @@ INSERT INTO `shops` (`id`, `franchise_id`, `shop_code`, `shop_name`, `contact_pe
 (3, NULL, '78456', 'Testing', '', '7845978459', NULL, '', NULL, 'active', 1, '2026-06-15 23:07:46', 1, '2026-06-16 00:05:19', '1'),
 (4, NULL, '784', 'Shiv Amruttulya Wakad Updated', 'Tester', '7845961230', NULL, 'New Dehli', NULL, 'inactive', 1, '2026-06-16 00:12:43', 2, '2026-06-19 16:03:35', '1'),
 (5, NULL, NULL, 'Shiv Amruttulya Wakad', NULL, NULL, NULL, 'Wakad Bridge', NULL, 'active', 1, '2026-06-17 14:48:41', NULL, NULL, '0'),
-(6, NULL, NULL, 'Shiv Amruttulya Wakad 12', 'Amit', '9998887776', NULL, 'Wakad Bridge', NULL, 'active', 1, '2026-06-17 14:51:15', NULL, NULL, '0');
+(6, NULL, NULL, 'Shiv Amruttulya Wakad 12', 'Amit', '9998887776', NULL, 'Wakad Bridge', NULL, 'active', 1, '2026-06-17 14:51:15', NULL, NULL, '0'),
+(7, NULL, 'SA-001', 'testing', '', '4774583331', NULL, '', NULL, 'active', 1, '2026-06-21 14:52:50', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -322,7 +325,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `password`, `mobile`, `profile_image`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`, `api_token`, `token_issued_at`, `device_id`, `device_type`, `otp`, `otp_validity`) VALUES
 (1, 1, 'User 123', 'admin@gmail.com', '123456', '7854123690', NULL, 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-18 14:33:09', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwiaWF0IjoxNzgxNzcyMDMyLCJleHAiOjE3ODQzNjQwMzJ9.fkGLm4QU5ybaIPwXWkvg0F2YxdJMjgGYocSP5ZSZZkU', '2026-06-18 14:10:32', 'unknown', 'unknown', NULL, NULL),
-(2, 2, 'User 123', 'owner@test.com', '123456', '7854123690', NULL, 'active', 1, '2026-06-15 13:16:14', 2, '2026-06-19 16:10:14', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIyIiwiaWF0IjoxNzgxODY0ODE5LCJleHAiOjE3ODQ0NTY4MTl9.DrZ5MiD2BQja0PYOKyt1MJKEZgTkdzlf5vx-GqluOP8', '2026-06-19 15:56:59', 'unknown', 'unknown', NULL, NULL),
+(2, 2, 'Code Crafter Info', 'owner@test.com', '123456', '8745693210', 'bd1052d535cbf06e363d454d5ac1fd8a.jpg', 'active', 1, '2026-06-15 13:16:14', 2, '2026-06-21 15:34:29', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIyIiwiaWF0IjoxNzgyMDM2MjM1LCJleHAiOjE3ODQ2MjgyMzV9.7t9VAELKDHrKIwbyUbjkmH0hjwxYmM9mu1gXXZlxfaQ', '2026-06-21 15:33:55', 'unknown', 'unknown', NULL, NULL),
 (3, 3, 'Shop Manager', 'manager@test.com', '123456', '9876543212', NULL, 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -446,7 +449,7 @@ ALTER TABLE `daily_collections`
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `expense_categories`
@@ -488,7 +491,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`

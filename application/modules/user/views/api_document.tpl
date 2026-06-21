@@ -934,8 +934,8 @@
                                     <li><code>page</code>: Page number (default: 1)</li>
                                     <li><code>limit</code>: Items per page (default: 10)</li>
                                     <li><code>shop_id</code>: Filter by Shop ID</li>
-                                    <li><code>month</code>: Filter by Month (1-12)</li>
-                                    <li><code>year</code>: Filter by Year (e.g., 2026)</li>
+                                    <li><code>month_year</code>: Combined filter (e.g., "June 2026")</li>
+                                    <li><code>search</code>: Plain text search (filters by shop name, item name, or vendor name)</li>
                                 </ul>
 
                                 <h6>Output Response (Success)</h6>

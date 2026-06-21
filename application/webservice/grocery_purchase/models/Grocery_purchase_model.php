@@ -30,6 +30,14 @@ class Grocery_purchase_model extends CI_Model
             $this->db->where('MONTH(p.purchase_date)', $filters['month']);
         }
 
+        if (!empty($filters['search'])) {
+            $this->db->group_start();
+            $this->db->like('s.shop_name', $filters['search']);
+            $this->db->or_like('i.item_name', $filters['search']);
+            $this->db->or_like('p.vendor_name', $filters['search']);
+            $this->db->group_end();
+        }
+
         $this->db->order_by('p.purchase_date', 'DESC');
         $this->db->limit($limit, $offset);
 
@@ -50,6 +58,14 @@ class Grocery_purchase_model extends CI_Model
             $this->db->where('YEAR(p.purchase_date)', $filters['year']);
         } else if (!empty($filters['month'])) {
             $this->db->where('MONTH(p.purchase_date)', $filters['month']);
+        }
+
+        if (!empty($filters['search'])) {
+            $this->db->group_start();
+            $this->db->like('s.shop_name', $filters['search']);
+            $this->db->or_like('i.item_name', $filters['search']);
+            $this->db->or_like('p.vendor_name', $filters['search']);
+            $this->db->group_end();
         }
 
         return $this->db->count_all_results();

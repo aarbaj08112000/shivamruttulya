@@ -17,8 +17,18 @@ class Grocery_purchase extends My_Api_Controller
         $limit = $this->get('limit') ? (int)$this->get('limit') : 10;
         $offset = ($page - 1) * $limit;
 
-        $month = $this->get('month');
-        $year = $this->get('year');
+        $month = null;
+        $year = null;
+        $month_year = $this->get('month_year');
+        
+        if (!empty($month_year)) {
+            $timestamp = strtotime("1 " . $month_year);
+            if ($timestamp) {
+                $month = date('m', $timestamp);
+                $year = date('Y', $timestamp);
+            }
+        }
+
         if (empty($month) && empty($year)) {
             $month = date('m');
             $year = date('Y');
@@ -27,7 +37,8 @@ class Grocery_purchase extends My_Api_Controller
         $filters = [
             'shop_id' => $this->get('shop_id'),
             'month' => $month,
-            'year' => $year
+            'year' => $year,
+            'search' => $this->get('search')
         ];
 
         $purchases = $this->grocery_purchase_model->get_all($limit, $offset, $filters);
@@ -94,18 +105,11 @@ class Grocery_purchase extends My_Api_Controller
         }
 
         $vendor_name = trim($input['vendor_name']);
-        $vendor = $this->db->get_where('vendors', ['vendor_name' => $vendor_name, 'is_delete' => '0'])->row_array();
-        if ($vendor) {
-            $vendor_id = $vendor['id'];
-        } else {
-            $this->db->insert('vendors', ['vendor_name' => $vendor_name, 'added_by' => $this->current_user->id]);
-            $vendor_id = $this->db->insert_id();
-        }
 
         $insert_data = [
             'shop_id' => $input['shop_id'],
             'grocery_item_id' => $input['grocery_item_id'],
-            'vendor_id' => $vendor_id,
+            'vendor_name' => $vendor_name,
             'purchase_date' => $input['purchase_date'],
             'quantity' => $input['quantity'],
             'rate' => $input['rate'],
@@ -165,14 +169,7 @@ class Grocery_purchase extends My_Api_Controller
         }
 
         if (isset($input['vendor_name']) && !empty($input['vendor_name'])) {
-            $vendor_name = trim($input['vendor_name']);
-            $vendor = $this->db->get_where('vendors', ['vendor_name' => $vendor_name, 'is_delete' => '0'])->row_array();
-            if ($vendor) {
-                $update_data['vendor_id'] = $vendor['id'];
-            } else {
-                $this->db->insert('vendors', ['vendor_name' => $vendor_name, 'added_by' => $this->current_user->id]);
-                $update_data['vendor_id'] = $this->db->insert_id();
-            }
+            $update_data['vendor_name'] = trim($input['vendor_name']);
         }
 
         $affected = $this->grocery_purchase_model->update($id, $update_data);
