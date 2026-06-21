@@ -21,7 +21,8 @@ class Daily_collection extends My_Api_Controller
             'shop_id' => $this->get('shop_id'),
             'collection_date' => $this->get('collection_date'),
             'from_date' => $this->get('from_date'),
-            'to_date' => $this->get('to_date')
+            'to_date' => $this->get('to_date'),
+            'search' => $this->get('search')
         ];
 
         $collections = $this->daily_collection_model->get_all($limit, $offset, $filters);

@@ -68,22 +68,25 @@ class Franchise extends My_Api_Controller
         if (!is_array($input)) $input = [];
 
         $this->form_validation->set_data($input);
-        $this->form_validation->set_rules('franchise_code', 'Franchise Code', 'required|trim');
         $this->form_validation->set_rules('franchise_name', 'Franchise Name', 'required|trim');
         $this->form_validation->set_rules('owner_name', 'Owner Name', 'required|trim');
         $this->form_validation->set_rules('mobile', 'Mobile', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'valid_email|trim');
+        if (!empty($input['email'])) {
+            $this->form_validation->set_rules('email', 'Email', 'valid_email|trim');
+        }
+        $this->form_validation->set_rules('joining_date', 'Joining Date', 'required|trim');
         
         if ($this->form_validation->run() === FALSE) {
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         $insert_data = [
-            'franchise_code' => $input['franchise_code'],
+            'franchise_code' => $this->franchise_model->generate_franchise_code(),
             'franchise_name' => $input['franchise_name'],
             'owner_name' => $input['owner_name'],
             'mobile' => $input['mobile'],
-            'email' => $input['email'] ?? null,
+            'email' => !empty($input['email']) ? $input['email'] : null,
+            'joining_date' => $input['joining_date'] ?? null,
             'address' => $input['address'] ?? null,
             'status' => $input['status'] ?? 'active',
             'added_by' => $this->current_user->id
@@ -116,7 +119,7 @@ class Franchise extends My_Api_Controller
         }
 
         $this->form_validation->set_data($input);
-        if (isset($input['email'])) $this->form_validation->set_rules('email', 'Email', 'valid_email|trim');
+        if (!empty($input['email'])) $this->form_validation->set_rules('email', 'Email', 'valid_email|trim');
         
         if ($this->form_validation->run() === FALSE) {
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
@@ -126,7 +129,7 @@ class Franchise extends My_Api_Controller
             'updated_by' => $this->current_user->id
         ];
         
-        $fields = ['franchise_code', 'franchise_name', 'owner_name', 'mobile', 'email', 'address', 'status'];
+        $fields = ['franchise_code', 'franchise_name', 'owner_name', 'mobile', 'email', 'joining_date', 'address', 'status'];
         foreach ($fields as $field) {
             if (isset($input[$field])) {
                 $update_data[$field] = $input[$field];

@@ -8,10 +8,11 @@ class Expense_model extends CI_Model {
     }
 
     public function get_all($limit = 10, $offset = 0, $filters = []) {
-        $this->db->select('e.*, s.shop_name, c.category_name');
+        $this->db->select('e.*, s.shop_name, c.category_name, u.name as added_by_name');
         $this->db->from($this->table . ' e');
         $this->db->join('shops s', 's.id = e.shop_id', 'left');
         $this->db->join('expense_categories c', 'c.id = e.category_id', 'left');
+        $this->db->join('users u', 'u.id = e.added_by', 'left');
         $this->db->where('e.is_delete', '0');
 
         if (!empty($filters['shop_id'])) {
@@ -95,10 +96,11 @@ class Expense_model extends CI_Model {
     }
 
     public function get_by_id($id) {
-        $this->db->select('e.*, s.shop_name, c.category_name');
+        $this->db->select('e.*, s.shop_name, c.category_name, u.name as added_by_name');
         $this->db->from($this->table . ' e');
         $this->db->join('shops s', 's.id = e.shop_id', 'left');
         $this->db->join('expense_categories c', 'c.id = e.category_id', 'left');
+        $this->db->join('users u', 'u.id = e.added_by', 'left');
         $this->db->where('e.id', $id);
         $this->db->where('e.is_delete', '0');
         return $this->db->get()->row_array();

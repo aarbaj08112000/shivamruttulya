@@ -17,6 +17,23 @@ class Franchise_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
+    public function generate_franchise_code() {
+        $this->db->select('franchise_code');
+        $this->db->from($this->table);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            $last_code = $query->row()->franchise_code;
+            $number = (int) preg_replace('/[^0-9]/', '', $last_code);
+            $new_number = $number + 1;
+            return 'FR' . str_pad($new_number, 3, '0', STR_PAD_LEFT);
+        } else {
+            return 'FR001';
+        }
+    }
+
     public function get_count() {
         $this->db->from($this->table);
         $this->db->where('is_delete', '0');

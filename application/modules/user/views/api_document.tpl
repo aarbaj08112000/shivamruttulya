@@ -957,7 +957,8 @@
         "shop_name": "Shiv Amruttulya Chinchwad",
         "item_name": "Tea Powder",
         "unit": "Kg",
-        "vendor_name": "Local Supplier"
+        "vendor_name": "Local Supplier",
+        "added_by_name": "User 123"
       }
     ],
     "pagination": {
@@ -1007,7 +1008,8 @@
     "shop_name": "Shiv Amruttulya Chinchwad",
     "item_name": "Tea Powder",
     "unit": "Kg",
-    "vendor_name": "Local Supplier"
+    "vendor_name": "Local Supplier",
+    "added_by_name": "User 123"
   }
 }</code></pre>
                             </div>
@@ -1034,7 +1036,7 @@
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "shop_id": "1",
   "grocery_item_id": "2",
-  "vendor_id": "1",
+  "vendor_name": "Local Supplier",
   "purchase_date": "2026-06-15",
   "quantity": "10",
   "rate": "50",
@@ -1075,6 +1077,7 @@
                                 <h6>Input JSON / Form-Data</h6>
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "id": "2",
+  "vendor_name": "New Vendor",
   "quantity": "12",
   "total_amount": "600"
 }</code></pre>
@@ -1154,6 +1157,7 @@
                                     <li><code>shop_id</code>: Filter by Shop ID</li>
                                     <li><code>collection_date</code>: Filter by exact Date (YYYY-MM-DD)</li>
                                     <li><code>from_date</code> & <code>to_date</code>: Filter by Date Range (YYYY-MM-DD)</li>
+                                    <li><code>search</code>: Plain text search by shop name or amount</li>
                                 </ul>
 
                                 <h6>Output Response (Success)</h6>
@@ -1170,7 +1174,8 @@
         "online_amount": "1800.00",
         "total_amount": "4300.00",
         "status": "active",
-        "shop_name": "Shiv Amruttulya Chinchwad"
+        "shop_name": "Shiv Amruttulya Chinchwad",
+        "added_by_name": "User 123"
       }
     ],
     "pagination": {
@@ -1216,7 +1221,8 @@
     "online_amount": "1800.00",
     "total_amount": "4300.00",
     "status": "active",
-    "shop_name": "Shiv Amruttulya Chinchwad"
+    "shop_name": "Shiv Amruttulya Chinchwad",
+    "added_by_name": "User 123"
   }
 }</code></pre>
                             </div>
@@ -1381,7 +1387,8 @@
         "description": "Monthly Rent",
         "status": "active",
         "shop_name": "Shiv Amruttulya Chinchwad",
-        "category_name": "Rent"
+        "category_name": "Rent",
+        "added_by_name": "User 123"
       }
     ],
     "pagination": {
@@ -1466,7 +1473,8 @@
     "description": "Monthly Rent",
     "status": "active",
     "shop_name": "Shiv Amruttulya Chinchwad",
-    "category_name": "Rent"
+    "category_name": "Rent",
+    "added_by_name": "User 123"
   }
 }</code></pre>
                             </div>
@@ -1623,6 +1631,7 @@
         "owner_name": "Shivaji Patil",
         "mobile": "9876543211",
         "email": "shiv@gmail.com",
+        "joining_date": "2026-06-15 00:00:00",
         "address": "Pune",
         "status": "active"
       }
@@ -1669,6 +1678,7 @@
     "owner_name": "Shivaji Patil",
     "mobile": "9876543211",
     "email": "shiv@gmail.com",
+    "joining_date": "2026-06-15 00:00:00",
     "address": "Pune",
     "status": "active"
   }
@@ -1695,11 +1705,11 @@
 
                                 <h6>Input JSON / Form-Data</h6>
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
-  "franchise_code": "FR002",
   "franchise_name": "Shiv Amruttulya Mumbai",
   "owner_name": "Ramesh",
   "mobile": "9998887776",
   "email": "mumbai@shiv.com",
+  "joining_date": "2026-06-20",
   "address": "Dadar, Mumbai",
   "status": "active"
 }</code></pre>
@@ -1711,6 +1721,7 @@
   "data": {
     "franchise_code": "FR002",
     "franchise_name": "Shiv Amruttulya Mumbai",
+    "joining_date": "2026-06-20",
     "id": 2
   }
 }</code></pre>
@@ -1738,6 +1749,7 @@
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "id": "2",
   "mobile": "9998881111",
+  "joining_date": "2026-06-20",
   "status": "inactive"
 }</code></pre>
                                 

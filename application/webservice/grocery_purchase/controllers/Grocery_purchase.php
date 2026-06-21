@@ -17,10 +17,17 @@ class Grocery_purchase extends My_Api_Controller
         $limit = $this->get('limit') ? (int)$this->get('limit') : 10;
         $offset = ($page - 1) * $limit;
 
+        $month = $this->get('month');
+        $year = $this->get('year');
+        if (empty($month) && empty($year)) {
+            $month = date('m');
+            $year = date('Y');
+        }
+
         $filters = [
             'shop_id' => $this->get('shop_id'),
-            'month' => $this->get('month'),
-            'year' => $this->get('year')
+            'month' => $month,
+            'year' => $year
         ];
 
         $purchases = $this->grocery_purchase_model->get_all($limit, $offset, $filters);
@@ -76,7 +83,7 @@ class Grocery_purchase extends My_Api_Controller
         $this->form_validation->set_data($input);
         $this->form_validation->set_rules('shop_id', 'Shop ID', 'required|numeric');
         $this->form_validation->set_rules('grocery_item_id', 'Grocery Item ID', 'required|numeric');
-        $this->form_validation->set_rules('vendor_id', 'Vendor ID', 'required|numeric');
+        $this->form_validation->set_rules('vendor_name', 'Vendor Name', 'required|trim');
         $this->form_validation->set_rules('purchase_date', 'Purchase Date', 'required|trim');
         $this->form_validation->set_rules('quantity', 'Quantity', 'required|numeric');
         $this->form_validation->set_rules('rate', 'Rate', 'required|numeric');
@@ -86,10 +93,19 @@ class Grocery_purchase extends My_Api_Controller
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
 
+        $vendor_name = trim($input['vendor_name']);
+        $vendor = $this->db->get_where('vendors', ['vendor_name' => $vendor_name, 'is_delete' => '0'])->row_array();
+        if ($vendor) {
+            $vendor_id = $vendor['id'];
+        } else {
+            $this->db->insert('vendors', ['vendor_name' => $vendor_name, 'added_by' => $this->current_user->id]);
+            $vendor_id = $this->db->insert_id();
+        }
+
         $insert_data = [
             'shop_id' => $input['shop_id'],
             'grocery_item_id' => $input['grocery_item_id'],
-            'vendor_id' => $input['vendor_id'],
+            'vendor_id' => $vendor_id,
             'purchase_date' => $input['purchase_date'],
             'quantity' => $input['quantity'],
             'rate' => $input['rate'],
@@ -128,7 +144,7 @@ class Grocery_purchase extends My_Api_Controller
         $this->form_validation->set_data($input);
         if (isset($input['shop_id'])) $this->form_validation->set_rules('shop_id', 'Shop ID', 'numeric');
         if (isset($input['grocery_item_id'])) $this->form_validation->set_rules('grocery_item_id', 'Grocery Item ID', 'numeric');
-        if (isset($input['vendor_id'])) $this->form_validation->set_rules('vendor_id', 'Vendor ID', 'numeric');
+        if (isset($input['vendor_name'])) $this->form_validation->set_rules('vendor_name', 'Vendor Name', 'trim');
         if (isset($input['quantity'])) $this->form_validation->set_rules('quantity', 'Quantity', 'numeric');
         if (isset($input['rate'])) $this->form_validation->set_rules('rate', 'Rate', 'numeric');
         if (isset($input['total_amount'])) $this->form_validation->set_rules('total_amount', 'Total Amount', 'numeric');
@@ -141,10 +157,21 @@ class Grocery_purchase extends My_Api_Controller
             'updated_by' => $this->current_user->id
         ];
         
-        $fields = ['shop_id', 'grocery_item_id', 'vendor_id', 'purchase_date', 'quantity', 'rate', 'total_amount', 'status'];
+        $fields = ['shop_id', 'grocery_item_id', 'purchase_date', 'quantity', 'rate', 'total_amount', 'status'];
         foreach ($fields as $field) {
             if (isset($input[$field])) {
                 $update_data[$field] = $input[$field];
+            }
+        }
+
+        if (isset($input['vendor_name']) && !empty($input['vendor_name'])) {
+            $vendor_name = trim($input['vendor_name']);
+            $vendor = $this->db->get_where('vendors', ['vendor_name' => $vendor_name, 'is_delete' => '0'])->row_array();
+            if ($vendor) {
+                $update_data['vendor_id'] = $vendor['id'];
+            } else {
+                $this->db->insert('vendors', ['vendor_name' => $vendor_name, 'added_by' => $this->current_user->id]);
+                $update_data['vendor_id'] = $this->db->insert_id();
             }
         }
 
