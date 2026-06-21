@@ -58,6 +58,15 @@
                                     <label>Mobile<span class="text-danger">*</span></label> <br>
                                     <input required type="text" name="mobile" placeholder="Enter Mobile" class="form-control" value="">
                                  </div>
+                                 <div class="form-group">
+                                    <label>Role<span class="text-danger">*</span></label> <br>
+                                    <select name="user_role" class="form-control" required>
+                                       <option value="">Select Role</option>
+                                       <%foreach from=$roles item=role%>
+                                          <option value="<%$role['id']%>"><%$role['role_name']%></option>
+                                       <%/foreach%>
+                                    </select>
+                                 </div>
                                  </div>
                                  <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -127,7 +136,16 @@
                                                      </div>
                                                      <div class="form-group" >
                                                         <label for="on click url" class="w-100">Status<span class="text-danger">*</span> </label> <br>
-                                                        <select name="status" class="form-control select2 required-input">
+                                                        <div class="form-group">
+                                                         <label for="on click url">Role<span class="text-danger">*</span></label> <br>
+                                                         <select name="user_role" class="form-control required-input" required>
+                                                            <option value="">Select Role</option>
+                                                            <%foreach from=$roles item=role%>
+                                                               <option value="<%$role['id']%>" <%if isset($u['user_role']) && $u['user_role'] eq $role['id']%>selected<%/if%>><%$role['role_name']%></option>
+                                                            <%/foreach%>
+                                                         </select>
+                                                      </div>
+                                                         <select name="status" class="form-control select2 required-input">
                                                            <option value="active" <%if $u['status'] eq 'active'%>selected<%/if%>>Active</option>
                                                            <option value="inactive" <%if $u['status'] eq 'inactive'%>selected<%/if%>>Inactive</option>
                                                         </select>

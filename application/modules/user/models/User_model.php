@@ -21,6 +21,14 @@ class User_model extends CI_Model {
         $ret_data = is_object($result_obj) ? $result_obj->result_array() : [];
         return $ret_data;
     }
+    public function getRoles(){
+        $this->db->select('r.*');
+        $this->db->from('roles as r');
+        $this->db->where('r.is_delete', '0');
+        $this->db->where('r.status', 'active');
+        $result_obj = $this->db->get();
+        return is_object($result_obj) ? $result_obj->result_array() : [];
+    }
     public function insertUser($insert_date = array()){
         $this->db->insert("users", $insert_date);
         $insert_id = $this->db->insert_id();

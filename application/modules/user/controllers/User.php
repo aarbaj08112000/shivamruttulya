@@ -16,6 +16,7 @@ class User extends MY_Controller {
 		$data['client'] = $this->User_model->getClientData();
         $data['groups'] = [];
 		$data['user_info'] = $this->User_model->getUserData();
+        $data['roles'] = $this->User_model->getRoles();
 		$data['no_data_message'] = NoDataFoundMessage("user");
 		$this->smarty->loadView('user_details.tpl', $data,'Yes','Yes');
 	}
