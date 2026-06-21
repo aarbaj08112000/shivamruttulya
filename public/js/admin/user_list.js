@@ -86,6 +86,8 @@ const user_app = {
         scrollY: true,
         bScrollCollapse: true,
         // columnDefs: [{ sortable: false, targets: 7 }],
+        bPaginate: true,
+        pageLength: 10,
         pagingType: "full_numbers",
         "preDrawCallback": function(settings) {
             // Get current page and page length
