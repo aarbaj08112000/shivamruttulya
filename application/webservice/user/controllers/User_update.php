@@ -69,7 +69,7 @@ class User_update extends My_Api_Controller
 
             $config_upload = [
                 'upload_path' => $upload_path,
-                'allowed_types' => 'jpg|jpeg|png|webp',
+                'allowed_types' => 'jpg|jpeg|png|webp|heic',
                 'max_size' => 5120, // 5MB limit
                 'encrypt_name' => TRUE
             ];
