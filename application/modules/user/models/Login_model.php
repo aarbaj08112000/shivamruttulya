@@ -66,5 +66,60 @@ class Login_model extends CI_Model {
 		$data = is_object($query) ? $query->row_array() : [];
         return $data;
 	}
-    
+	public function get_dashboard_data() {
+        $data = [];
+        
+        // 1. Today's Collection
+        $today = date('Y-m-d');
+        $query_today = $this->db->query("SELECT IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online, IFNULL(SUM(total_amount), 0) as total FROM daily_collections WHERE collection_date = '$today' AND is_delete = '0'");
+        $data['today'] = $query_today->row_array();
+        
+        // 2. Weekly Collection (Last 7 days)
+        $last_week = date('Y-m-d', strtotime('-7 days'));
+        $query_weekly = $this->db->query("SELECT IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online, IFNULL(SUM(total_amount), 0) as total FROM daily_collections WHERE collection_date >= '$last_week' AND collection_date <= '$today' AND is_delete = '0'");
+        $data['weekly'] = $query_weekly->row_array();
+        
+        // 3. Monthly Collection (Current Month)
+        $first_day = date('Y-m-01');
+        $query_monthly = $this->db->query("SELECT IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online, IFNULL(SUM(total_amount), 0) as total FROM daily_collections WHERE collection_date >= '$first_day' AND collection_date <= '$today' AND is_delete = '0'");
+        $data['monthly'] = $query_monthly->row_array();
+        
+        // 4. Grand Total
+        $query_total = $this->db->query("SELECT IFNULL(SUM(total_amount), 0) as total FROM daily_collections WHERE is_delete = '0'");
+        $data['grand_total'] = $query_total->row_array();
+        
+        // 5. Chart Trends (Last 7 Days)
+        $query_trends = $this->db->query("
+            SELECT collection_date, IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online 
+            FROM daily_collections 
+            WHERE collection_date >= '$last_week' AND collection_date <= '$today' AND is_delete = '0'
+            GROUP BY collection_date 
+            ORDER BY collection_date ASC
+        ");
+        $data['trends'] = $query_trends->result_array();
+        
+        // 6. Shop Wise Comparison (Lifetime)
+        $query_shop_wise = $this->db->query("
+            SELECT s.shop_name, IFNULL(SUM(d.total_amount), 0) as total 
+            FROM daily_collections d
+            JOIN shops s ON s.id = d.shop_id
+            WHERE d.is_delete = '0'
+            GROUP BY d.shop_id
+            ORDER BY total DESC
+        ");
+        $data['shop_wise'] = $query_shop_wise->result_array();
+        
+        // 7. Shop Wise Summary (Today)
+        $query_shop_today = $this->db->query("
+            SELECT s.shop_name, IFNULL(SUM(d.cash_amount), 0) as cash, IFNULL(SUM(d.online_amount), 0) as online, IFNULL(SUM(d.total_amount), 0) as total 
+            FROM daily_collections d
+            JOIN shops s ON s.id = d.shop_id
+            WHERE d.collection_date = '$today' AND d.is_delete = '0'
+            GROUP BY d.shop_id
+            ORDER BY total DESC
+        ");
+        $data['shop_today'] = $query_shop_today->result_array();
+        
+        return $data;
+    }
 }

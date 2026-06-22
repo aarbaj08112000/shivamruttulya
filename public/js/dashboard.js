@@ -5,11 +5,11 @@ $(document).ready(function() {
         new Chart(trendCtx, {
             type: 'line',
             data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                labels: trendData.map(item => new Date(item.collection_date).toLocaleDateString('en-US', {weekday: 'short'})),
                 datasets: [
                     {
                         label: 'Cash Collection (₹)',
-                        data: [15000, 12000, 18000, 16500, 21000, 25000, 28000],
+                        data: trendData.map(item => parseFloat(item.cash)),
                         borderColor: '#8B5E3C', // Tea Brown
                         backgroundColor: 'rgba(139, 94, 60, 0.1)',
                         borderWidth: 2,
@@ -18,7 +18,7 @@ $(document).ready(function() {
                     },
                     {
                         label: 'Online Collection (₹)',
-                        data: [12000, 10000, 15000, 13000, 18000, 22000, 25000],
+                        data: trendData.map(item => parseFloat(item.online)),
                         borderColor: '#C77B30', // Chai Orange
                         backgroundColor: 'rgba(199, 123, 48, 0.1)',
                         borderWidth: 2,
@@ -50,13 +50,18 @@ $(document).ready(function() {
         new Chart(shopWiseCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Chinchwad', 'Akurdi', 'Wakad'],
+                labels: shopWiseData.map(item => item.shop_name),
                 datasets: [{
-                    data: [45000, 32000, 28000],
+                    data: shopWiseData.map(item => parseFloat(item.total)),
                     backgroundColor: [
                         '#8B5E3C', // Primary
                         '#C49A6C', // Light
-                        '#C77B30'  // Accent
+                        '#C77B30', // Accent
+                        '#E6B17A',
+                        '#F5C293',
+                        '#9E6B47',
+                        '#75482A',
+                        '#D38B42'
                     ],
                     borderWidth: 1
                 }]

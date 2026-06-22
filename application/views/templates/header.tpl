@@ -236,6 +236,11 @@
                </a>
                <ul class="menu-sub" style="display: block;">
                   <li class="menu-item">
+                     <a href="<%$base_url%>grocery_category_list" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-category"></i><div data-i18n="Grocery Categories">Grocery Categories</div>
+                     </a>
+                  </li>
+                  <li class="menu-item">
                      <a href="<%$base_url%>grocery_item_list" class="menu-link" >
                         <i class="menu-icon tf-icons bx bx-basket"></i><div data-i18n="Grocery Item Master">Grocery Item Master</div>
                      </a>
@@ -286,7 +291,7 @@
                <ul class="menu-sub" style="display: block;">
                   <li class="menu-item">
                      <a href="<%$base_url%>reports" class="menu-link" >
-                        <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i><div data-i18n="Reports">Reports</div>
+                        <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i><div data-i18n="Collection vs Expense">Collection vs Expense</div>
                      </a>
                   </li>
                </ul>
@@ -443,6 +448,9 @@
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkGrocery">
                         <li>
+                           <a href="<%$base_url%>grocery_category_list" class="dropdown-item">Grocery Categories</a>
+                        </li>
+                        <li>
                            <a href="<%$base_url%>grocery_item_list" class="dropdown-item">Grocery Item Master</a>
                         </li>
                         <li>
@@ -479,7 +487,7 @@
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkReports">
                         <li>
-                           <a href="<%$base_url%>reports" class="dropdown-item">Reports</a>
+                           <a href="<%$base_url%>reports" class="dropdown-item">Collection vs Expense</a>
                         </li>
                      </ul>
                   </li>

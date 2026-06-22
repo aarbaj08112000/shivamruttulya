@@ -17,7 +17,7 @@
          <input type="text" name="reason" placeholder="Filter Search" class="form-control serarch-filter-input m-0" id="serarch-filter-input" style="width: 250px;">
          <button class="btn" style="background-color: var(--bs-theme-color) !important; color: white !important; border: none;" type="button" id="downloadCSVBtn" title="Download CSV"><i class="ti ti-file-type-csv fs-4"></i></button>
          <button class="btn" style="background-color: var(--bs-theme-color) !important; color: white !important; border: none;" type="button" id="downloadPDFBtn" title="Download PDF"><i class="ti ti-file-type-pdf fs-4"></i></button>
-         <button type="button" class="btn" style="background-color: var(--bs-theme-color-dark) !important; color: white !important; border: none;" data-bs-toggle="modal" data-bs-target="#addPromo">
+         <button type="button" class="btn" style="background-color: var(--bs-theme-color-dark) !important; color: white !important; border: none;" data-bs-toggle="offcanvas" data-bs-target="#addPromoOffcanvas" aria-controls="addPromoOffcanvas">
             <i class="ti ti-plus me-1"></i> Add User
          </button>
       </div>
@@ -30,55 +30,53 @@
             <div class="row">
                
                <div class="col-lg-12">
-                  <!-- Modal -->
-                  <div class="modal fade" id="addPromo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                     <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                              </button>
-                           </div>
-                           <form action="<%base_url('user/user/addUsersData') %>" method="POST" enctype="multipart/form-data" id="addTransporterForm">
-                              <div class="modal-body">
-                                <div class="row">
-                                 <div class="form-group">
-                                    <label>Full Name<span class="text-danger">*</span></label> <br>
-                                    <input required type="text" name="user_name" placeholder="Enter Full Name" class="form-control" value="">
-                                 </div>
-                                 <div class="form-group">
-                                    <label>Email<span class="text-danger">*</span></label> <br>
-                                    <input required type="email" name="user_email" placeholder="Enter Email" class="form-control" value="">
-                                 </div>
-                                 <div class="form-group">
-                                    <label>Password<span class="text-danger">*</span></label> <br>
-                                    <input required type="password" name="user_password" placeholder="Enter Password" class="form-control" value="">
-                                 </div>
-                                 <div class="form-group">
-                                    <label>Mobile<span class="text-danger">*</span></label> <br>
-                                    <input required type="text" name="mobile" placeholder="Enter Mobile" class="form-control" value="">
-                                 </div>
-                                 <div class="form-group">
-                                    <label>Role<span class="text-danger">*</span></label> <br>
-                                    <select name="user_role" class="form-control" required>
-                                       <option value="">Select Role</option>
-                                       <%foreach from=$roles item=role%>
-                                          <option value="<%$role['id']%>"><%$role['role_name']%></option>
-                                       <%/foreach%>
-                                    </select>
-                                 </div>
-                                 </div>
-                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn" style="background-color: var(--bs-theme-color) !important; color: white !important; border: none;">Save changes</button>
-                                </div>
-                              </div>
-                           </form>
-                           </div>
-                           </div>
+                  <!-- Add User Offcanvas -->
+                  <div class="offcanvas offcanvas-end" tabindex="-1" id="addPromoOffcanvas" aria-labelledby="addPromoOffcanvasLabel" style="width: 500px;">
+                     <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                        <div>
+                           <h5 class="offcanvas-title mb-1" id="addPromoOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">Add User</h5>
+                           <p class="text-muted mb-0" style="font-size: 13px;">Enter user details</p>
                         </div>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                     </div>
+                     <div class="offcanvas-body">
+                        <form action="<%base_url('user/user/addUsersData') %>" method="POST" enctype="multipart/form-data" id="addTransporterForm">
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">User Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label" style="font-size: 12px;">Full Name<span class="text-danger">*</span></label>
+                                 <input required type="text" name="user_name" placeholder="Enter Full Name" class="form-control" value="">
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label" style="font-size: 12px;">Email<span class="text-danger">*</span></label>
+                                 <input required type="email" name="user_email" placeholder="Enter Email" class="form-control" value="">
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label" style="font-size: 12px;">Password<span class="text-danger">*</span></label>
+                                 <input required type="password" name="user_password" placeholder="Enter Password" class="form-control" value="">
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label" style="font-size: 12px;">Mobile<span class="text-danger">*</span></label>
+                                 <input required type="text" name="mobile" placeholder="Enter Mobile" class="form-control" value="">
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label" style="font-size: 12px;">Role<span class="text-danger">*</span></label>
+                                 <select name="user_role" class="form-select" required>
+                                    <option value="">Select Role</option>
+                                    <%foreach from=$roles item=role%>
+                                       <option value="<%$role['id']%>"><%$role['role_name']%></option>
+                                    <%/foreach%>
+                                 </select>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="offcanvas-footer p-3 border-top d-flex justify-content-between bg-white">
+                        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Cancel</button>
+                        <button type="button" class="btn text-white px-4" style="background-color: var(--bs-theme-color-dark) !important;" onclick="$('#addTransporterForm').submit();"><i class="ti ti-device-floppy me-2"></i> Save</button>
                      </div>
                   </div>
+                  <!-- End Offcanvas -->
 
                   <div class="card w-100 table-card">
                      <!-- /.card-header -->
@@ -106,60 +104,60 @@
                                  <td><%$u['mobile'] %></td>
                                  <td style="color: <%if $u['status']|lower eq 'active'%>#006400<%else%>#C6011F<%/if%>; font-weight: bold;"><%$u['status']|capitalize %></td>
                                  <td>
-                                    <a data-bs-toggle="modal" data-bs-target="#updatePromo<%$i%>" class="text-primary me-2" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
+                                    <a data-bs-toggle="offcanvas" data-bs-target="#updatePromoOffcanvas<%$i%>" aria-controls="updatePromoOffcanvas<%$i%>" class="text-primary me-2" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
                                     <a href="javascript:void(0)" class="text-danger" title="Delete"><i class="bx bx-trash fs-4"></i></a>
-                                    <div class="modal fade" id="updatePromo<%$i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                       <div class="modal-dialog  modal-dialog-centered" role="document">
-                                          <div class="modal-content">
-                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                </button>
-                                             </div>
-                                             <form action="<%base_url('user/user/updateUsersData') %>" method="POST" enctype="multipart/form-data" id="update_users_data<%$i%>" class="update_users_data update_users_data<%$i%> custom-form">
-                                                <div class="modal-body">
-                                                  <div class="row">
-                                                     <div class="form-group">
-                                                        <input type="hidden" name="user_id" value="<%$u['id']%>">
-                                                     </div>
-                                                     <div class="form-group">
-                                                        <label for="on click url">Full Name<span class="text-danger">*</span></label> <br>
-                                                        <input  type="text" name="user_name" placeholder="Enter Full Name" class="form-control required-input" value="<%$u['name'] %>">
-                                                     </div>
-                                                     <div class="form-group">
-                                                        <label for="on click url">Email<span class="text-danger">*</span></label> <br>
-                                                        <input  type="email" name="user_email" placeholder="Enter Email" class="form-control required-input" value="<%$u['email'] %>" disabled>
-                                                     </div>
-                                                     <div class="form-group">
-                                                        <label for="on click url">Mobile<span class="text-danger">*</span></label> <br>
-                                                        <input  type="text" name="mobile" placeholder="Enter Mobile" class="form-control required-input" value="<%$u['mobile'] %>">
-                                                     </div>
-                                                     <div class="form-group" >
-                                                        <label for="on click url" class="w-100">Status<span class="text-danger">*</span> </label> <br>
-                                                        <div class="form-group">
-                                                         <label for="on click url">Role<span class="text-danger">*</span></label> <br>
-                                                         <select name="user_role" class="form-control required-input" required>
-                                                            <option value="">Select Role</option>
-                                                            <%foreach from=$roles item=role%>
-                                                               <option value="<%$role['id']%>" <%if isset($u['user_role']) && $u['user_role'] eq $role['id']%>selected<%/if%>><%$role['role_name']%></option>
-                                                            <%/foreach%>
-                                                         </select>
-                                                      </div>
-                                                         <select name="status" class="form-control select2 required-input">
-                                                           <option value="active" <%if $u['status'] eq 'active'%>selected<%/if%>>Active</option>
-                                                           <option value="inactive" <%if $u['status'] eq 'inactive'%>selected<%/if%>>Inactive</option>
-                                                        </select>
-                                                     </div>
-                                                    </div>
-                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn" style="background-color: var(--bs-theme-color) !important; color: white !important; border: none;">Save changes</button>
-                                             </form>
-                                             </div>
-                                             </div>
+                                    
+                                    <!-- Edit User Offcanvas -->
+                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="updatePromoOffcanvas<%$i%>" aria-labelledby="updatePromoOffcanvasLabel<%$i%>" style="width: 500px;">
+                                       <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                                          <div>
+                                             <h5 class="offcanvas-title mb-1" id="updatePromoOffcanvasLabel<%$i%>" style="color: var(--bs-theme-color-dark); font-weight: bold;">Edit User</h5>
+                                             <p class="text-muted mb-0" style="font-size: 13px;">Update user details</p>
                                           </div>
+                                          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                       </div>
+                                       <div class="offcanvas-body">
+                                          <form action="<%base_url('user/user/updateUsersData') %>" method="POST" enctype="multipart/form-data" id="update_users_data<%$i%>" class="update_users_data update_users_data<%$i%> custom-form">
+                                             <input type="hidden" name="user_id" value="<%$u['id']%>">
+                                             <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">User Information</h6>
+                                             <div class="row mb-3">
+                                                <div class="col-12 mb-3">
+                                                   <label class="form-label" style="font-size: 12px;">Full Name<span class="text-danger">*</span></label>
+                                                   <input type="text" name="user_name" placeholder="Enter Full Name" class="form-control required-input" value="<%$u['name'] %>">
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                   <label class="form-label" style="font-size: 12px;">Email<span class="text-danger">*</span></label>
+                                                   <input type="email" name="user_email" placeholder="Enter Email" class="form-control required-input" value="<%$u['email'] %>" disabled>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                   <label class="form-label" style="font-size: 12px;">Mobile<span class="text-danger">*</span></label>
+                                                   <input type="text" name="mobile" placeholder="Enter Mobile" class="form-control required-input" value="<%$u['mobile'] %>">
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                   <label class="form-label" style="font-size: 12px;">Role<span class="text-danger">*</span></label>
+                                                   <select name="user_role" class="form-select required-input" required>
+                                                      <option value="">Select Role</option>
+                                                      <%foreach from=$roles item=role%>
+                                                         <option value="<%$role['id']%>" <%if isset($u['user_role']) && $u['user_role'] eq $role['id']%>selected<%/if%>><%$role['role_name']%></option>
+                                                      <%/foreach%>
+                                                   </select>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                   <label class="form-label" style="font-size: 12px;">Status<span class="text-danger">*</span></label>
+                                                   <select name="status" class="form-select required-input">
+                                                      <option value="active" <%if $u['status'] eq 'active'%>selected<%/if%>>Active</option>
+                                                      <option value="inactive" <%if $u['status'] eq 'inactive'%>selected<%/if%>>Inactive</option>
+                                                   </select>
+                                                </div>
+                                             </div>
+                                          </form>
+                                       </div>
+                                       <div class="offcanvas-footer p-3 border-top d-flex justify-content-between bg-white">
+                                          <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Cancel</button>
+                                          <button type="button" class="btn text-white px-4" style="background-color: var(--bs-theme-color-dark) !important;" onclick="$('#update_users_data<%$i%>').submit();"><i class="ti ti-device-floppy me-2"></i> Save</button>
                                        </div>
                                     </div>
+                                    <!-- End Offcanvas -->
                                  </td>
                                  <td style="display: none;"><%json_encode($u)%></td>
                               </tr>

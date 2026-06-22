@@ -136,6 +136,7 @@ class Login extends MY_Controller {
 	}
 	public function dashboard(){
 		$data['base_url'] = base_url();
+        $data['dashboard_data'] = $this->Login_model->get_dashboard_data();
 		$this->smarty->setTemplateDir(APPPATH.'modules/user/views/');
 		$this->smarty->loadView('dashboard.tpl',$data,'Yes','Yes');
 	}

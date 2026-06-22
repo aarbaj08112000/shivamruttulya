@@ -209,7 +209,7 @@ const user_app = {
                             if(res['success'] == 1){
                                toaster("success",res['msg']);
                                 setTimeout(() => {
-                                    $('#addPromo').modal('hide');
+                                    $('#addPromoOffcanvas').offcanvas('hide');
                                     // Optionally, refresh the table or perform other actions
                                     window.location.reload();
                                 }, 1000);
@@ -249,7 +249,7 @@ const user_app = {
             var success = responseObject.success;
             if (success == 1) {
                toaster("success",msg);
-              $(this).parents(".modal").modal("hide")
+              $(this).parents(".offcanvas").offcanvas("hide")
               setTimeout(function(){
                 window.location.reload();
               },2000);

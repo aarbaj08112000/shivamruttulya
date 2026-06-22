@@ -21,6 +21,14 @@ $route['api_document'] = 'user/user/api_document';
 
 /* shops */
 $route['shop_list'] = 'shop/shop/shop_list';
+$route['grocery_category_list'] = 'grocery_category/grocery_category/grocery_category_list';
+$route['grocery_item_list'] = 'grocery_item/grocery_item/grocery_item_list';
+$route['grocery_purchase_list'] = 'grocery_purchase/grocery_purchase/grocery_purchase_list';
+$route['expense_list'] = 'expense/expense/expense_list';
+$route['franchise_list'] = 'franchise/franchise/franchise_list';
+$route['daily_collection_list'] = 'daily_collection/daily_collection/daily_collection_list';
+$route['online_payment_list'] = 'online_payment/online_payment/online_payment_list';
+$route['reports'] = 'reports/reports/collection_vs_expense';
 
 // /*   api execute */
 // $route['WS'] = "wsengine/api_execute/wscontroller";

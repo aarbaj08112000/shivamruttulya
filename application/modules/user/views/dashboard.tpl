@@ -16,8 +16,8 @@
                     <div class="card shadow-sm border-0" style="border-left: 5px solid var(--bs-theme-color) !important; background: linear-gradient(135deg, #F5F7FA 0%, #E6B17A 100%);">
                         <div class="card-body">
                             <h5 class="card-title text-muted mb-0">Today's Collection</h5>
-                            <h2 class="font-weight-bold mb-2">₹4,500</h2>
-                            <small class="fw-bold" style="color: var(--bs-theme-color-dark) !important;"><i class="bx bx-money"></i> Cash: ₹3,000 | Online: ₹1,500</small>
+                            <h2 class="font-weight-bold mb-2">₹<%$dashboard_data['today']['total']|number_format:2%></h2>
+                            <small class="fw-bold" style="color: var(--bs-theme-color-dark) !important;"><i class="bx bx-money"></i> Cash: ₹<%$dashboard_data['today']['cash']|number_format:2%> | Online: ₹<%$dashboard_data['today']['online']|number_format:2%></small>
                         </div>
                     </div>
                 </div>
@@ -25,8 +25,8 @@
                     <div class="card shadow-sm border-0" style="border-left: 5px solid var(--bs-theme-color-dark) !important;">
                         <div class="card-body">
                             <h5 class="card-title text-muted mb-0">Weekly Collection</h5>
-                            <h2 class="font-weight-bold mb-2">₹32,450</h2>
-                            <small class="text-secondary"><i class="bx bx-wallet"></i> Cash: ₹20,050 | Online: ₹12,400</small>
+                            <h2 class="font-weight-bold mb-2">₹<%$dashboard_data['weekly']['total']|number_format:2%></h2>
+                            <small class="text-secondary"><i class="bx bx-wallet"></i> Cash: ₹<%$dashboard_data['weekly']['cash']|number_format:2%> | Online: ₹<%$dashboard_data['weekly']['online']|number_format:2%></small>
                         </div>
                     </div>
                 </div>
@@ -34,8 +34,8 @@
                     <div class="card shadow-sm border-0" style="border-left: 5px solid var(--bs-theme-light1-color) !important;">
                         <div class="card-body">
                             <h5 class="card-title text-muted mb-0">Monthly Collection</h5>
-                            <h2 class="font-weight-bold mb-2">₹1,45,000</h2>
-                            <small class="text-secondary"><i class="bx bx-calendar"></i> Cash: ₹80,000 | Online: ₹65,000</small>
+                            <h2 class="font-weight-bold mb-2">₹<%$dashboard_data['monthly']['total']|number_format:2%></h2>
+                            <small class="text-secondary"><i class="bx bx-calendar"></i> Cash: ₹<%$dashboard_data['monthly']['cash']|number_format:2%> | Online: ₹<%$dashboard_data['monthly']['online']|number_format:2%></small>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="card shadow-sm border-0" style="border-left: 5px solid var(--bs-opposite-color) !important; background-color: #fcf5ec;">
                         <div class="card-body">
                             <h5 class="card-title text-muted mb-0">Grand Total</h5>
-                            <h2 class="font-weight-bold mb-2">₹8,90,500</h2>
+                            <h2 class="font-weight-bold mb-2">₹<%$dashboard_data['grand_total']['total']|number_format:2%></h2>
                             <small class="text-secondary"><i class="bx bx-rupee"></i> Total Lifetime Business</small>
                         </div>
                     </div>
@@ -97,25 +97,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="fw-bold">Shiv Amruttulya Chinchwad</td>
-                                        <td>₹3,000</td>
-                                        <td>₹1,500</td>
-                                        <td class="text-success fw-bold">₹4,500</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Shiv Amruttulya Akurdi</td>
-                                        <td>₹2,500</td>
-                                        <td>₹1,200</td>
-                                        <td class="text-success fw-bold">₹3,700</td>
-                                    </tr>
+                                    <%if !empty($dashboard_data['shop_today'])%>
+                                        <%foreach from=$dashboard_data['shop_today'] item=shop%>
+                                        <tr>
+                                            <td class="fw-bold"><%$shop['shop_name']%></td>
+                                            <td>₹<%$shop['cash']|number_format:2%></td>
+                                            <td>₹<%$shop['online']|number_format:2%></td>
+                                            <td class="text-success fw-bold">₹<%$shop['total']|number_format:2%></td>
+                                        </tr>
+                                        <%/foreach%>
+                                    <%else%>
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted">No collections recorded today</td>
+                                        </tr>
+                                    <%/if%>
                                 </tbody>
                                 <tfoot>
                                     <tr style="background-color: #f8f9fa;">
                                         <td class="fw-bold text-dark">Grand Total</td>
-                                        <td class="fw-bold text-dark">₹5,500</td>
-                                        <td class="fw-bold text-dark">₹2,700</td>
-                                        <td class="text-primary fw-bolder fs-5">₹8,200</td>
+                                        <td class="fw-bold text-dark">₹<%$dashboard_data['today']['cash']|number_format:2%></td>
+                                        <td class="fw-bold text-dark">₹<%$dashboard_data['today']['online']|number_format:2%></td>
+                                        <td class="text-primary fw-bolder fs-5">₹<%$dashboard_data['today']['total']|number_format:2%></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -127,5 +129,9 @@
     </div>
 </div>
 
+<script>
+    var trendData = <%$dashboard_data['trends']|json_encode%>;
+    var shopWiseData = <%$dashboard_data['shop_wise']|json_encode%>;
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="<%$base_url%>public/js/dashboard.js"></script>

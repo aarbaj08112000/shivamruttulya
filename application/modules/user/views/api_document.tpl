@@ -246,6 +246,11 @@
                                 <h6>Headers Required</h6>
                                 <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
                                 
+                                <h6>URL Parameters (Optional)</h6>
+                                <ul>
+                                    <li><code>month_year</code>: Filter by month and year (e.g., "June 2026"). Defaults to current month.</li>
+                                </ul>
+
                                 <h6>Output Response (Success)</h6>
                                 <pre class="bg-dark text-white p-3 rounded" style="max-height: 400px; overflow-y: auto;"><code>{
   "status": true,
@@ -1868,5 +1873,201 @@
 }</code></pre>
                             </div>
                         </div>
-                   
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. Expense Category Module -->
+        <div class="card mb-4">
+            <h5 class="card-header border-bottom bg-light">11. Expense Category Module</h5>
+            <div class="card-body mt-3">
+                <div class="accordion" id="apiAccordionExpenseCategory">
+                    
+                    <!-- List Categories API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingExpCategoryList">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExpCategoryList" aria-expanded="false" aria-controls="collapseExpCategoryList">
+                                <span class="badge bg-success me-2">GET</span> Category List
+                            </button>
+                        </h2>
+                        <div id="collapseExpCategoryList" class="accordion-collapse collapse" aria-labelledby="headingExpCategoryList" data-bs-parent="#apiAccordionExpenseCategory">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/expense_category/list </h6>
+                                <h6>Description</h6>
+                                <p>Fetches a paginated list of all active expense categories.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters (Optional)</h6>
+                                <ul>
+                                    <li><code>page</code>: Page number (default: 1)</li>
+                                    <li><code>per_page</code>: Items per page</li>
+                                    <li><code>search</code>: Filter by category name</li>
+                                </ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded" style="max-height: 300px; overflow-y: auto;"><code>{
+  "success": 1,
+  "message": "Expense categories fetched successfully",
+  "data": {
+    "current_page": 1,
+    "per_page": 10,
+    "total_records": 5,
+    "total_pages": 1,
+    "data": [
+      {
+        "id": "1",
+        "category_name": "Utilities",
+        "status": "active"
+      }
+    ]
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Details API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingExpCategoryDetails">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExpCategoryDetails" aria-expanded="false" aria-controls="collapseExpCategoryDetails">
+                                <span class="badge bg-success me-2">GET</span> Category Details
+                            </button>
+                        </h2>
+                        <div id="collapseExpCategoryDetails" class="accordion-collapse collapse" aria-labelledby="headingExpCategoryDetails" data-bs-parent="#apiAccordionExpenseCategory">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/expense_category/details </h6>
+                                <h6>Description</h6>
+                                <p>Fetches details of a specific expense category by ID.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters</h6>
+                                <ul><li><code>id</code> (e.g., /WS/expense_category/details?id=1)</li></ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Category details fetched successfully",
+  "data": {
+    "id": "1",
+    "category_name": "Utilities",
+    "status": "active"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Category API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingExpCategoryAdd">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExpCategoryAdd" aria-expanded="false" aria-controls="collapseExpCategoryAdd">
+                                <span class="badge bg-primary me-2">POST</span> Add Category
+                            </button>
+                        </h2>
+                        <div id="collapseExpCategoryAdd" class="accordion-collapse collapse" aria-labelledby="headingExpCategoryAdd" data-bs-parent="#apiAccordionExpenseCategory">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/expense_category/add </h6>
+                                <h6>Description</h6>
+                                <p>Creates a new expense category.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "category_name": "Utilities",
+  "status": "active"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Category added successfully",
+  "data": {
+    "category_name": "Utilities",
+    "status": "active",
+    "added_by": "1",
+    "id": 2
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Category API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingExpCategoryUpdate">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExpCategoryUpdate" aria-expanded="false" aria-controls="collapseExpCategoryUpdate">
+                                <span class="badge bg-primary me-2">POST</span> Update Category
+                            </button>
+                        </h2>
+                        <div id="collapseExpCategoryUpdate" class="accordion-collapse collapse" aria-labelledby="headingExpCategoryUpdate" data-bs-parent="#apiAccordionExpenseCategory">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/expense_category/update </h6>
+                                <h6>Description</h6>
+                                <p>Updates an existing expense category details.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "id": "2",
+  "category_name": "Utilities Updated",
+  "status": "inactive"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Category updated successfully",
+  "data": {
+    "id": "2"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Category API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingExpCategoryDelete">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExpCategoryDelete" aria-expanded="false" aria-controls="collapseExpCategoryDelete">
+                                <span class="badge bg-primary me-2">POST</span> Delete Category
+                            </button>
+                        </h2>
+                        <div id="collapseExpCategoryDelete" class="accordion-collapse collapse" aria-labelledby="headingExpCategoryDelete" data-bs-parent="#apiAccordionExpenseCategory">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/expense_category/delete </h6>
+                                <h6>Description</h6>
+                                <p>Soft deletes an expense category.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "id": "2"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Category deleted successfully",
+  "data": []
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

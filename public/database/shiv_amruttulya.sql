@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 21, 2026 at 05:54 PM
--- Server version: 8.0.46-0ubuntu0.22.04.2
--- PHP Version: 8.1.2-1ubuntu2.24
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 22, 2026 at 11:35 AM
+-- Server version: 11.8.6-MariaDB-log
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `shiv_amruttulya`
+-- Database: `u875583157_shivamruttulya`
 --
 
 -- --------------------------------------------------------
@@ -28,18 +28,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `daily_collections` (
-  `id` int NOT NULL,
-  `shop_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `shop_id` int(11) DEFAULT NULL,
   `collection_date` date DEFAULT NULL,
   `cash_amount` decimal(10,2) DEFAULT NULL,
   `online_amount` decimal(10,2) DEFAULT NULL,
   `total_amount` decimal(10,2) DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -47,9 +47,27 @@ CREATE TABLE `daily_collections` (
 --
 
 INSERT INTO `daily_collections` (`id`, `shop_id`, `collection_date`, `cash_amount`, `online_amount`, `total_amount`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 1, '2026-06-10', '2500.00', '1800.00', '4300.00', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 2, '2026-06-10', '2200.00', '1500.00', '3700.00', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(3, 1, '2026-06-16', '3000.00', '1500.00', '4500.00', 'active', 1, '2026-06-17 15:49:18', 1, '2026-06-17 15:52:00', '1');
+(1, 1, '2026-05-01', 3200.00, 1800.00, 5000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(2, 2, '2026-05-01', 4100.00, 1900.00, 6000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(3, 1, '2026-05-05', 3500.00, 1700.00, 5200.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(4, 2, '2026-05-05', 4300.00, 2100.00, 6400.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(5, 1, '2026-05-10', 3800.00, 2200.00, 6000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(6, 2, '2026-05-10', 4500.00, 2500.00, 7000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(7, 1, '2026-05-15', 4200.00, 2300.00, 6500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(8, 2, '2026-05-15', 4800.00, 2700.00, 7500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(9, 1, '2026-05-20', 4000.00, 2500.00, 6500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(10, 2, '2026-05-20', 5000.00, 2800.00, 7800.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(11, 1, '2026-06-01', 4300.00, 2200.00, 6500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(12, 2, '2026-06-01', 5200.00, 2800.00, 8000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(13, 1, '2026-06-05', 4500.00, 2500.00, 7000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(14, 2, '2026-06-05', 5500.00, 3000.00, 8500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(15, 1, '2026-06-10', 4800.00, 2700.00, 7500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(16, 2, '2026-06-10', 5800.00, 3200.00, 9000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(17, 1, '2026-06-15', 5000.00, 3000.00, 8000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(18, 2, '2026-06-15', 6200.00, 3300.00, 9500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(19, 1, '2026-06-20', 5300.00, 3200.00, 8500.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(20, 2, '2026-06-20', 6500.00, 3500.00, 10000.00, 'active', 1, '2026-06-22 09:45:06', NULL, NULL, '0'),
+(21, 3, '2026-06-22', 1000.00, 4000.00, 5000.00, 'active', 4, '2026-06-22 15:56:51', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -58,18 +76,18 @@ INSERT INTO `daily_collections` (`id`, `shop_id`, `collection_date`, `cash_amoun
 --
 
 CREATE TABLE `expenses` (
-  `id` int NOT NULL,
-  `shop_id` int DEFAULT NULL,
-  `category_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `shop_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
   `expense_date` date DEFAULT NULL,
-  `description` text COLLATE utf8mb4_general_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -77,10 +95,27 @@ CREATE TABLE `expenses` (
 --
 
 INSERT INTO `expenses` (`id`, `shop_id`, `category_id`, `amount`, `expense_date`, `description`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 1, 1, '15000.00', '2026-06-01', 'Monthly Rent', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 16:04:00', '1'),
-(2, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 16:05:05', '0'),
-(3, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 1, '2026-06-17 16:02:53', NULL, NULL, '0'),
-(4, 1, 2, '1500.00', '2026-06-16', 'Electricity Bill', 'active', 2, '2026-06-21 14:32:06', 2, '2026-06-21 14:32:25', '0');
+(1, 1, 1, 5000.00, '2026-05-01', 'Monthly shop rent', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(2, 1, 2, 1200.00, '2026-05-05', 'Electricity bill payment', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(3, 1, 3, 8000.00, '2026-05-07', 'Staff salary', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(4, 1, 4, 1800.00, '2026-05-10', 'Milk purchase', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(5, 1, 5, 2500.00, '2026-05-12', 'Tea powder stock purchase', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(6, 1, 7, 1100.00, '2026-05-15', 'Gas cylinder refill', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(7, 1, 8, 300.00, '2026-05-18', 'Water can charges', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(8, 2, 1, 5000.00, '2026-05-01', 'Monthly shop rent', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(9, 2, 3, 8000.00, '2026-05-07', 'Staff salary', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(10, 2, 10, 1200.00, '2026-05-20', 'Counter repair work', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(11, 1, 1, 5000.00, '2026-06-01', 'Monthly shop rent', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(12, 1, 2, 1200.00, '2026-06-05', 'Electricity bill payment', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(13, 1, 6, 1200.00, '2026-06-08', 'Sugar purchase', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(14, 1, 9, 500.00, '2026-06-10', 'Cleaning material purchase', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(15, 1, 11, 700.00, '2026-06-12', 'Internet bill', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(16, 2, 1, 5000.00, '2026-06-01', 'Monthly shop rent', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(17, 2, 2, 1200.00, '2026-06-05', 'Electricity bill payment', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(18, 2, 3, 8000.00, '2026-06-07', 'Staff salary', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(19, 2, 13, 800.00, '2026-06-15', 'Packaging materials purchase', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(20, 2, 15, 1000.00, '2026-06-20', 'Miscellaneous shop expenses', 'active', 1, '2026-06-22 09:43:27', NULL, NULL, '0'),
+(21, 3, 6, 1000.00, '2026-06-23', 'ok', 'active', 4, '2026-06-22 15:56:01', 4, '2026-06-22 15:57:19', '0');
 
 -- --------------------------------------------------------
 
@@ -89,14 +124,14 @@ INSERT INTO `expenses` (`id`, `shop_id`, `category_id`, `amount`, `expense_date`
 --
 
 CREATE TABLE `expense_categories` (
-  `id` int NOT NULL,
-  `category_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `category_name` varchar(100) DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -104,10 +139,21 @@ CREATE TABLE `expense_categories` (
 --
 
 INSERT INTO `expense_categories` (`id`, `category_name`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 'Rent', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 'Electricity', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(3, 'Salary', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(4, 'Maintenance', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0');
+(1, 'Shop Rent', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(2, 'Electricity Bill', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(3, 'Staff Salary', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(4, 'Milk Purchase', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(5, 'Tea Powder Purchase', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(6, 'Sugar Purchase', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(7, 'Gas Cylinder', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(8, 'Water Charges', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(9, 'Cleaning Supplies', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(10, 'Maintenance & Repairs', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(11, 'Internet & WiFi', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(12, 'Marketing & Promotion', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(13, 'Packaging Materials', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(14, 'Transportation Expense', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0'),
+(15, 'Miscellaneous Expense', 'active', 1, '2026-06-22 09:42:05', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -116,29 +162,21 @@ INSERT INTO `expense_categories` (`id`, `category_name`, `status`, `added_by`, `
 --
 
 CREATE TABLE `franchises` (
-  `id` int NOT NULL,
-  `franchise_code` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `franchise_name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `franchise_code` varchar(20) DEFAULT NULL,
+  `franchise_name` varchar(150) DEFAULT NULL,
+  `owner_name` varchar(100) DEFAULT NULL,
+  `mobile` varchar(15) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `joining_date` date DEFAULT NULL,
-  `address` text COLLATE utf8mb4_general_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `franchises`
---
-
-INSERT INTO `franchises` (`id`, `franchise_code`, `franchise_name`, `owner_name`, `mobile`, `email`, `joining_date`, `address`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 'FR001', 'Shiv Amruttulya', 'Shivaji Patil', '9876543211', 'shiv@gmail.com', NULL, 'Pune', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 'FR002', 'Shiv Amruttulya Mumbai', 'Ramesh', '9998887776', 'mumbai@shiv.com', NULL, 'Dadar, Mumbai', 'active', 1, '2026-06-17 16:11:19', 1, '2026-06-17 16:43:50', '1');
 
 -- --------------------------------------------------------
 
@@ -147,14 +185,14 @@ INSERT INTO `franchises` (`id`, `franchise_code`, `franchise_name`, `owner_name`
 --
 
 CREATE TABLE `grocery_categories` (
-  `id` int NOT NULL,
-  `category_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `category_name` varchar(100) DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -162,9 +200,16 @@ CREATE TABLE `grocery_categories` (
 --
 
 INSERT INTO `grocery_categories` (`id`, `category_name`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 'Tea Material', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 'Milk Products', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(3, 'Snacks', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0');
+(1, 'Tea Ingredients', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(2, 'Milk & Dairy', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(3, 'Sugar & Sweeteners', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(4, 'Tea Masala & Spices', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(5, 'Coffee Materials', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(6, 'Snacks & Biscuits', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(7, 'Disposable Items', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(8, 'Cleaning & Hygiene Supplies', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(9, 'Kitchen Essentials', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0'),
+(10, 'Packaging Materials', 'active', 1, '2026-06-22 09:37:11', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -173,16 +218,16 @@ INSERT INTO `grocery_categories` (`id`, `category_name`, `status`, `added_by`, `
 --
 
 CREATE TABLE `grocery_items` (
-  `id` int NOT NULL,
-  `category_id` int DEFAULT NULL,
-  `item_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `unit` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `item_name` varchar(100) DEFAULT NULL,
+  `unit` varchar(20) DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -190,10 +235,28 @@ CREATE TABLE `grocery_items` (
 --
 
 INSERT INTO `grocery_items` (`id`, `category_id`, `item_name`, `unit`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 1, 'Tea Powder', 'Kg', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 2, 'Milk', 'Ltr', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(3, 3, 'Biscuit Packet', 'Nos', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(4, 1, 'Sugar 12', 'Kgg', 'active', 1, '2026-06-17 15:19:24', 1, '2026-06-17 15:23:32', '1');
+(1, 1, 'CTC Tea Powder', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(2, 1, 'Green Tea Leaves', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(3, 2, 'Milk', 'Ltr', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(4, 2, 'Curd', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(5, 3, 'Sugar', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(6, 3, 'Jaggery Powder', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(7, 4, 'Tea Masala', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(8, 4, 'Cardamom', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(9, 4, 'Ginger Powder', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(10, 5, 'Coffee Powder', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(11, 5, 'Instant Coffee', 'Kg', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(12, 6, 'Parle-G Biscuit', 'Packet', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(13, 6, 'Good Day Biscuit', 'Packet', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(14, 6, 'Khari', 'Packet', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(15, 7, 'Paper Cup', 'Nos', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(16, 7, 'Plastic Spoon', 'Nos', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(17, 8, 'Dish Wash Liquid', 'Bottle', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(18, 8, 'Floor Cleaner', 'Bottle', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(19, 9, 'Gas Cylinder', 'Nos', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(20, 9, 'Match Box', 'Box', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(21, 10, 'Carry Bag', 'Nos', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0'),
+(22, 10, 'Food Container', 'Nos', 'active', 1, '2026-06-22 09:38:26', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -202,21 +265,21 @@ INSERT INTO `grocery_items` (`id`, `category_id`, `item_name`, `unit`, `status`,
 --
 
 CREATE TABLE `grocery_purchases` (
-  `id` int NOT NULL,
-  `shop_id` int DEFAULT NULL,
-  `grocery_item_id` int DEFAULT NULL,
-  `vendor_id` int DEFAULT NULL,
-  `vendor_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `shop_id` int(11) DEFAULT NULL,
+  `grocery_item_id` int(11) DEFAULT NULL,
+  `vendor_id` int(11) DEFAULT NULL,
+  `vendor_name` varchar(255) DEFAULT NULL,
   `purchase_date` date DEFAULT NULL,
   `quantity` decimal(10,2) DEFAULT NULL,
   `rate` decimal(10,2) DEFAULT NULL,
   `total_amount` decimal(10,2) DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -224,9 +287,26 @@ CREATE TABLE `grocery_purchases` (
 --
 
 INSERT INTO `grocery_purchases` (`id`, `shop_id`, `grocery_item_id`, `vendor_id`, `vendor_name`, `purchase_date`, `quantity`, `rate`, `total_amount`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 1, 1, 1, NULL, '2026-06-01', '5.00', '450.00', '2250.00', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-17 15:33:19', '1'),
-(2, 1, 2, 2, NULL, '2026-06-01', '20.00', '60.00', '1200.00', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(3, 1, 2, 1, NULL, '2026-06-15', '12.00', '50.00', '500.00', 'active', 1, '2026-06-17 15:25:59', 1, '2026-06-17 15:29:38', '0');
+(1, 1, 1, NULL, 'ABC Tea Suppliers', '2026-05-03', 25.00, 420.00, 10500.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(2, 1, 2, NULL, 'Green Leaf Traders', '2026-05-05', 10.00, 550.00, 5500.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(3, 1, 3, NULL, 'Shree Dairy', '2026-05-08', 100.00, 58.00, 5800.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(4, 2, 3, NULL, 'Gokul Dairy', '2026-05-10', 120.00, 60.00, 7200.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(5, 1, 5, NULL, 'Mahalaxmi Sugars', '2026-05-12', 50.00, 45.00, 2250.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(6, 2, 6, NULL, 'Organic Foods', '2026-05-15', 20.00, 65.00, 1300.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(7, 1, 7, NULL, 'Masala King', '2026-05-18', 5.00, 850.00, 4250.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(8, 2, 8, NULL, 'Spice World', '2026-05-20', 3.00, 1800.00, 5400.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(9, 1, 9, NULL, 'Fresh Spices', '2026-05-22', 2.00, 1200.00, 2400.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(10, 2, 10, NULL, 'Coffee Hub', '2026-05-25', 15.00, 380.00, 5700.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(11, 1, 11, NULL, 'Nescafe Distributor', '2026-06-02', 10.00, 450.00, 4500.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(12, 1, 12, NULL, 'Parle Agency', '2026-06-04', 100.00, 8.00, 800.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(13, 2, 13, NULL, 'Britannia Distributor', '2026-06-06', 80.00, 15.00, 1200.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(14, 1, 14, NULL, 'Bakery Fresh', '2026-06-08', 50.00, 20.00, 1000.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(15, 2, 15, NULL, 'Disposable Mart', '2026-06-10', 2000.00, 0.80, 1600.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(16, 1, 16, NULL, 'Hotel Supplies', '2026-06-12', 1000.00, 0.50, 500.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(17, 2, 17, NULL, 'Clean India Traders', '2026-06-15', 12.00, 120.00, 1440.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(18, 1, 18, NULL, 'Hygiene World', '2026-06-18', 10.00, 180.00, 1800.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(19, 1, 19, NULL, 'HP Gas Agency', '2026-06-20', 4.00, 1100.00, 4400.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0'),
+(20, 2, 20, NULL, 'General Store', '2026-06-22', 50.00, 5.00, 250.00, 'active', 1, '2026-06-22 09:40:53', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -235,14 +315,14 @@ INSERT INTO `grocery_purchases` (`id`, `shop_id`, `grocery_item_id`, `vendor_id`
 --
 
 CREATE TABLE `roles` (
-  `id` int NOT NULL,
-  `role_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `role_name` varchar(50) NOT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -261,35 +341,30 @@ INSERT INTO `roles` (`id`, `role_name`, `status`, `added_by`, `added_date`, `upd
 --
 
 CREATE TABLE `shops` (
-  `id` int NOT NULL,
-  `franchise_id` int DEFAULT NULL,
-  `shop_code` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `shop_name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `contact_person` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `contact_number` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_general_ci,
+  `id` int(11) NOT NULL,
+  `shop_code` varchar(20) DEFAULT NULL,
+  `shop_name` varchar(150) DEFAULT NULL,
+  `contact_person` varchar(100) DEFAULT NULL,
+  `contact_number` varchar(15) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `address` text DEFAULT NULL,
   `opening_date` date DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `shops`
 --
 
-INSERT INTO `shops` (`id`, `franchise_id`, `shop_code`, `shop_name`, `contact_person`, `contact_number`, `email`, `address`, `opening_date`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 1, 'SH001', 'Shiv Amruttulya Chinchwad', 'Manager 1', '9876543213', NULL, 'Chinchwad', NULL, 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 1, 'SH002', 'Shiv Amruttulya Akurdi', 'Manager 2', '9876543214', NULL, 'Akurdi', NULL, 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-15 23:36:02', '0'),
-(3, NULL, '78456', 'Testing', '', '7845978459', NULL, '', NULL, 'active', 1, '2026-06-15 23:07:46', 1, '2026-06-16 00:05:19', '1'),
-(4, NULL, '784', 'Shiv Amruttulya Wakad Updated', 'Tester', '7845961230', NULL, 'New Dehli', NULL, 'inactive', 1, '2026-06-16 00:12:43', 2, '2026-06-19 16:03:35', '1'),
-(5, NULL, NULL, 'Shiv Amruttulya Wakad', NULL, NULL, NULL, 'Wakad Bridge', NULL, 'active', 1, '2026-06-17 14:48:41', NULL, NULL, '0'),
-(6, NULL, NULL, 'Shiv Amruttulya Wakad 12', 'Amit', '9998887776', NULL, 'Wakad Bridge', NULL, 'active', 1, '2026-06-17 14:51:15', NULL, NULL, '0'),
-(7, NULL, 'SA-001', 'testing', '', '4774583331', NULL, '', NULL, 'active', 1, '2026-06-21 14:52:50', NULL, NULL, '0');
+INSERT INTO `shops` (`id`, `shop_code`, `shop_name`, `contact_person`, `contact_number`, `email`, `address`, `opening_date`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
+(1, 'SA-001', 'Shiv Amruttulya Marunji', 'Manager', '9876543211', NULL, 'Marunji, Pune', '2025-06-01', 'active', 1, '2026-06-22 09:34:57', NULL, NULL, '0'),
+(2, 'SA-002', 'Shiv Amruttulya Blue Ridge', 'Manager', '9876543212', NULL, 'Blue Ridge, Pune', '2026-04-01', 'active', 1, '2026-06-22 09:34:57', NULL, NULL, '0'),
+(3, 'SA-003', 'Ni-Tea', 'Nitesh', '7558574420', 'niteshproject10@gmail.com', 'zolo green tree', '2026-06-22', 'active', 4, '2026-06-22 10:24:50', NULL, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -298,25 +373,25 @@ INSERT INTO `shops` (`id`, `franchise_id`, `shop_code`, `shop_name`, `contact_pe
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `role_id` int NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `profile_image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `mobile` varchar(15) DEFAULT NULL,
+  `profile_image` text DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted',
-  `api_token` text COLLATE utf8mb4_general_ci,
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted',
+  `api_token` text DEFAULT NULL,
   `token_issued_at` datetime DEFAULT NULL,
-  `device_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `device_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `otp` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `otp_validity` int DEFAULT NULL
+  `device_id` varchar(255) DEFAULT NULL,
+  `device_type` varchar(50) DEFAULT NULL,
+  `otp` varchar(10) DEFAULT NULL,
+  `otp_validity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -324,9 +399,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `password`, `mobile`, `profile_image`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`, `api_token`, `token_issued_at`, `device_id`, `device_type`, `otp`, `otp_validity`) VALUES
-(1, 1, 'User 123', 'admin@gmail.com', '123456', '7854123690', NULL, 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-18 14:33:09', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwiaWF0IjoxNzgxNzcyMDMyLCJleHAiOjE3ODQzNjQwMzJ9.fkGLm4QU5ybaIPwXWkvg0F2YxdJMjgGYocSP5ZSZZkU', '2026-06-18 14:10:32', 'unknown', 'unknown', NULL, NULL),
-(2, 2, 'Code Crafter Info', 'owner@test.com', '123456', '8745693210', 'bd1052d535cbf06e363d454d5ac1fd8a.jpg', 'active', 1, '2026-06-15 13:16:14', 2, '2026-06-21 15:34:29', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIyIiwiaWF0IjoxNzgyMDM2MjM1LCJleHAiOjE3ODQ2MjgyMzV9.7t9VAELKDHrKIwbyUbjkmH0hjwxYmM9mu1gXXZlxfaQ', '2026-06-21 15:33:55', 'unknown', 'unknown', NULL, NULL),
-(3, 3, 'Shop Manager', 'manager@test.com', '123456', '9876543212', NULL, 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, 'Code Crafter', 'admin@gmail.com', 'Admin@123', '123456789', '690e068bfc5e6ae55ed6ed62a363ca73.jpg', 'active', 1, '2026-06-15 13:16:14', 1, '2026-06-21 10:10:00', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxIiwiaWF0IjoxNzgyMTIxNTQzLCJleHAiOjE3ODQ3MTM1NDN9.zHS4SGrBMdNr_EUzzhE3t8GdkYnbpthMNwGCqsoM5Ts', '2026-06-22 15:15:43', 'unknown', 'unknown', NULL, NULL),
+(2, 1, 'Gayu Hedau', 'gayu@gmail.com', 'Gayu@123', '8381058482', NULL, 'active', 1, '2026-06-15 13:16:14', 2, '2026-06-22 11:06:22', '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIyIiwiaWF0IjoxNzgyMTI2MzA4LCJleHAiOjE3ODQ3MTgzMDh9.AAsquUz3FXQ-cPRhpXTP5Ybb5eL90v9f8xvLQcS_1rs', '2026-06-22 16:35:08', 'unknown', 'unknown', NULL, NULL),
+(3, 1, 'Aarbaj Mulla', 'aarbaj@gmail.com', 'Aarbaj@123', '9876543212', NULL, 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 1, 'Nitesh Sharma', 'nitesh@gmail.com', 'Nitesh@123', '9876543212', NULL, 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI0IiwiaWF0IjoxNzgyMTIzNzk1LCJleHAiOjE3ODQ3MTU3OTV9.FY-htWoUImn7M8-Vlwp4UH6ejqpRpJgcwZaNBp5gCRI', '2026-06-22 15:53:15', 'unknown', 'unknown', NULL, NULL),
+(6, 1, 'Mayur', 'mayur@gmail.com', 'Mayur@123', '9876543212', NULL, 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -335,25 +412,17 @@ INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `password`, `mobile`, `pr
 --
 
 CREATE TABLE `vendors` (
-  `id` int NOT NULL,
-  `vendor_name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mobile` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_general_ci,
-  `status` enum('active','inactive') COLLATE utf8mb4_general_ci DEFAULT 'active',
-  `added_by` int DEFAULT '1',
-  `added_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_by` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `vendor_name` varchar(150) DEFAULT NULL,
+  `mobile` varchar(15) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `added_by` int(11) DEFAULT 1,
+  `added_date` datetime DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
-  `is_delete` enum('0','1') COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
+  `is_delete` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 = active, 1 = deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `vendors`
---
-
-INSERT INTO `vendors` (`id`, `vendor_name`, `mobile`, `address`, `status`, `added_by`, `added_date`, `updated_by`, `updated_date`, `is_delete`) VALUES
-(1, 'ABC Traders', '9876543220', 'Pune', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0'),
-(2, 'XYZ Suppliers', '9876543221', 'Pune', 'active', 1, '2026-06-15 13:16:14', NULL, NULL, '0');
 
 --
 -- Indexes for dumped tables
@@ -364,7 +433,9 @@ INSERT INTO `vendors` (`id`, `vendor_name`, `mobile`, `address`, `status`, `adde
 --
 ALTER TABLE `daily_collections`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `shop_id` (`shop_id`);
+  ADD KEY `shop_id` (`shop_id`),
+  ADD KEY `shop_id_2` (`shop_id`),
+  ADD KEY `shop_id_3` (`shop_id`);
 
 --
 -- Indexes for table `expenses`
@@ -418,8 +489,7 @@ ALTER TABLE `roles`
 -- Indexes for table `shops`
 --
 ALTER TABLE `shops`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `franchise_id` (`franchise_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -443,77 +513,71 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `daily_collections`
 --
 ALTER TABLE `daily_collections`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `expense_categories`
 --
 ALTER TABLE `expense_categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `franchises`
 --
 ALTER TABLE `franchises`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `grocery_categories`
 --
 ALTER TABLE `grocery_categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `grocery_items`
 --
 ALTER TABLE `grocery_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `grocery_purchases`
 --
 ALTER TABLE `grocery_purchases`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `daily_collections`
---
-ALTER TABLE `daily_collections`
-  ADD CONSTRAINT `daily_collections_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`);
 
 --
 -- Constraints for table `expenses`
@@ -535,12 +599,6 @@ ALTER TABLE `grocery_purchases`
   ADD CONSTRAINT `grocery_purchases_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`),
   ADD CONSTRAINT `grocery_purchases_ibfk_2` FOREIGN KEY (`grocery_item_id`) REFERENCES `grocery_items` (`id`),
   ADD CONSTRAINT `grocery_purchases_ibfk_3` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`);
-
---
--- Constraints for table `shops`
---
-ALTER TABLE `shops`
-  ADD CONSTRAINT `shops_ibfk_1` FOREIGN KEY (`franchise_id`) REFERENCES `franchises` (`id`);
 
 --
 -- Constraints for table `users`
