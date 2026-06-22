@@ -98,19 +98,13 @@ class Reports_model extends CI_Model {
         return isset($ret_data['total_record']) ? $ret_data : ['total_record' => 0];
     }
     public function get_available_months() {
-        $query = "
-            SELECT DISTINCT month_year, sort_date FROM (
-                SELECT DATE_FORMAT(collection_date, '%M %Y') AS month_year, STR_TO_DATE(DATE_FORMAT(collection_date, '%Y-%m-01'), '%Y-%m-%d') as sort_date
-                FROM daily_collections WHERE is_delete = '0'
-                UNION
-                SELECT DATE_FORMAT(expense_date, '%M %Y') AS month_year, STR_TO_DATE(DATE_FORMAT(expense_date, '%Y-%m-01'), '%Y-%m-%d') as sort_date
-                FROM expenses WHERE is_delete = '0'
-                UNION
-                SELECT DATE_FORMAT(purchase_date, '%M %Y') AS month_year, STR_TO_DATE(DATE_FORMAT(purchase_date, '%Y-%m-01'), '%Y-%m-%d') as sort_date
-                FROM grocery_purchases WHERE is_delete = '0'
-            ) t ORDER BY sort_date DESC
-        ";
-        $result_obj = $this->db->query($query);
-        return is_object($result_obj) ? $result_obj->result_array() : [];
+        $months = [];
+        for ($i = 0; $i <= 6; $i++) {
+            $months[] = [
+                'month_year' => date('F Y', strtotime("-$i months")),
+                'sort_date' => date('Y-m-01', strtotime("-$i months"))
+            ];
+        }
+        return $months;
     }
 }

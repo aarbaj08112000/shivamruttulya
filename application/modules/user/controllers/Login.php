@@ -141,6 +141,14 @@ class Login extends MY_Controller {
 		$this->smarty->loadView('dashboard.tpl',$data,'Yes','Yes');
 	}
 
+	public function get_trend_data(){
+		$range = $this->input->post('range');
+		if(empty($range)) $range = 'weekly';
+		$data = $this->Login_model->get_trend_data($range);
+		echo json_encode(['success' => 1, 'data' => $data]);
+		exit();
+	}
+
 	
 }
 

@@ -88,7 +88,7 @@ class Login_model extends CI_Model {
         $query_total = $this->db->query("SELECT IFNULL(SUM(total_amount), 0) as total FROM daily_collections WHERE is_delete = '0'");
         $data['grand_total'] = $query_total->row_array();
         
-        // 5. Chart Trends (Last 7 Days)
+        // 5. Chart Trends (Last 7 Days - Weekly default)
         $query_trends = $this->db->query("
             SELECT collection_date, IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online 
             FROM daily_collections 
@@ -121,5 +121,52 @@ class Login_model extends CI_Model {
         $data['shop_today'] = $query_shop_today->result_array();
         
         return $data;
+    }
+
+    /**
+     * Get trend data for a specific range (AJAX)
+     * @param string $range - 'daily', 'weekly', or 'monthly'
+     */
+    public function get_trend_data($range = 'weekly') {
+        $today = date('Y-m-d');
+        
+        switch($range) {
+            case 'daily':
+                // Today only - hourly not possible, so show last 1 day's data
+                $start_date = $today;
+                $query = $this->db->query("
+                    SELECT collection_date, IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online 
+                    FROM daily_collections 
+                    WHERE collection_date = '$today' AND is_delete = '0'
+                    GROUP BY collection_date 
+                    ORDER BY collection_date ASC
+                ");
+                break;
+            case 'monthly':
+                // Current month
+                $first_day = date('Y-m-01');
+                $query = $this->db->query("
+                    SELECT collection_date, IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online 
+                    FROM daily_collections 
+                    WHERE collection_date >= '$first_day' AND collection_date <= '$today' AND is_delete = '0'
+                    GROUP BY collection_date 
+                    ORDER BY collection_date ASC
+                ");
+                break;
+            case 'weekly':
+            default:
+                // Last 7 days
+                $last_week = date('Y-m-d', strtotime('-7 days'));
+                $query = $this->db->query("
+                    SELECT collection_date, IFNULL(SUM(cash_amount), 0) as cash, IFNULL(SUM(online_amount), 0) as online 
+                    FROM daily_collections 
+                    WHERE collection_date >= '$last_week' AND collection_date <= '$today' AND is_delete = '0'
+                    GROUP BY collection_date 
+                    ORDER BY collection_date ASC
+                ");
+                break;
+        }
+        
+        return $query->result_array();
     }
 }

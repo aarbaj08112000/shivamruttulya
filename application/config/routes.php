@@ -25,6 +25,7 @@ $route['grocery_category_list'] = 'grocery_category/grocery_category/grocery_cat
 $route['grocery_item_list'] = 'grocery_item/grocery_item/grocery_item_list';
 $route['grocery_purchase_list'] = 'grocery_purchase/grocery_purchase/grocery_purchase_list';
 $route['expense_list'] = 'expense/expense/expense_list';
+$route['expense_category_list'] = 'expense_category/expense_category/expense_category_list';
 $route['franchise_list'] = 'franchise/franchise/franchise_list';
 $route['daily_collection_list'] = 'daily_collection/daily_collection/daily_collection_list';
 $route['online_payment_list'] = 'online_payment/online_payment/online_payment_list';

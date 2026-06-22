@@ -53,7 +53,8 @@ class Daily_collection extends MY_Controller {
             $data[$key]['cash_amount'] = '₹' . number_format($value['cash_amount'], 2);
             $data[$key]['online_amount'] = '₹' . number_format($value['online_amount'], 2);
             $data[$key]['total_amount'] = '₹' . number_format($value['total_amount'], 2);
-            $data[$key]['status'] = ($value['status'] == 'active') ? '<span class="badge bg-success rounded-pill">Active</span>' : '<span class="badge bg-danger rounded-pill">Inactive</span>';
+            $status_color = ($value['status'] == 'active') ? '#006400' : '#C6011F';
+            $data[$key]['status'] = '<span style="color: '.$status_color.'; font-weight: bold;">'.ucfirst($value['status']).'</span>';
             $data[$key]['action'] = '<a href="javascript:void(0)" class="text-primary me-2 edit-collection" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a><a href="javascript:void(0)" class="text-danger delete-collection" data-id="'.$value['id'].'" title="Delete"><i class="bx bx-trash fs-4"></i></a>';
         }
         

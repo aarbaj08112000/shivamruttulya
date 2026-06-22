@@ -11,10 +11,11 @@
          </div>
       </nav>
       <div class="d-flex align-items-center gap-2">
-         <select class="form-select" id="month-filter-input" style="width: 200px;">
+         <select class="form-select theme-dropdown" id="month-filter-input" style="width: 200px; border-color: var(--bs-theme-color); color: var(--bs-theme-color); border-radius: 16px; font-weight: 500;">
             <option value="">All Months</option>
+            <%assign var="current_month" value=$smarty.now|date_format:"%B %Y"%>
             <%foreach from=$months item=m%>
-                <option value="<%$m.month_year%>"><%$m.month_year%></option>
+                <option value="<%$m.month_year%>" <%if $m.month_year == $current_month%>selected<%/if%>><%$m.month_year%></option>
             <%/foreach%>
          </select>
          <input type="text" name="reason" placeholder="Filter Search" class="form-control serarch-filter-input m-0" id="serarch-filter-input" style="width: 250px;">
@@ -61,4 +62,4 @@
     var sorting_column = <%$sorting_column%>;
     var base_url = <%$base_url|json_encode%>;
 </script>
-<script src="<%$base_url%>public/js/reports/collection_vs_expense.js"></script>
+<script src="<%$base_url%>public/js/reports/collection_vs_expense.js?v=<%time()%>"></script>

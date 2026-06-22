@@ -110,6 +110,69 @@
      <script type="text/javascript" src="<%base_url()%>public/js/admin/grid_structure.js"></script>
 
      <style>
+         /* Reduce overall application scale by 10% */
+         html {
+             font-size: 90% !important;
+         }
+         
+         /* Override Bootstrap success color from #71dd37 to #006400 (dark green) */
+         :root {
+             --bs-green: #006400 !important;
+             --bs-success: #006400 !important;
+             --bs-success-rgb: 0, 100, 0 !important;
+         }
+         .text-success {
+             color: #006400 !important;
+         }
+         .bg-success {
+             background-color: #006400 !important;
+         }
+         .btn-success {
+             background-color: #006400 !important;
+             border-color: #006400 !important;
+         }
+         .badge.bg-label-success {
+             color: #006400 !important;
+         }
+         .btn {
+             border-radius: 20px !important;
+         }
+         .serarch-filter-input {
+             border-radius: 16px !important;
+         }
+         
+         /* Custom Select2 Theme Styling */
+         .select2-container--default .select2-selection--single {
+             border-radius: 16px !important;
+             border: 1px solid var(--bs-theme-color) !important;
+             height: 38px !important;
+             padding: 4px 0 !important;
+         }
+         .select2-container--default .select2-selection--single .select2-selection__rendered {
+             color: var(--bs-theme-color) !important;
+             font-weight: 500 !important;
+         }
+         .select2-container--default .select2-selection--single .select2-selection__arrow b {
+             border-color: var(--bs-theme-color) transparent transparent transparent !important;
+         }
+         .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+             border-color: transparent transparent var(--bs-theme-color) transparent !important;
+         }
+         /* The dropdown list */
+         .theme-select2-dropdown {
+             border-radius: 16px !important;
+             border: 1px solid var(--bs-theme-color) !important;
+             overflow: hidden !important;
+             box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+         }
+         .theme-select2-dropdown .select2-results__option--highlighted[aria-selected] {
+             background-color: var(--bs-theme-color) !important;
+             color: white !important;
+         }
+         .theme-select2-dropdown .select2-results__option {
+             color: #697a8d;
+         }
+         
          /* Hide Navbar brand and toggle icon when sidebar is expanded */
          html.layout-menu-expanded .navbar .app-brand-link.navbar-brand,
          html.layout-menu-expanded .navbar .layout-menu-toggle {
@@ -276,6 +339,11 @@
                   <div data-i18n="Expense Management">Expense Management</div>
                </a>
                <ul class="menu-sub" style="display: block;">
+                  <li class="menu-item">
+                     <a href="<%$base_url%>expense_category_list" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-category-alt"></i><div data-i18n="Expense Categories">Expense Categories</div>
+                     </a>
+                  </li>
                   <li class="menu-item">
                      <a href="<%$base_url%>expense_list" class="menu-link" >
                         <i class="menu-icon tf-icons bx bx-money"></i><div data-i18n="Expense Management">Expense Management</div>
@@ -585,5 +653,71 @@
                   }
               });
           });
+
+          // --- Active Menu Highlighting ---
+          var currentPath = window.location.pathname;
+          // Get the last segment of the URL (e.g., "shop_list" from "/shiv_amruttulya/shop_list")
+          var segments = currentPath.replace(/\/+$/, '').split('/');
+          var currentPage = segments[segments.length - 1] || 'dashboard';
+
+          var menuLinks = document.querySelectorAll('#layout-menu .menu-inner .menu-link[href]');
+          menuLinks.forEach(function(link) {
+              var href = link.getAttribute('href');
+              if (!href || href === 'javascript:void(0);' || href === 'javascript:void(0)') return;
+
+              // Extract the last segment from the link href
+              var linkSegments = href.replace(/\/+$/, '').split('/');
+              var linkPage = linkSegments[linkSegments.length - 1];
+
+              if (linkPage === currentPage) {
+                  // Mark the child <li> as active
+                  var childLi = link.closest('li.menu-item');
+                  if (childLi) {
+                      childLi.classList.add('active');
+                  }
+
+                  // Mark the parent group <li> as active and open
+                  var parentSub = link.closest('ul.menu-sub');
+                  if (parentSub) {
+                      var parentLi = parentSub.closest('li.menu-item');
+                      if (parentLi) {
+                          parentLi.classList.add('active', 'open');
+                      }
+                      parentSub.style.display = 'block';
+                  }
+              }
+          });
       });
       </script>
+      <style>
+          /* Active menu item highlighting */
+          #layout-menu .menu-inner > li.menu-item.active > .menu-link.menu-toggle {
+              color: var(--bs-theme-color-dark) !important;
+              font-weight: 700 !important;
+          }
+          #layout-menu .menu-inner .menu-sub li.menu-item.active > .menu-link {
+              background-color: var(--bs-theme-color) !important;
+              color: #fff !important;
+              border-radius: 6px;
+              font-weight: 600;
+          }
+          #layout-menu .menu-inner .menu-sub li.menu-item.active > .menu-link .menu-icon {
+              color: #fff !important;
+          }
+          #layout-menu .menu-inner .menu-sub li.menu-item.active > .menu-link div {
+              color: #fff !important;
+          }
+          /* Dashboard direct link active */
+          #layout-menu .menu-inner > li.menu-item.active > a.menu-link:not(.menu-toggle) {
+              background-color: var(--bs-theme-color) !important;
+              color: #fff !important;
+              border-radius: 6px;
+              font-weight: 600;
+          }
+          #layout-menu .menu-inner > li.menu-item.active > a.menu-link:not(.menu-toggle) .menu-icon {
+              color: #fff !important;
+          }
+          #layout-menu .menu-inner > li.menu-item.active > a.menu-link:not(.menu-toggle) div {
+              color: #fff !important;
+          }
+      </style>

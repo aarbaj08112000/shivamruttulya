@@ -40,7 +40,11 @@ const page = {
         $('.dataTables_length').find('label').contents().filter(function() { return this.nodeType === 3; }).remove();
         table.on('init.dt', function() { $(".dataTables_length select").select2({ minimumResultsForSearch: Infinity }); });
         $('#serarch-filter-input').on('keyup', function() { table.search(this.value).draw(); });
-        $('#month-filter-input').on('change', function() { table.ajax.reload(); });
+        $('#month-filter-input').select2({
+            minimumResultsForSearch: -1,
+            width: '200px',
+            dropdownCssClass: 'theme-select2-dropdown'
+        }).on('change', function() { table.ajax.reload(); });
         $('#downloadCSVBtn').off('click').on('click', function() { table.button('.buttons-csv').trigger(); });
         $('#downloadPDFBtn').off('click').on('click', function() { table.button('.buttons-pdf').trigger(); });
         $('.dt-buttons').hide();

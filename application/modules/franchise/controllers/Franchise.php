@@ -106,11 +106,8 @@ class Franchise extends MY_Controller {
         foreach ($data as $key => $value) {
             $data[$key]['joining_date'] = !empty($value['joining_date']) ? date("d-M-Y", strtotime($value['joining_date'])) : '-';
             
-            if ($value['status'] == 'active') {
-                $data[$key]['status'] = '<span class="badge bg-success rounded-pill">Active</span>';
-            } else {
-                $data[$key]['status'] = '<span class="badge bg-danger rounded-pill">Inactive</span>';
-            }
+            $status_color = ($value['status'] == 'active') ? '#006400' : '#C6011F';
+            $data[$key]['status'] = '<span style="color: '.$status_color.'; font-weight: bold;">'.ucfirst($value['status']).'</span>';
 
             $data[$key]['action'] = '<a href="javascript:void(0)" class="text-primary me-2 edit-franchise" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
                                      <a href="javascript:void(0)" class="text-danger delete-franchise" data-id="'.$value['id'].'" title="Delete"><i class="bx bx-trash fs-4"></i></a>';

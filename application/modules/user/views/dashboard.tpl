@@ -56,10 +56,10 @@
                     <div class="card shadow-sm border-0 h-100">
                         <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Collection Trends</h5>
-                            <select class="form-select form-select-sm w-auto">
-                                <option>Daily</option>
-                                <option selected>Weekly</option>
-                                <option>Monthly</option>
+                            <select class="form-select form-select-sm w-auto" id="trendRangeSelector" style="border-color: var(--bs-theme-color); color: var(--bs-theme-color); border-radius: 16px; font-weight: 500;">
+                                <option value="daily">Daily</option>
+                                <option value="weekly" selected>Weekly</option>
+                                <option value="monthly">Monthly</option>
                             </select>
                         </div>
                         <div class="card-body">
@@ -90,10 +90,10 @@
                             <table class="table table-hover w-100 mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Shop Name</th>
-                                        <th>Cash Collection</th>
-                                        <th>Online Collection</th>
-                                        <th>Total Collection</th>
+                                        <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Shop Name</th>
+                                        <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Cash Collection</th>
+                                        <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Online Collection</th>
+                                        <th style="background-color: var(--bs-theme-color) !important; color: white !important; font-weight: bold; border-bottom: none;">Total Collection</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -132,6 +132,7 @@
 <script>
     var trendData = <%$dashboard_data['trends']|json_encode%>;
     var shopWiseData = <%$dashboard_data['shop_wise']|json_encode%>;
+    var base_url = <%$base_url|json_encode%>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="<%$base_url%>public/js/dashboard.js"></script>
