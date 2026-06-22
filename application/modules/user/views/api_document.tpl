@@ -1812,6 +1812,56 @@
             <div class="card-body mt-3">
                 <div class="accordion" id="apiAccordionReport">
                     
+                    <!-- Transaction Summary Report API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingReportTransactionSummary">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReportTransactionSummary" aria-expanded="false" aria-controls="collapseReportTransactionSummary">
+                                <span class="badge bg-success me-2">GET</span> Transaction Summary (Calendar View)
+                            </button>
+                        </h2>
+                        <div id="collapseReportTransactionSummary" class="accordion-collapse collapse" aria-labelledby="headingReportTransactionSummary" data-bs-parent="#apiAccordionReport">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/report/transaction_summary </h6>
+                                <h6>Description</h6>
+                                <p>Fetches the transaction summary for the "Reports" calendar view, including the selected date's daily totals, the month's overall totals, and an array of dates containing transactions (useful for calendar dots).</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters (Optional)</h6>
+                                <ul>
+                                    <li><code>date</code>: Specific date to fetch summary for in <code>YYYY-MM-DD</code> format. Defaults to today. The month summary and active dates array will be derived from this date's month and year.</li>
+                                </ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded" style="max-height: 400px; overflow-y: auto;"><code>{
+  "success": 1,
+  "message": "Transaction summary fetched successfully",
+  "data": {
+    "selected_date": "2026-06-23",
+    "active_dates": [
+      "2026-06-01",
+      "2026-06-15",
+      "2026-06-23"
+    ],
+    "daily_summary": {
+      "profit": 5250,
+      "collection": 18750,
+      "expense": 6860,
+      "grocery": 4320
+    },
+    "monthly_summary": {
+      "total_profit": 15000,
+      "total_collection": 45000,
+      "total_expense": 18000,
+      "total_grocery": 12000
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Monthly Collection Report API -->
                     <div class="accordion-item card mb-3 border shadow-none">
                         <h2 class="accordion-header" id="headingReportMonthlyCollection">

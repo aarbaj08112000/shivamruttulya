@@ -55,6 +55,35 @@ class Report extends My_Api_Controller
             ]
         ], REST_Controller::HTTP_OK);
     }
+
+    public function transaction_summary_get()
+    {
+        if ($this->authenticate() !== true) return;
+
+        $date = $this->get('date'); // Format: YYYY-MM-DD
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $timestamp = strtotime($date);
+        $month = date('m', $timestamp);
+        $year = date('Y', $timestamp);
+
+        $daily_summary = $this->report_model->get_date_summary($date);
+        $monthly_summary = $this->report_model->get_month_summary($month, $year);
+        $active_dates = $this->report_model->get_active_dates($month, $year);
+
+        return $this->response([
+            'success' => 1,
+            'message' => 'Transaction summary fetched successfully',
+            'data' => [
+                'selected_date' => $date,
+                'active_dates' => $active_dates,
+                'daily_summary' => $daily_summary,
+                'monthly_summary' => $monthly_summary
+            ]
+        ], REST_Controller::HTTP_OK);
+    }
 }
 
 /* tests */
