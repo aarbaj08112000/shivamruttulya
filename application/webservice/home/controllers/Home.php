@@ -12,53 +12,85 @@ class Home extends My_Api_Controller
     {
         if ($this->authenticate() !== true) return;
 
-        $grand_total = $this->home_model->get_grand_total();
+        $month_year = $this->get('month_year');
         
-        $data = [
-            'grand_total' => [
-                'total_collection' => (float)($grand_total['total_collection'] ?? 0),
-                'cash_collection' => (float)($grand_total['cash_collection'] ?? 0),
-                'online_collection' => (float)($grand_total['online_collection'] ?? 0)
-            ],
-            'time_based_summary' => (array)$this->home_model->get_time_based_summary(),
-            'shop_wise_collection' => (array)$this->home_model->get_shop_wise_collection(),
-            'daily_collection_trend' => (array)$this->home_model->get_daily_collection_trend(),
-            'monthly_collection_comparison' => (array)$this->home_model->get_monthly_collection_comparison(),
-            'shop_wise_summary' => (array)$this->home_model->get_shop_wise_summary()
-        ];
+        $month = null;
+        $year = null;
 
-        // Format floats appropriately
-        foreach($data['time_based_summary'] as $key => &$vals) {
-            $vals['total'] = (float)$vals['total'];
-            $vals['cash'] = (float)$vals['cash'];
-            $vals['online'] = (float)$vals['online'];
+        if (!empty($month_year)) {
+            $timestamp = strtotime("1 " . $month_year);
+            if ($timestamp) {
+                $month = date('m', $timestamp);
+                $year = date('Y', $timestamp);
+            }
         }
 
-        foreach($data['shop_wise_collection'] as &$row) {
-            $row['shop_id'] = (int)$row['shop_id'];
-            $row['total_collection'] = (float)$row['total_collection'];
-            $row['percentage'] = (float)$row['percentage'];
+        if (empty($month) || empty($year)) {
+            $month = date('m');
+            $year = date('Y');
         }
 
-        foreach($data['daily_collection_trend'] as &$row) {
-            $row['day'] = (int)$row['day'];
-            $row['total'] = (float)$row['total'];
-        }
+        $current_month = $this->home_model->get_current_month_collection($month, $year);
+        $time_summary = $this->home_model->get_time_based_summary($month, $year);
+        $profit_summary = $this->home_model->get_profit_summary($month, $year);
+        
+        $daily_trend = $this->home_model->get_daily_collection_trend($month, $year);
+        $monthly_comparison = $this->home_model->get_monthly_collection_comparison($month, $year);
+        $shop_ranking = $this->home_model->get_shop_wise_ranking();
 
-        foreach($data['monthly_collection_comparison'] as &$row) {
-            $row['month_number'] = (int)$row['month_number'];
+        // Formatting
+        foreach ($daily_trend as &$row) {
+            $row['amount'] = (float)$row['amount'];
+        }
+        foreach ($monthly_comparison as &$row) {
+            $row['month_value'] = (int)$row['month_value'];
             $row['year'] = (int)$row['year'];
-            $row['total'] = (float)$row['total'];
+            $row['amount'] = (float)$row['amount'];
+        }
+        foreach ($shop_ranking as &$row) {
+            $row['shop_id'] = (int)$row['shop_id'];
+            $row['today_collection'] = (float)$row['today_collection'];
         }
 
-        foreach($data['shop_wise_summary'] as &$row) {
-            $row['shop_id'] = (int)$row['shop_id'];
-            $row['amount'] = (float)($row['amount'] ?? 0);
-        }
+        $data = [
+            'current_month_collection' => [
+                'total_amount' => (float)($current_month['total_amount'] ?? 0),
+                'cash_collection' => (float)($current_month['cash_collection'] ?? 0),
+                'online_collection' => (float)($current_month['online_collection'] ?? 0)
+            ],
+            'collection_summary' => [
+                'today' => [
+                    'total' => (float)$time_summary['today']['total'],
+                    'cash' => (float)$time_summary['today']['cash'],
+                    'online' => (float)$time_summary['today']['online']
+                ],
+                'weekly' => [
+                    'total' => (float)$time_summary['weekly']['total'],
+                    'cash' => (float)$time_summary['weekly']['cash'],
+                    'online' => (float)$time_summary['weekly']['online']
+                ],
+                'monthly' => [
+                    'total' => (float)$time_summary['monthly']['total'],
+                    'cash' => (float)$time_summary['monthly']['cash'],
+                    'online' => (float)$time_summary['monthly']['online']
+                ]
+            ],
+            'this_month_profit_summary' => $profit_summary,
+            'charts' => [
+                'daily_collection_trend' => (array)$daily_trend,
+                'monthly_collection_comparison' => (array)$monthly_comparison,
+                'expense_vs_collection_comparison' => [
+                    'collection_amount' => $profit_summary['collection'],
+                    'expenses_excl_grocery' => $profit_summary['expense'],
+                    'grocery' => $profit_summary['grocery']
+                ]
+            ],
+            'shop_wise_ranking' => (array)$shop_ranking
+        ];
 
         return $this->response([
             'success' => 1,
-            'message' => 'Dashboard data fetched successfully',
+            'message' => 'Dashboard data retrieved successfully',
             'data' => $data
         ], REST_Controller::HTTP_OK);
     }
