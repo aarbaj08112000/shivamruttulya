@@ -536,6 +536,7 @@
 
                 </div>
             </div>
+             </div>
         <!-- 4. Grocery Category Module -->
         <div class="card mb-4">
             <h5 class="card-header border-bottom bg-light">4. Grocery Category Module</h5>

@@ -118,6 +118,14 @@ $config["report"] = array(
     "params" => array()
 );
 
+/* Expense Category Module */
+$config["expense_category"] = array(
+    "title" => "Expense Category Module API",
+    "folder" => "expense_category",
+    "method" => "GET_POST",
+    "params" => array()
+);
+
 /* User Detail */
 
 $config["order"] = array(
