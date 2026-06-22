@@ -47,6 +47,8 @@ class Grocery_purchase_model extends CI_Model
     public function get_count($filters = [])
     {
         $this->db->from($this->table . ' p');
+        $this->db->join('shops s', 's.id = p.shop_id', 'left');
+        $this->db->join('grocery_items i', 'i.id = p.grocery_item_id', 'left');
         $this->db->where('p.is_delete', '0');
 
         if (!empty($filters['shop_id'])) {
