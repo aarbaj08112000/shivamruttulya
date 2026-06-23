@@ -60,9 +60,17 @@ class Report extends My_Api_Controller
     {
         if ($this->authenticate() !== true) return;
 
-        $date = $this->get('date'); // Format: YYYY-MM-DD
-        if (empty($date)) {
+        $date_input = $this->get('date');
+        
+        if (empty($date_input)) {
             $date = date('Y-m-d');
+        } else {
+            $timestamp = strtotime($date_input);
+            if ($timestamp === false) {
+                $date = date('Y-m-d');
+            } else {
+                $date = date('Y-m-d', $timestamp);
+            }
         }
 
         $timestamp = strtotime($date);
