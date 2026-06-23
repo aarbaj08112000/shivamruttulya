@@ -79,15 +79,86 @@ class Menu_master extends My_Api_Controller
             'menu_title' => $input['menu_title'],
             'price' => $input['price'],
             'description' => $input['description'] ?? null,
-            'image' => $input['image'] ?? null,
             'status' => $input['status'] ?? 'active',
             'added_by' => $this->current_user->id
         ];
+
+        // Handle multipart file upload for image using CI Upload Library
+        if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
+            $upload_path = FCPATH . 'public/uploads/menu/';
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            $config_upload = [
+                'upload_path' => $upload_path,
+                'allowed_types' => 'jpg|jpeg|png|webp|heic',
+                'max_size' => 5120, // 5MB limit
+                'encrypt_name' => TRUE
+            ];
+
+            $this->load->library('upload', $config_upload);
+            $this->upload->initialize($config_upload);
+
+            if ($this->upload->do_upload('image')) {
+                $upload_data = $this->upload->data();
+                $insert_data['image'] = $upload_data['file_name'];
+            } else {
+                return $this->response([
+                    'success' => 0,
+                    'message' => strip_tags($this->upload->display_errors()),
+                    'data' => []
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+        // Handle base64 image upload (fallback)
+        else if (!empty($input['image']) && is_string($input['image'])) {
+            $base64_string = $input['image'];
+
+            // Strip data URI prefix if present
+            if (strpos($base64_string, ';base64,') !== false) {
+                list($type_part, $base64_string) = explode(';base64,', $base64_string);
+                $ext = strtolower(str_replace('data:image/', '', $type_part));
+                if ($ext === 'jpeg') $ext = 'jpg';
+            } else {
+                $ext = 'jpg';
+            }
+
+            $image_data = base64_decode($base64_string);
+
+            if ($image_data === false) {
+                return $this->response([
+                    'success' => 0,
+                    'message' => 'Invalid image data',
+                    'data' => []
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+
+            $encrypted_name = hash('sha256', $this->current_user->id . time() . mt_rand(1000, 9999)) . '.' . $ext;
+            $upload_path = FCPATH . 'public/uploads/menu/';
+
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            if (file_put_contents($upload_path . $encrypted_name, $image_data) === false) {
+                return $this->response([
+                    'success' => 0,
+                    'message' => 'Failed to save menu image',
+                    'data' => []
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $insert_data['image'] = $encrypted_name;
+        }
 
         $insert_id = $this->menu_master_model->insert($insert_data);
         
         if ($insert_id) {
             $insert_data['menu_id'] = $insert_id;
+            if (isset($insert_data['image'])) {
+                $insert_data['file_path'] = base_url('public/uploads/menu/' . $insert_data['image']);
+            }
             return $this->response(['success' => 1, 'message' => 'Menu added successfully', 'data' => $insert_data], REST_Controller::HTTP_CREATED);
         } else {
             return $this->response(['success' => 0, 'message' => 'Failed to add menu', 'data' => []], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
@@ -115,7 +186,7 @@ class Menu_master extends My_Api_Controller
             $this->form_validation->set_rules('price', 'Price', 'numeric');
         }
         
-        if ($this->form_validation->run() === FALSE) {
+        if ($this->form_validation->run() === FALSE && !empty($this->form_validation->error_array())) {
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
 
@@ -123,17 +194,110 @@ class Menu_master extends My_Api_Controller
             'updated_by' => $this->current_user->id
         ];
         
-        $fields = ['menu_title', 'price', 'description', 'image', 'status'];
+        $fields = ['menu_title', 'price', 'description', 'status'];
         foreach ($fields as $field) {
             if (isset($input[$field])) {
                 $update_data[$field] = $input[$field];
             }
         }
 
+        // Handle multipart file upload for image using CI Upload Library
+        if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
+            $upload_path = FCPATH . 'public/uploads/menu/';
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            $config_upload = [
+                'upload_path' => $upload_path,
+                'allowed_types' => 'jpg|jpeg|png|webp|heic',
+                'max_size' => 5120, // 5MB limit
+                'encrypt_name' => TRUE
+            ];
+
+            $this->load->library('upload', $config_upload);
+            $this->upload->initialize($config_upload);
+
+            if ($this->upload->do_upload('image')) {
+                $upload_data = $this->upload->data();
+                $encrypted_name = $upload_data['file_name'];
+
+                // Delete old image if exists
+                $existing_menu = $this->menu_master_model->get_by_id($id);
+                if ($existing_menu && !empty($existing_menu['image'])) {
+                    $old_file = $upload_path . $existing_menu['image'];
+                    if (file_exists($old_file)) {
+                        @unlink($old_file);
+                    }
+                }
+                $update_data['image'] = $encrypted_name;
+            } else {
+                return $this->response([
+                    'success' => 0,
+                    'message' => strip_tags($this->upload->display_errors()),
+                    'data' => []
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+        // Handle base64 image upload (fallback)
+        else if (!empty($input['image']) && is_string($input['image'])) {
+            $base64_string = $input['image'];
+
+            if (strpos($base64_string, ';base64,') !== false) {
+                list($type_part, $base64_string) = explode(';base64,', $base64_string);
+                $ext = strtolower(str_replace('data:image/', '', $type_part));
+                if ($ext === 'jpeg') $ext = 'jpg';
+            } else {
+                $ext = 'jpg';
+            }
+
+            $image_data = base64_decode($base64_string);
+
+            if ($image_data === false) {
+                return $this->response([
+                    'success' => 0,
+                    'message' => 'Invalid image data',
+                    'data' => []
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+
+            $encrypted_name = hash('sha256', $this->current_user->id . time() . mt_rand(1000, 9999)) . '.' . $ext;
+            $upload_path = FCPATH . 'public/uploads/menu/';
+
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            if (file_put_contents($upload_path . $encrypted_name, $image_data) === false) {
+                return $this->response([
+                    'success' => 0,
+                    'message' => 'Failed to save menu image',
+                    'data' => []
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $existing_menu = $this->menu_master_model->get_by_id($id);
+            if ($existing_menu && !empty($existing_menu['image'])) {
+                $old_file = $upload_path . $existing_menu['image'];
+                if (file_exists($old_file)) {
+                    @unlink($old_file);
+                }
+            }
+
+            $update_data['image'] = $encrypted_name;
+        } else if (isset($input['image']) && empty($input['image'])) {
+            $update_data['image'] = null; // Allow clearing the image if passed as empty
+        }
+
         $affected = $this->menu_master_model->update($id, $update_data);
         
         if ($affected) {
-            return $this->response(['success' => 1, 'message' => 'Menu updated successfully', 'data' => ['menu_id' => $id]], REST_Controller::HTTP_OK);
+            $response_data = ['menu_id' => $id];
+            if (isset($update_data['image'])) {
+                $response_data['file_name'] = $update_data['image'];
+                $response_data['file_path'] = base_url('public/uploads/menu/' . $update_data['image']);
+            }
+            return $this->response(['success' => 1, 'message' => 'Menu updated successfully', 'data' => $response_data], REST_Controller::HTTP_OK);
         } else {
             return $this->response(['success' => 0, 'message' => 'Failed to update menu or no changes made', 'data' => []], REST_Controller::HTTP_OK);
         }

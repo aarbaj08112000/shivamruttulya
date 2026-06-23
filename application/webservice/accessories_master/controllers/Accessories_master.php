@@ -109,8 +109,11 @@ class Accessories_master extends My_Api_Controller
         }
 
         $this->form_validation->set_data($input);
+        if (isset($input['name'])) {
+            $this->form_validation->set_rules('name', 'Name', 'trim');
+        }
         
-        if ($this->form_validation->run() === FALSE) {
+        if ($this->form_validation->run() === FALSE && !empty($this->form_validation->error_array())) {
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
 
