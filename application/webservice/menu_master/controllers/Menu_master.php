@@ -11,15 +11,20 @@ class Menu_master extends My_Api_Controller
 
     public function list_get()
     {
-        if ($this->authenticate() !== true) return;
+        if ($this->authenticate() !== true)
+            return;
 
-        $page = $this->get('page') ? (int)$this->get('page') : 1;
-        $limit = $this->get('limit') ? (int)$this->get('limit') : 10;
+        $page = $this->get('page') ? (int) $this->get('page') : 1;
+        $limit = $this->get('limit') ? (int) $this->get('limit') : 10;
         $offset = ($page - 1) * $limit;
 
         $menus = $this->menu_master_model->get_all($limit, $offset);
         $total_records = $this->menu_master_model->get_count();
-        
+
+        foreach ($menus as &$menu) {
+            $menu['image'] = !empty($menu['image']) ? base_url('public/uploads/menu/' . $menu['image']) : null;
+        }
+
         return $this->response([
             'success' => 1,
             'message' => 'Menus fetched successfully',
@@ -37,7 +42,8 @@ class Menu_master extends My_Api_Controller
 
     public function details_get($id = null)
     {
-        if ($this->authenticate() !== true) return;
+        if ($this->authenticate() !== true)
+            return;
 
         if (is_array($id)) {
             $id = $id['menu_id'] ?? $id['id'] ?? null;
@@ -51,8 +57,9 @@ class Menu_master extends My_Api_Controller
         }
 
         $menu = $this->menu_master_model->get_by_id($id);
-        
+
         if ($menu) {
+            $menu['image'] = !empty($menu['image']) ? base_url('public/uploads/menu/' . $menu['image']) : null;
             return $this->response(['success' => 1, 'message' => 'Menu details fetched successfully', 'data' => $menu], REST_Controller::HTTP_OK);
         } else {
             return $this->response(['success' => 0, 'message' => 'Menu not found', 'data' => []], REST_Controller::HTTP_NOT_FOUND);
@@ -61,16 +68,19 @@ class Menu_master extends My_Api_Controller
 
     public function add_post()
     {
-        if ($this->authenticate() !== true) return;
-        
+        if ($this->authenticate() !== true)
+            return;
+
         $input = $this->post();
-        if (empty($input)) $input = json_decode($this->input->raw_input_stream, true);
-        if (!is_array($input)) $input = [];
+        if (empty($input))
+            $input = json_decode($this->input->raw_input_stream, true);
+        if (!is_array($input))
+            $input = [];
 
         $this->form_validation->set_data($input);
         $this->form_validation->set_rules('menu_title', 'Menu Title', 'required|trim');
         $this->form_validation->set_rules('price', 'Price', 'required|numeric');
-        
+
         if ($this->form_validation->run() === FALSE) {
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -119,7 +129,8 @@ class Menu_master extends My_Api_Controller
             if (strpos($base64_string, ';base64,') !== false) {
                 list($type_part, $base64_string) = explode(';base64,', $base64_string);
                 $ext = strtolower(str_replace('data:image/', '', $type_part));
-                if ($ext === 'jpeg') $ext = 'jpg';
+                if ($ext === 'jpeg')
+                    $ext = 'jpg';
             } else {
                 $ext = 'jpg';
             }
@@ -153,7 +164,7 @@ class Menu_master extends My_Api_Controller
         }
 
         $insert_id = $this->menu_master_model->insert($insert_data);
-        
+
         if ($insert_id) {
             $insert_data['menu_id'] = $insert_id;
             if (isset($insert_data['image'])) {
@@ -167,16 +178,20 @@ class Menu_master extends My_Api_Controller
 
     public function update_post($id = null)
     {
-        if ($this->authenticate() !== true) return;
-        
+        if ($this->authenticate() !== true)
+            return;
+
         $input = $this->post();
-        if (empty($input)) $input = json_decode($this->input->raw_input_stream, true);
-        if (!is_array($input)) $input = [];
+        if (empty($input))
+            $input = json_decode($this->input->raw_input_stream, true);
+        if (!is_array($input))
+            $input = [];
 
         if (is_array($id)) {
             $id = $id['menu_id'] ?? $id['id'] ?? null;
         }
-        if (empty($id)) $id = $input['menu_id'] ?? $input['id'] ?? null;
+        if (empty($id))
+            $id = $input['menu_id'] ?? $input['id'] ?? null;
         if (empty($id)) {
             return $this->response(['success' => 0, 'message' => 'Menu ID is required', 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -185,7 +200,7 @@ class Menu_master extends My_Api_Controller
         if (isset($input['price'])) {
             $this->form_validation->set_rules('price', 'Price', 'numeric');
         }
-        
+
         if ($this->form_validation->run() === FALSE && !empty($this->form_validation->error_array())) {
             return $this->response(['success' => 0, 'message' => 'Validation failed', 'errors' => $this->form_validation->error_array(), 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
@@ -193,7 +208,7 @@ class Menu_master extends My_Api_Controller
         $update_data = [
             'updated_by' => $this->current_user->id
         ];
-        
+
         $fields = ['menu_title', 'price', 'description', 'status'];
         foreach ($fields as $field) {
             if (isset($input[$field])) {
@@ -246,7 +261,8 @@ class Menu_master extends My_Api_Controller
             if (strpos($base64_string, ';base64,') !== false) {
                 list($type_part, $base64_string) = explode(';base64,', $base64_string);
                 $ext = strtolower(str_replace('data:image/', '', $type_part));
-                if ($ext === 'jpeg') $ext = 'jpg';
+                if ($ext === 'jpeg')
+                    $ext = 'jpg';
             } else {
                 $ext = 'jpg';
             }
@@ -290,7 +306,7 @@ class Menu_master extends My_Api_Controller
         }
 
         $affected = $this->menu_master_model->update($id, $update_data);
-        
+
         if ($affected) {
             $response_data = ['menu_id' => $id];
             if (isset($update_data['image'])) {
@@ -305,22 +321,26 @@ class Menu_master extends My_Api_Controller
 
     public function delete_post($id = null)
     {
-        if ($this->authenticate() !== true) return;
-        
+        if ($this->authenticate() !== true)
+            return;
+
         $input = $this->post();
-        if (empty($input)) $input = json_decode($this->input->raw_input_stream, true);
-        if (!is_array($input)) $input = [];
+        if (empty($input))
+            $input = json_decode($this->input->raw_input_stream, true);
+        if (!is_array($input))
+            $input = [];
 
         if (is_array($id)) {
             $id = $id['menu_id'] ?? $id['id'] ?? null;
         }
-        if (empty($id)) $id = $input['menu_id'] ?? $input['id'] ?? null;
+        if (empty($id))
+            $id = $input['menu_id'] ?? $input['id'] ?? null;
         if (empty($id)) {
             return $this->response(['success' => 0, 'message' => 'Menu ID is required', 'data' => []], REST_Controller::HTTP_BAD_REQUEST);
         }
 
         $affected = $this->menu_master_model->delete($id, $this->current_user->id);
-        
+
         if ($affected) {
             return $this->response(['success' => 1, 'message' => 'Menu deleted successfully', 'data' => []], REST_Controller::HTTP_OK);
         } else {
