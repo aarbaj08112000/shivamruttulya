@@ -263,6 +263,22 @@ $config["payments"] = array(
     )
 );
 
+/* Menu Master Module */
+$config["menu_master"] = array(
+    "title" => "Menu Master Module API",
+    "folder" => "menu_master",
+    "method" => "GET_POST",
+    "params" => array()
+);
+
+/* Accessories Master Module */
+$config["accessories_master"] = array(
+    "title" => "Accessories Master Module API",
+    "folder" => "accessories_master",
+    "method" => "GET_POST",
+    "params" => array()
+);
+
 #####GENERATED_CONFIG_SETTINGS_END#####
 
 /* End of file cit_webservices.php */

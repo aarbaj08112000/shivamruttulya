@@ -2120,5 +2120,404 @@
             </div>
         </div>
 
+        <!-- 12. Menu Master Module -->
+        <div class="card mb-4">
+            <h5 class="card-header border-bottom bg-light">12. Menu Master Module</h5>
+            <div class="card-body mt-3">
+                <div class="accordion" id="apiAccordionMenuMaster">
+                    
+                    <!-- List Menu API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingMenuMasterList">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenuMasterList" aria-expanded="false" aria-controls="collapseMenuMasterList">
+                                <span class="badge bg-success me-2">GET</span> List Menus
+                            </button>
+                        </h2>
+                        <div id="collapseMenuMasterList" class="accordion-collapse collapse" aria-labelledby="headingMenuMasterList" data-bs-parent="#apiAccordionMenuMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/menu_master/list </h6>
+                                <h6>Description</h6>
+                                <p>Fetches a paginated list of menu items.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters (Optional)</h6>
+                                <ul>
+                                    <li><code>page</code>: Page number (default: 1)</li>
+                                    <li><code>limit</code>: Items per page (default: 10)</li>
+                                </ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded" style="max-height: 300px; overflow-y: auto;"><code>{
+  "success": 1,
+  "message": "Menus fetched successfully",
+  "data": {
+    "records": [
+      {
+        "menu_id": "1",
+        "menu_title": "Tea",
+        "price": "10.00",
+        "description": "Regular tea",
+        "image": "tea.jpg",
+        "status": "active",
+        "added_by_name": "Code Crafter"
+      }
+    ],
+    "pagination": {
+      "total_records": 1,
+      "current_page": 1,
+      "per_page": 10,
+      "total_pages": 1
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Details API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingMenuMasterDetails">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenuMasterDetails" aria-expanded="false" aria-controls="collapseMenuMasterDetails">
+                                <span class="badge bg-success me-2">GET</span> Menu Details
+                            </button>
+                        </h2>
+                        <div id="collapseMenuMasterDetails" class="accordion-collapse collapse" aria-labelledby="headingMenuMasterDetails" data-bs-parent="#apiAccordionMenuMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/menu_master/details </h6>
+                                <h6>Description</h6>
+                                <p>Fetches details of a specific menu item by ID.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters</h6>
+                                <ul><li><code>id</code> (e.g., /WS/menu_master/details?id=1)</li></ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Menu details fetched successfully",
+  "data": {
+    "menu_id": "1",
+    "menu_title": "Tea",
+    "price": "10.00",
+    "description": "Regular tea",
+    "image": "tea.jpg",
+    "status": "active",
+    "added_by_name": "Code Crafter"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Menu API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingMenuMasterAdd">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenuMasterAdd" aria-expanded="false" aria-controls="collapseMenuMasterAdd">
+                                <span class="badge bg-primary me-2">POST</span> Add Menu
+                            </button>
+                        </h2>
+                        <div id="collapseMenuMasterAdd" class="accordion-collapse collapse" aria-labelledby="headingMenuMasterAdd" data-bs-parent="#apiAccordionMenuMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/menu_master/add </h6>
+                                <h6>Description</h6>
+                                <p>Creates a new menu item.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "menu_title": "Coffee",
+  "price": "20.00",
+  "description": "Hot coffee",
+  "status": "active"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Menu added successfully",
+  "data": {
+    "menu_id": "2",
+    "menu_title": "Coffee",
+    "price": "20.00"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Menu API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingMenuMasterUpdate">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenuMasterUpdate" aria-expanded="false" aria-controls="collapseMenuMasterUpdate">
+                                <span class="badge bg-primary me-2">POST</span> Update Menu
+                            </button>
+                        </h2>
+                        <div id="collapseMenuMasterUpdate" class="accordion-collapse collapse" aria-labelledby="headingMenuMasterUpdate" data-bs-parent="#apiAccordionMenuMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/menu_master/update </h6>
+                                <h6>Description</h6>
+                                <p>Updates an existing menu item.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "id": "2",
+  "price": "25.00",
+  "status": "inactive"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Menu updated successfully",
+  "data": {
+    "menu_id": "2"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Menu API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingMenuMasterDelete">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenuMasterDelete" aria-expanded="false" aria-controls="collapseMenuMasterDelete">
+                                <span class="badge bg-primary me-2">POST</span> Delete Menu
+                            </button>
+                        </h2>
+                        <div id="collapseMenuMasterDelete" class="accordion-collapse collapse" aria-labelledby="headingMenuMasterDelete" data-bs-parent="#apiAccordionMenuMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/menu_master/delete </h6>
+                                <h6>Description</h6>
+                                <p>Soft deletes a menu item.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "id": "2"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Menu deleted successfully",
+  "data": []
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. Accessories Master Module -->
+        <div class="card mb-4">
+            <h5 class="card-header border-bottom bg-light">13. Accessories Master Module</h5>
+            <div class="card-body mt-3">
+                <div class="accordion" id="apiAccordionAccessoriesMaster">
+                    
+                    <!-- List Accessories API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingAccessoriesMasterList">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccessoriesMasterList" aria-expanded="false" aria-controls="collapseAccessoriesMasterList">
+                                <span class="badge bg-success me-2">GET</span> List Accessories
+                            </button>
+                        </h2>
+                        <div id="collapseAccessoriesMasterList" class="accordion-collapse collapse" aria-labelledby="headingAccessoriesMasterList" data-bs-parent="#apiAccordionAccessoriesMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/accessories_master/list </h6>
+                                <h6>Description</h6>
+                                <p>Fetches a paginated list of accessories.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters (Optional)</h6>
+                                <ul>
+                                    <li><code>page</code>: Page number (default: 1)</li>
+                                    <li><code>limit</code>: Items per page (default: 10)</li>
+                                </ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded" style="max-height: 300px; overflow-y: auto;"><code>{
+  "success": 1,
+  "message": "Accessories fetched successfully",
+  "data": {
+    "records": [
+      {
+        "accessory_id": "1",
+        "name": "Paper Cup",
+        "description": "Disposable tea cup",
+        "total_number": 100,
+        "status": "active",
+        "added_by_name": "Code Crafter"
+      }
+    ],
+    "pagination": {
+      "total_records": 1,
+      "current_page": 1,
+      "per_page": 10,
+      "total_pages": 1
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accessories Details API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingAccessoriesMasterDetails">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccessoriesMasterDetails" aria-expanded="false" aria-controls="collapseAccessoriesMasterDetails">
+                                <span class="badge bg-success me-2">GET</span> Accessory Details
+                            </button>
+                        </h2>
+                        <div id="collapseAccessoriesMasterDetails" class="accordion-collapse collapse" aria-labelledby="headingAccessoriesMasterDetails" data-bs-parent="#apiAccordionAccessoriesMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/accessories_master/details </h6>
+                                <h6>Description</h6>
+                                <p>Fetches details of a specific accessory by ID.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+                                
+                                <h6>URL Parameters</h6>
+                                <ul><li><code>id</code> (e.g., /WS/accessories_master/details?id=1)</li></ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Accessory details fetched successfully",
+  "data": {
+    "accessory_id": "1",
+    "name": "Paper Cup",
+    "description": "Disposable tea cup",
+    "total_number": 100,
+    "status": "active",
+    "added_by_name": "Code Crafter"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Accessory API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingAccessoriesMasterAdd">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccessoriesMasterAdd" aria-expanded="false" aria-controls="collapseAccessoriesMasterAdd">
+                                <span class="badge bg-primary me-2">POST</span> Add Accessory
+                            </button>
+                        </h2>
+                        <div id="collapseAccessoriesMasterAdd" class="accordion-collapse collapse" aria-labelledby="headingAccessoriesMasterAdd" data-bs-parent="#apiAccordionAccessoriesMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/accessories_master/add </h6>
+                                <h6>Description</h6>
+                                <p>Creates a new accessory.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "name": "Plastic Spoon",
+  "description": "Tea/Coffee spoon",
+  "total_number": 500,
+  "status": "active"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Accessory added successfully",
+  "data": {
+    "accessory_id": "2",
+    "name": "Plastic Spoon"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Accessory API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingAccessoriesMasterUpdate">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccessoriesMasterUpdate" aria-expanded="false" aria-controls="collapseAccessoriesMasterUpdate">
+                                <span class="badge bg-primary me-2">POST</span> Update Accessory
+                            </button>
+                        </h2>
+                        <div id="collapseAccessoriesMasterUpdate" class="accordion-collapse collapse" aria-labelledby="headingAccessoriesMasterUpdate" data-bs-parent="#apiAccordionAccessoriesMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/accessories_master/update </h6>
+                                <h6>Description</h6>
+                                <p>Updates an existing accessory.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "id": "2",
+  "total_number": 550,
+  "status": "inactive"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Accessory updated successfully",
+  "data": {
+    "accessory_id": "2"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Accessory API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingAccessoriesMasterDelete">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAccessoriesMasterDelete" aria-expanded="false" aria-controls="collapseAccessoriesMasterDelete">
+                                <span class="badge bg-primary me-2">POST</span> Delete Accessory
+                            </button>
+                        </h2>
+                        <div id="collapseAccessoriesMasterDelete" class="accordion-collapse collapse" aria-labelledby="headingAccessoriesMasterDelete" data-bs-parent="#apiAccordionAccessoriesMaster">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/accessories_master/delete </h6>
+                                <h6>Description</h6>
+                                <p>Soft deletes an accessory.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
+
+                                <h6>Input JSON / Form-Data</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "id": "2"
+}</code></pre>
+                                
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": 1,
+  "message": "Accessory deleted successfully",
+  "data": []
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
