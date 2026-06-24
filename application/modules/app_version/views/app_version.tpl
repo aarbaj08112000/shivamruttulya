@@ -47,8 +47,8 @@
                             </div>
                         </div>
 
-                        <div class="text-end">
-                            <button type="button" id="btnUpload" class="btn btn-success">Upload & Save</button>
+                        <div class="text-start">
+                            <button type="button" id="btnUpload" class="btn" style="background-color: var(--bs-theme-color-dark) !important; color: white !important; border: none;">Upload & Save</button>
                         </div>
                     </form>
                 </div>
