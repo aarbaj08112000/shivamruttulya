@@ -2583,12 +2583,17 @@
 
                                 <h6>Output Response (Success)</h6>
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
-  "success": true,
-  "latest_version": "1.0.6",
-  "minimum_version": "1.0.5",
-  "force_update": true,
-  "update_message": "A new version is available. Please update to continue.",
-  "apk_url": "https://yourdomain.com/apk/shiv-amruttulya-v1.0.6.apk"
+  "settings": {
+    "success": 1,
+    "message": "Latest app version fetched successfully."
+  },
+  "data": {
+    "latest_version": "1.0.6",
+    "minimum_version": "1.0.5",
+    "force_update": true,
+    "update_message": "A new version is available. Please update to continue.",
+    "apk_url": "https://yourdomain.com/public/uploads/apk/shiv-amruttulya-v1.0.6.apk"
+  }
 }</code></pre>
                             </div>
                         </div>
