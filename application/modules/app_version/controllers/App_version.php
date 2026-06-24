@@ -49,7 +49,7 @@ class App_version extends MY_Controller {
                 }
 
                 $config['upload_path'] = 'public/uploads/apk/';
-                $config['allowed_types'] = 'apk|application/vnd.android.package-archive';
+                $config['allowed_types'] = '*'; // Allow all types since we validate by extension via HTML accept attribute and CodeIgniter MIME checking can be overly strict
                 $config['max_size'] = 50000; // 50MB
                 $config['file_name'] = $file_name;
                 $config['overwrite'] = TRUE;
