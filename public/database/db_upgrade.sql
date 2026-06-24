@@ -58,3 +58,15 @@ ADD COLUMN `total_number` INT(11) DEFAULT 0 AFTER `description`;
 
 ALTER TABLE `accessories_master` ADD `shop_id` INT NULL AFTER `accessory_id`;
 ALTER TABLE `menu_master` ADD `shop_id` INT NULL AFTER `menu_id`;
+
+CREATE TABLE app_version (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    latest_version VARCHAR(20) NOT NULL,
+    minimum_version VARCHAR(20) NOT NULL,
+    force_update TINYINT(1) DEFAULT 1,
+    update_message TEXT,
+    apk_url VARCHAR(255) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    uploaded_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+

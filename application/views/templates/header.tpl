@@ -398,6 +398,11 @@
                         <i class="menu-icon tf-icons bx bx-file"></i><div data-i18n="API Document">API Document</div>
                      </a>
                   </li>
+                  <li class="menu-item">
+                     <a href="<%$base_url%>app_version" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-mobile"></i><div data-i18n="App Version">App Version</div>
+                     </a>
+                  </li>
                </ul>
             </li>
          </ul>
@@ -582,6 +587,9 @@
                         </li> -->
                         <li>
                            <a href="<%$base_url%>api_document" class="dropdown-item">API Document</a>
+                        </li>
+                        <li>
+                           <a href="<%$base_url%>app_version" class="dropdown-item">App Version</a>
                         </li>
                      </ul>
                   </li>

@@ -18,6 +18,8 @@ $route['group_menu'] = 'user/user/groupMenu';
 
 $route['group_menu'] = 'user/user/groupMenu';
 $route['api_document'] = 'user/user/api_document';
+$route['app_version'] = 'app_version/app_version/index';
+$route['app_version/upload_apk'] = 'app_version/app_version/upload_apk';
 
 /* shops */
 $route['shop_list'] = 'shop/shop/shop_list';

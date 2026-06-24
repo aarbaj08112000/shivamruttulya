@@ -1830,7 +1830,8 @@
                                 
                                 <h6>URL Parameters (Optional)</h6>
                                 <ul>
-                                    <li><code>date</code>: Specific date to fetch summary for in <code>YYYY-MM-DD</code> format. Defaults to today. The month summary and active dates array will be derived from this date's month and year.</li>
+                                    <li><code>date</code>: Specific date in <code>YYYY-MM-DD</code> format. Defaults to today. The month summary and active dates array will be derived from this date's month and year.</li>
+                                    <li><code>shop_id</code>: Filter results by a specific shop. If omitted, returns data across all shops.</li>
                                 </ul>
 
                                 <h6>Output Response (Success)</h6>
@@ -1839,6 +1840,7 @@
   "message": "Transaction summary fetched successfully",
   "data": {
     "selected_date": "2026-06-23",
+    "shop_id": 1,
     "active_dates": [
       "2026-06-01",
       "2026-06-15",
@@ -2146,6 +2148,8 @@
                                 <ul>
                                     <li><code>page</code>: Page number (default: 1)</li>
                                     <li><code>limit</code>: Items per page (default: 10)</li>
+                                    <li><code>shop_id</code>: Filter by shop ID</li>
+                                    <li><code>search</code>: Search by menu title or description</li>
                                 </ul>
 
                                 <h6>Output Response (Success)</h6>
@@ -2156,10 +2160,12 @@
     "records": [
       {
         "menu_id": "1",
+        "shop_id": "1",
+        "shop_name": "Shiv Amruttulya Marunji",
         "menu_title": "Tea",
         "price": "10.00",
         "description": "Regular tea",
-        "image": "tea.jpg",
+        "image": "http://localhost/shiv_amruttulya/public/uploads/menu/bd195f.jpg",
         "status": "active",
         "added_by_name": "Code Crafter"
       }
@@ -2201,10 +2207,12 @@
   "message": "Menu details fetched successfully",
   "data": {
     "menu_id": "1",
+    "shop_id": "1",
+    "shop_name": "Shiv Amruttulya Marunji",
     "menu_title": "Tea",
     "price": "10.00",
     "description": "Regular tea",
-    "image": "tea.jpg",
+    "image": "http://localhost/shiv_amruttulya/public/uploads/menu/bd195f.jpg",
     "status": "active",
     "added_by_name": "Code Crafter"
   }
@@ -2229,11 +2237,20 @@
                                 <h6>Headers Required</h6>
                                 <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
 
-                                <h6>Input JSON / Form-Data</h6>
+                                <h6>Input (multipart/form-data or JSON)</h6>
+                                <ul>
+                                    <li><code>menu_title</code> (required): Menu item name</li>
+                                    <li><code>price</code> (required): Price</li>
+                                    <li><code>description</code>: Description</li>
+                                    <li><code>shop_id</code>: Associated shop ID</li>
+                                    <li><code>status</code>: active / inactive (default: active)</li>
+                                    <li><code>image</code>: Image file (multipart) or base64 string (jpg/jpeg/png/webp, max 5MB)</li>
+                                </ul>
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "menu_title": "Coffee",
   "price": "20.00",
   "description": "Hot coffee",
+  "shop_id": "1",
   "status": "active"
 }</code></pre>
                                 
@@ -2244,7 +2261,10 @@
   "data": {
     "menu_id": "2",
     "menu_title": "Coffee",
-    "price": "20.00"
+    "price": "20.00",
+    "shop_id": "1",
+    "image": "bd195f0fac77dd2f20533c32d426f06f.jpg",
+    "file_path": "http://localhost/shiv_amruttulya/public/uploads/menu/bd195f0fac77dd2f20533c32d426f06f.jpg"
   }
 }</code></pre>
                             </div>
@@ -2267,10 +2287,20 @@
                                 <h6>Headers Required</h6>
                                 <ul><li><code>Authorization: Bearer &lt;token&gt;</code></li></ul>
 
-                                <h6>Input JSON / Form-Data</h6>
+                                <h6>Input (multipart/form-data or JSON)</h6>
+                                <ul>
+                                    <li><code>id</code> (required): Menu ID</li>
+                                    <li><code>menu_title</code>: Updated title</li>
+                                    <li><code>price</code>: Updated price</li>
+                                    <li><code>description</code>: Updated description</li>
+                                    <li><code>shop_id</code>: Updated shop ID</li>
+                                    <li><code>status</code>: active / inactive</li>
+                                    <li><code>image</code>: New image file (multipart) or base64 string (replaces old image)</li>
+                                </ul>
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "id": "2",
   "price": "25.00",
+  "shop_id": "1",
   "status": "inactive"
 }</code></pre>
                                 
@@ -2279,7 +2309,9 @@
   "success": 1,
   "message": "Menu updated successfully",
   "data": {
-    "menu_id": "2"
+    "menu_id": "2",
+    "file_name": "bd195f0fac77dd2f20533c32d426f06f.jpg",
+    "file_path": "http://localhost/shiv_amruttulya/public/uploads/menu/bd195f0fac77dd2f20533c32d426f06f.jpg"
   }
 }</code></pre>
                             </div>
@@ -2347,6 +2379,8 @@
                                 <ul>
                                     <li><code>page</code>: Page number (default: 1)</li>
                                     <li><code>limit</code>: Items per page (default: 10)</li>
+                                    <li><code>shop_id</code>: Filter by shop ID</li>
+                                    <li><code>search</code>: Search by name or description</li>
                                 </ul>
 
                                 <h6>Output Response (Success)</h6>
@@ -2357,6 +2391,8 @@
     "records": [
       {
         "accessory_id": "1",
+        "shop_id": "1",
+        "shop_name": "Shiv Amruttulya Marunji",
         "name": "Paper Cup",
         "description": "Disposable tea cup",
         "total_number": 100,
@@ -2401,6 +2437,8 @@
   "message": "Accessory details fetched successfully",
   "data": {
     "accessory_id": "1",
+    "shop_id": "1",
+    "shop_name": "Shiv Amruttulya Marunji",
     "name": "Paper Cup",
     "description": "Disposable tea cup",
     "total_number": 100,
@@ -2433,6 +2471,7 @@
   "name": "Plastic Spoon",
   "description": "Tea/Coffee spoon",
   "total_number": 500,
+  "shop_id": "1",
   "status": "active"
 }</code></pre>
                                 
@@ -2469,6 +2508,7 @@
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "id": "2",
   "total_number": 550,
+  "shop_id": "1",
   "status": "inactive"
 }</code></pre>
                                 
@@ -2510,6 +2550,45 @@
   "success": 1,
   "message": "Accessory deleted successfully",
   "data": []
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. App Version Module -->
+        <div class="card mb-4">
+            <h5 class="card-header border-bottom bg-light">14. App Version Module</h5>
+            <div class="card-body mt-3">
+                <div class="accordion" id="apiAccordionAppVersion">
+                    
+                    <!-- Get Latest Version API -->
+                    <div class="accordion-item card mb-3 border shadow-none">
+                        <h2 class="accordion-header" id="headingAppVersionLatest">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAppVersionLatest" aria-expanded="false" aria-controls="collapseAppVersionLatest">
+                                <span class="badge bg-success me-2">GET</span> Latest App Version
+                            </button>
+                        </h2>
+                        <div id="collapseAppVersionLatest" class="accordion-collapse collapse" aria-labelledby="headingAppVersionLatest" data-bs-parent="#apiAccordionAppVersion">
+                            <div class="accordion-body">
+                                <h6>URL: /WS/app_version/latest </h6>
+                                <h6>Description</h6>
+                                <p>Fetches the latest published APK version details for force-update checking.</p>
+
+                                <h6>Headers Required</h6>
+                                <ul><li><code>Authorization: Bearer &lt;token&gt;</code> (Optional based on configuration)</li></ul>
+
+                                <h6>Output Response (Success)</h6>
+                                <pre class="bg-dark text-white p-3 rounded"><code>{
+  "success": true,
+  "latest_version": "1.0.6",
+  "minimum_version": "1.0.5",
+  "force_update": true,
+  "update_message": "A new version is available. Please update to continue.",
+  "apk_url": "https://yourdomain.com/apk/shiv-amruttulya-v1.0.6.apk"
 }</code></pre>
                             </div>
                         </div>
