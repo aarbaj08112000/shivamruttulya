@@ -279,6 +279,14 @@ $config["accessories_master"] = array(
     "params" => array()
 );
 
+/* App Version Module */
+$config["app_version"] = array(
+    "title" => "App Version Module API",
+    "folder" => "app_version",
+    "method" => "GET_POST",
+    "params" => array()
+);
+
 #####GENERATED_CONFIG_SETTINGS_END#####
 
 /* End of file cit_webservices.php */
