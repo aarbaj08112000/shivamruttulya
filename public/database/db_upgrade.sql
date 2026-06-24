@@ -54,3 +54,7 @@ VALUES
 
 ALTER TABLE `accessories_master`
 ADD COLUMN `total_number` INT(11) DEFAULT 0 AFTER `description`;
+
+
+ALTER TABLE `accessories_master` ADD `shop_id` INT NULL AFTER `accessory_id`;
+ALTER TABLE `menu_master` ADD `shop_id` INT NULL AFTER `menu_id`;

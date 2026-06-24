@@ -77,15 +77,18 @@ class Report extends My_Api_Controller
         $month = date('m', $timestamp);
         $year = date('Y', $timestamp);
 
-        $daily_summary = $this->report_model->get_date_summary($date);
-        $monthly_summary = $this->report_model->get_month_summary($month, $year);
-        $active_dates = $this->report_model->get_active_dates($month, $year);
+        $shop_id = $this->get('shop_id') ? (int)$this->get('shop_id') : null;
+
+        $daily_summary = $this->report_model->get_date_summary($date, $shop_id);
+        $monthly_summary = $this->report_model->get_month_summary($month, $year, $shop_id);
+        $active_dates = $this->report_model->get_active_dates($month, $year, $shop_id);
 
         return $this->response([
             'success' => 1,
             'message' => 'Transaction summary fetched successfully',
             'data' => [
                 'selected_date' => $date,
+                'shop_id' => $shop_id,
                 'active_dates' => $active_dates,
                 'daily_summary' => $daily_summary,
                 'monthly_summary' => $monthly_summary

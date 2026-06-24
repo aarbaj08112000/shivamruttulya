@@ -18,8 +18,16 @@ class Menu_master extends My_Api_Controller
         $limit = $this->get('limit') ? (int) $this->get('limit') : 10;
         $offset = ($page - 1) * $limit;
 
-        $menus = $this->menu_master_model->get_all($limit, $offset);
-        $total_records = $this->menu_master_model->get_count();
+        $filters = [];
+        if ($this->get('shop_id')) {
+            $filters['shop_id'] = $this->get('shop_id');
+        }
+        if ($this->get('search')) {
+            $filters['search'] = $this->get('search');
+        }
+
+        $menus = $this->menu_master_model->get_all($limit, $offset, $filters);
+        $total_records = $this->menu_master_model->get_count($filters);
 
         foreach ($menus as &$menu) {
             $menu['image'] = !empty($menu['image']) ? base_url('public/uploads/menu/' . $menu['image']) : null;
@@ -89,6 +97,7 @@ class Menu_master extends My_Api_Controller
             'menu_title' => $input['menu_title'],
             'price' => $input['price'],
             'description' => $input['description'] ?? null,
+            'shop_id' => $input['shop_id'] ?? null,
             'status' => $input['status'] ?? 'active',
             'added_by' => $this->current_user->id
         ];
@@ -209,7 +218,7 @@ class Menu_master extends My_Api_Controller
             'updated_by' => $this->current_user->id
         ];
 
-        $fields = ['menu_title', 'price', 'description', 'status'];
+        $fields = ['menu_title', 'price', 'description', 'shop_id', 'status'];
         foreach ($fields as $field) {
             if (isset($input[$field])) {
                 $update_data[$field] = $input[$field];

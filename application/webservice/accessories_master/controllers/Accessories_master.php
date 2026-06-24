@@ -17,8 +17,16 @@ class Accessories_master extends My_Api_Controller
         $limit = $this->get('limit') ? (int)$this->get('limit') : 10;
         $offset = ($page - 1) * $limit;
 
-        $accessories = $this->accessories_master_model->get_all($limit, $offset);
-        $total_records = $this->accessories_master_model->get_count();
+        $filters = [];
+        if ($this->get('shop_id')) {
+            $filters['shop_id'] = $this->get('shop_id');
+        }
+        if ($this->get('search')) {
+            $filters['search'] = $this->get('search');
+        }
+
+        $accessories = $this->accessories_master_model->get_all($limit, $offset, $filters);
+        $total_records = $this->accessories_master_model->get_count($filters);
         
         return $this->response([
             'success' => 1,
@@ -78,6 +86,7 @@ class Accessories_master extends My_Api_Controller
             'name' => $input['name'],
             'description' => $input['description'] ?? null,
             'total_number' => isset($input['total_number']) ? (int)$input['total_number'] : 0,
+            'shop_id' => $input['shop_id'] ?? null,
             'status' => $input['status'] ?? 'active',
             'added_by' => $this->current_user->id
         ];
@@ -121,7 +130,7 @@ class Accessories_master extends My_Api_Controller
             'updated_by' => $this->current_user->id
         ];
         
-        $fields = ['name', 'description', 'total_number', 'status'];
+        $fields = ['name', 'description', 'total_number', 'shop_id', 'status'];
         foreach ($fields as $field) {
             if (isset($input[$field])) {
                 $update_data[$field] = $input[$field];

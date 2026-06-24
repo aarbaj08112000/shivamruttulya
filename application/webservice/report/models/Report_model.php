@@ -63,20 +63,23 @@ class Report_model extends CI_Model {
         return isset($result['total_shops']) ? (int)$result['total_shops'] : 0;
     }
 
-    public function get_date_summary($date) {
+    public function get_date_summary($date, $shop_id = null) {
         $this->db->select_sum('total_amount');
         $this->db->where('collection_date', $date);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $collection = $this->db->get('daily_collections')->row()->total_amount ?? 0;
 
         $this->db->select_sum('total_amount');
         $this->db->where('purchase_date', $date);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $grocery = $this->db->get('grocery_purchases')->row()->total_amount ?? 0;
 
         $this->db->select_sum('amount');
         $this->db->where('expense_date', $date);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $expense = $this->db->get('expenses')->row()->amount ?? 0;
 
         return [
@@ -87,23 +90,26 @@ class Report_model extends CI_Model {
         ];
     }
 
-    public function get_month_summary($month, $year) {
+    public function get_month_summary($month, $year, $shop_id = null) {
         $this->db->select_sum('total_amount');
         $this->db->where('MONTH(collection_date)', $month);
         $this->db->where('YEAR(collection_date)', $year);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $collection = $this->db->get('daily_collections')->row()->total_amount ?? 0;
 
         $this->db->select_sum('total_amount');
         $this->db->where('MONTH(purchase_date)', $month);
         $this->db->where('YEAR(purchase_date)', $year);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $grocery = $this->db->get('grocery_purchases')->row()->total_amount ?? 0;
 
         $this->db->select_sum('amount');
         $this->db->where('MONTH(expense_date)', $month);
         $this->db->where('YEAR(expense_date)', $year);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $expense = $this->db->get('expenses')->row()->amount ?? 0;
 
         return [
@@ -114,23 +120,26 @@ class Report_model extends CI_Model {
         ];
     }
 
-    public function get_active_dates($month, $year) {
+    public function get_active_dates($month, $year, $shop_id = null) {
         $this->db->select('DATE(collection_date) as date');
         $this->db->where('MONTH(collection_date)', $month);
         $this->db->where('YEAR(collection_date)', $year);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $q1 = $this->db->get_compiled_select('daily_collections');
 
         $this->db->select('DATE(purchase_date) as date');
         $this->db->where('MONTH(purchase_date)', $month);
         $this->db->where('YEAR(purchase_date)', $year);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $q2 = $this->db->get_compiled_select('grocery_purchases');
 
         $this->db->select('DATE(expense_date) as date');
         $this->db->where('MONTH(expense_date)', $month);
         $this->db->where('YEAR(expense_date)', $year);
         $this->db->where('is_delete', '0');
+        if (!empty($shop_id)) $this->db->where('shop_id', $shop_id);
         $q3 = $this->db->get_compiled_select('expenses');
 
         $query = $this->db->query("$q1 UNION $q2 UNION $q3");
