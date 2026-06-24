@@ -10,12 +10,12 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="latest_version">Latest Version <span class="text-danger">*</span></label>
-                                <input type="text" id="latest_version" name="latest_version" class="form-control" value="<%$latest_version%>" required />
+                                <input type="text" id="latest_version" name="latest_version" class="form-control bg-light" value="<%$latest_version%>" required readonly />
                                 <small class="text-muted">Auto-incremented from last release.</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="minimum_version">Minimum Version <span class="text-danger">*</span></label>
-                                <input type="text" id="minimum_version" name="minimum_version" class="form-control" value="<%$minimum_version%>" required />
+                                <input type="text" id="minimum_version" name="minimum_version" class="form-control bg-light" value="<%$minimum_version%>" required readonly />
                             </div>
                         </div>
 

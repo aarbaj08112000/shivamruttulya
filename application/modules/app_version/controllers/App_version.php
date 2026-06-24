@@ -14,11 +14,20 @@ class App_version extends MY_Controller {
         $data = array();
         
         if ($latest) {
-            $data['latest_version'] = (int) $latest['latest_version'] + 1;
+            // Split the version by dots, increment the last part, and join back
+            $version_parts = explode('.', $latest['latest_version']);
+            $last_index = count($version_parts) - 1;
+            if ($last_index >= 0 && is_numeric($version_parts[$last_index])) {
+                $version_parts[$last_index] = (int)$version_parts[$last_index] + 1;
+                $data['latest_version'] = implode('.', $version_parts);
+            } else {
+                // Fallback if the string does not end in a number
+                $data['latest_version'] = $latest['latest_version'] . '.1';
+            }
             $data['minimum_version'] = $latest['minimum_version'];
         } else {
-            $data['latest_version'] = 1;
-            $data['minimum_version'] = "1";
+            $data['latest_version'] = "1.0.0";
+            $data['minimum_version'] = "1.0.0";
         }
         
         $this->smarty->loadView('app_version.tpl', $data, 'Yes', 'Yes');
