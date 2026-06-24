@@ -91,17 +91,17 @@
                 success: function(response) {
                     $('.main-loader-box').hide();
                     if (response.success == 1) {
-                        toastr.success(response.msg);
+                        toaster('success', response.msg);
                         setTimeout(function() {
                             window.location.reload();
                         }, 1500);
                     } else {
-                        toastr.error(response.msg);
+                        toaster('error', response.msg);
                     }
                 },
                 error: function() {
                     $('.main-loader-box').hide();
-                    toastr.error('An unexpected error occurred. Please try again.');
+                    toaster('error', 'An unexpected error occurred. Please try again.');
                 }
             });
         });
