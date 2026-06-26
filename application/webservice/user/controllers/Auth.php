@@ -45,6 +45,20 @@ class Auth extends My_Api_Controller
         unset($user->password);
         $data['user_details'] = $user;
         
+        $this->load->model('app_version/app_version_model');
+        $latest = $this->app_version_model->get_latest();
+        if ($latest) {
+            $data['app_version'] = [
+                'latest_version' => $latest['latest_version'],
+                'minimum_version' => $latest['minimum_version'],
+                'force_update' => (bool)$latest['force_update'],
+                'update_message' => $latest['update_message'],
+                'apk_url' => $latest['apk_url']
+            ];
+        } else {
+            $data['app_version'] = null;
+        }
+        
         return $this->response(['success' => 1, 'message' => 'Login successfully', 'data' => $data], REST_Controller::HTTP_OK);
     }
 
