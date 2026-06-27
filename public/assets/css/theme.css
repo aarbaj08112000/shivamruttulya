@@ -95,7 +95,16 @@ table.dataTable thead td {
 
 .menu .app-brand.demo .close-vertical-btn {
     position: absolute;
-    right: 19px;
+    right: -16px;
+    background: #fcf5ec;
+    border-radius: 17px;
+    padding: 5px;
+
+}
+
+.menu .app-brand.demo .close-vertical-btn:hover {
+    background: #8B5E3C !important;
+
 }
 
 .layout-content-navbar .layout-menu {

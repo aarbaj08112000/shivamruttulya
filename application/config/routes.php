@@ -23,6 +23,8 @@ $route['app_version/upload_apk'] = 'app_version/app_version/upload_apk';
 
 /* shops */
 $route['shop_list'] = 'shop/shop/shop_list';
+$route['menu_master_list'] = 'menu_master/menu_master/menu_master_list';
+$route['accessories_master_list'] = 'accessories_master/accessories_master/accessories_master_list';
 $route['grocery_category_list'] = 'grocery_category/grocery_category/grocery_category_list';
 $route['grocery_item_list'] = 'grocery_item/grocery_item/grocery_item_list';
 $route['grocery_purchase_list'] = 'grocery_purchase/grocery_purchase/grocery_purchase_list';

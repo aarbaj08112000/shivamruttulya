@@ -290,6 +290,16 @@
                         <i class="menu-icon tf-icons bx bx-store"></i><div data-i18n="Shop Management">Shop Management</div>
                      </a>
                   </li>
+                  <li class="menu-item">
+                     <a href="<%$base_url%>menu_master_list" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-food-menu"></i><div data-i18n="Menu Master">Menu Master</div>
+                     </a>
+                  </li>
+                  <li class="menu-item">
+                     <a href="<%$base_url%>accessories_master_list" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-box"></i><div data-i18n="Accessories Master">Accessories Master</div>
+                     </a>
+                  </li>
                </ul>
             </li>
             
@@ -476,8 +486,8 @@
                         <div data-rr-ui-dropdown-item="" class=" ">
                            <ul class="top-menu ps-0">
                               <li class="top-child-menu">
-                                    <a hijacked="yes" href="https://connect.hiddenbrains.info/admin/#user/admin/add|mode|View|id|2|tEditFP|true|hideCtrl|true" title="" class="top-menu-link">
-                                        <span class="las la-user"></span>Forgot Password
+                                    <a hijacked="yes" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" title="Reset Password" class="top-menu-link">
+                                        <span class="las la-key"></span>Reset Password
                                     </a>
                               </li>
                               <li class="top-child-menu">
@@ -509,9 +519,15 @@
                      <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLinkShop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                      Shop Management
                      </a>
-                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkShop">
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkShop">
                         <li>
                            <a href="<%$base_url%>shop_list" class="dropdown-item">Shops</a>
+                        </li>
+                        <li>
+                           <a href="<%$base_url%>menu_master_list" class="dropdown-item">Menu Master</a>
+                        </li>
+                        <li>
+                           <a href="<%$base_url%>accessories_master_list" class="dropdown-item">Accessories Master</a>
                         </li>
                      </ul>
                   </li>
@@ -616,8 +632,8 @@
                         <div data-rr-ui-dropdown-item="" class=" ">
                            <ul class="top-menu ps-0">
                               <li class="top-child-menu">
-                                    <a hijacked="yes" href="https://connect.hiddenbrains.info/admin/#user/admin/add|mode|View|id|2|tEditFP|true|hideCtrl|true" title="" class="top-menu-link">
-                                        <span class="las la-user"></span>Forgot Password
+                                    <a hijacked="yes" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" title="Reset Password" class="top-menu-link">
+                                        <span class="las la-key"></span>Reset Password
                                     </a>
                               </li>
                               <li class="top-child-menu">
@@ -729,3 +745,112 @@
               color: #fff !important;
           }
       </style>
+
+      <!-- Reset Password Modal -->
+      <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header" style="background-color: var(--bs-theme-color); color: white;">
+                  <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <form id="resetPasswordForm">
+                     <div class="mb-3">
+                        <label for="old_password" class="form-label" style="font-size: 12px;">Old Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Enter old password" required>
+                     </div>
+                     <div class="mb-3">
+                        <label for="new_password" class="form-label" style="font-size: 12px;">New Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter new password" required>
+                     </div>
+                     <div class="mb-3">
+                        <label for="confirm_password" class="form-label" style="font-size: 12px;">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm new password" required>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer d-flex justify-content-between">
+                  <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn text-white px-4" id="btnResetPassword" style="background-color: var(--bs-theme-color-dark) !important;">
+                     <i class="ti ti-device-floppy me-2"></i> Save
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script>
+      $(document).ready(function() {
+          $('#resetPasswordForm').validate({
+              rules: {
+                  old_password: "required",
+                  new_password: {
+                      required: true,
+                      minlength: 6
+                  },
+                  confirm_password: {
+                      required: true,
+                      equalTo: "#new_password"
+                  }
+              },
+              messages: {
+                  old_password: "Please enter your old password",
+                  new_password: {
+                      required: "Please enter a new password",
+                      minlength: "Password must be at least 6 characters"
+                  },
+                  confirm_password: {
+                      required: "Please confirm your new password",
+                      equalTo: "Passwords do not match"
+                  }
+              },
+              errorElement: "span",
+              errorPlacement: function (error, element) {
+                  error.addClass("invalid-feedback");
+                  element.closest(".mb-3").append(error);
+              },
+              highlight: function (element, errorClass, validClass) {
+                  $(element).addClass("is-invalid");
+              },
+              unhighlight: function (element, errorClass, validClass) {
+                  $(element).removeClass("is-invalid");
+              }
+          });
+
+          $('#btnResetPassword').on('click', function() {
+              if ($('#resetPasswordForm').valid()) {
+                  var btn = $(this);
+                  var originalText = btn.html();
+                  btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...').prop('disabled', true);
+
+                  $.ajax({
+                      url: '<%$base_url%>user/login/change_password',
+                      type: 'POST',
+                      data: {
+                          old_password: $('#old_password').val(),
+                          new_password: $('#new_password').val()
+                      },
+                      dataType: 'json',
+                      success: function(response) {
+                          btn.html(originalText).prop('disabled', false);
+                          
+                          if (response.success == 1) {
+                              toaster('success', response.msg);
+                              $('#resetPasswordModal').modal('hide');
+                              $('#resetPasswordForm')[0].reset();
+                              $('#resetPasswordForm').validate().resetForm();
+                              $('#resetPasswordForm').find('.is-invalid').removeClass('is-invalid');
+                          } else {
+                              toaster('error', response.msg);
+                          }
+                      },
+                      error: function() {
+                          btn.html(originalText).prop('disabled', false);
+                          toaster('error', 'An error occurred. Please try again.');
+                      }
+                  });
+              }
+          });
+      });
+      </script>

@@ -149,6 +149,55 @@ class Login extends MY_Controller {
 		exit();
 	}
 
+	public function change_password() {
+		$response = ['success' => 0, 'msg' => 'An error occurred.'];
+
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			$user_id = $this->session->userdata('user_id');
+
+			if (empty($user_id)) {
+				$response['msg'] = 'Session expired. Please login again.';
+				echo json_encode($response);
+				exit();
+			}
+
+			$old_password = $this->input->post('old_password', TRUE);
+			$new_password = $this->input->post('new_password', TRUE);
+
+			if (empty($old_password) || empty($new_password)) {
+				$response['msg'] = 'All fields are required.';
+				echo json_encode($response);
+				exit();
+			}
+
+			// Get the current user record
+			$this->db->select('password');
+			$this->db->from('users');
+			$this->db->where('id', $user_id);
+			$query = $this->db->get();
+			$user = $query->row_array();
+
+			if (!$user || $old_password !== $user['password']) {
+				$response['msg'] = 'Old password is incorrect.';
+				echo json_encode($response);
+				exit();
+			}
+
+			// Update with new password
+			$updated = $this->Login_model->updateUserData(['password' => $new_password], $user_id);
+
+			if ($updated > 0) {
+				$response['success'] = 1;
+				$response['msg'] = 'Password changed successfully!';
+			} else {
+				$response['msg'] = 'Failed to change password. Please try again.';
+			}
+		}
+
+		echo json_encode($response);
+		exit();
+	}
+
 	
 }
 

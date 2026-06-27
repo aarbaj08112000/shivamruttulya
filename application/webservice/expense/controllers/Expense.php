@@ -83,6 +83,13 @@ class Expense extends My_Api_Controller
         $expense = $this->expense_model->get_by_id($id);
         
         if ($expense) {
+            // Build full attachment URL if attachment exists
+            if (!empty($expense['attachement'])) {
+                $expense['attachement_url'] = base_url('public/uploads/expense/' . $expense['attachement']);
+            } else {
+                $expense['attachement'] = null;
+                $expense['attachement_url'] = null;
+            }
             return $this->response(['success' => 1, 'message' => 'Expense details fetched successfully', 'data' => $expense], REST_Controller::HTTP_OK);
         } else {
             return $this->response(['success' => 0, 'message' => 'Expense not found', 'data' => []], REST_Controller::HTTP_NOT_FOUND);
@@ -117,10 +124,42 @@ class Expense extends My_Api_Controller
             'added_by' => $this->current_user->id
         ];
 
+        // Handle attachment file upload
+        if (isset($_FILES['attachment']) && !empty($_FILES['attachment']['name'])) {
+            $upload_path = FCPATH . 'public/uploads/expense/';
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            $config_upload = [
+                'upload_path' => $upload_path,
+                'allowed_types' => 'png|jpg|jpeg|heic|pdf',
+                'max_size' => 5120, // 5MB limit
+                'encrypt_name' => TRUE
+            ];
+
+            $this->load->library('upload', $config_upload);
+            $this->upload->initialize($config_upload);
+
+            if ($this->upload->do_upload('attachment')) {
+                $upload_data = $this->upload->data();
+                $insert_data['attachement'] = $upload_data['file_name'];
+            } else {
+                return $this->response([
+                    'success' => 0,
+                    'message' => strip_tags($this->upload->display_errors()),
+                    'data' => []
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+
         $insert_id = $this->expense_model->insert($insert_data);
         
         if ($insert_id) {
             $insert_data['id'] = $insert_id;
+            if (!empty($insert_data['attachement'])) {
+                $insert_data['attachement_url'] = base_url('public/uploads/expense/' . $insert_data['attachement']);
+            }
             return $this->response(['success' => 1, 'message' => 'Expense added successfully', 'data' => $insert_data], REST_Controller::HTTP_CREATED);
         } else {
             return $this->response(['success' => 0, 'message' => 'Failed to add expense', 'data' => []], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
@@ -163,10 +202,54 @@ class Expense extends My_Api_Controller
             }
         }
 
+        // Handle attachment file upload
+        if (isset($_FILES['attachment']) && !empty($_FILES['attachment']['name'])) {
+            $upload_path = FCPATH . 'public/uploads/expense/';
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0755, true);
+            }
+
+            $config_upload = [
+                'upload_path' => $upload_path,
+                'allowed_types' => 'png|jpg|jpeg|heic|pdf',
+                'max_size' => 5120, // 5MB limit
+                'encrypt_name' => TRUE
+            ];
+
+            $this->load->library('upload', $config_upload);
+            $this->upload->initialize($config_upload);
+
+            if ($this->upload->do_upload('attachment')) {
+                $upload_data = $this->upload->data();
+
+                // Delete old attachment if exists
+                $existing = $this->expense_model->get_by_id($id);
+                if ($existing && !empty($existing['attachement'])) {
+                    $old_file = FCPATH . 'public/uploads/expense/' . $existing['attachement'];
+                    if (file_exists($old_file)) {
+                        @unlink($old_file);
+                    }
+                }
+
+                $update_data['attachement'] = $upload_data['file_name'];
+            } else {
+                return $this->response([
+                    'success' => 0,
+                    'message' => strip_tags($this->upload->display_errors()),
+                    'data' => []
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+
         $affected = $this->expense_model->update($id, $update_data);
         
         if ($affected) {
-            return $this->response(['success' => 1, 'message' => 'Expense updated successfully', 'data' => ['id' => $id]], REST_Controller::HTTP_OK);
+            $response_data = ['id' => $id];
+            if (!empty($update_data['attachement'])) {
+                $response_data['attachement'] = $update_data['attachement'];
+                $response_data['attachement_url'] = base_url('public/uploads/expense/' . $update_data['attachement']);
+            }
+            return $this->response(['success' => 1, 'message' => 'Expense updated successfully', 'data' => $response_data], REST_Controller::HTTP_OK);
         } else {
             return $this->response(['success' => 0, 'message' => 'Failed to update expense or no changes made', 'data' => []], REST_Controller::HTTP_OK);
         }
