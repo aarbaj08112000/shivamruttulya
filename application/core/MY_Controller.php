@@ -7,10 +7,12 @@ class MY_Controller extends MX_Controller
   {
     parent::__construct();
     $routes = $this->router->routes;
-    $current_route = $this->uri->segment(1);
-    $controller_route = $this->uri->rsegments[1];
-    $route_string = explode ('/',$routes[$current_route]);
-    $current_folder = $route_string[0];
+    $current_route = $this->uri->segment(1) ?: '';
+    $controller_route = isset($this->uri->rsegments[1]) ? $this->uri->rsegments[1] : '';
+    
+    $route_path = isset($routes[$current_route]) ? $routes[$current_route] : '';
+    $route_string = explode('/', $route_path);
+    $current_folder = $route_string[0] ?: 'home';
     $this->current_folder = $current_folder;
     $this->checkEntryAuth($current_folder,$controller_route,$current_route);
     $this->setConfigSetting();

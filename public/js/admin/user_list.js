@@ -13,6 +13,7 @@ const user_app = {
     init: function(){
         this.formInit();
         this.dataTableInit();
+        this.viewUser();
     },
     dataTableInit: function(){
 
@@ -363,5 +364,89 @@ const user_app = {
         }
 
         return flag;
+    },
+    viewUser: function() {
+        $(document).on('click', '.view-user', function() {
+            var tr = $(this).closest('tr');
+            var json_str = tr.find('td:last').text();
+            
+            try {
+                var data = JSON.parse(json_str);
+                $('#view_user_name').text(data.name || '-');
+                $('#view_user_email').text(data.email || '-');
+                $('#view_user_mobile').text(data.mobile || '-');
+                
+                var statusColor = data.status === 'active' ? '#006400' : '#C6011F';
+                var statusText = data.status ? (data.status.charAt(0).toUpperCase() + data.status.slice(1).toLowerCase()) : '-';
+                $('#view_user_status').html('<span style="color: '+statusColor+'; font-weight: bold;">'+statusText+'</span>');
+                
+                $('#view_user_role').text(data.role_name || '-');
+                $('#view_user_added_date').text(data.added_date ? new Date(data.added_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '-');
+                
+                var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewUserOffcanvas'));
+                bsOffcanvas.show();
+            } catch (e) {
+                console.error("Error parsing user data: ", e);
+                toaster('error', 'Error loading user details.');
+            }
+        });
     }
+}
+
+function logoutUser(user_id) {
+    swal({
+        title: 'Are you sure?',
+        text: "This will log out the user from both web and mobile applications.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'var(--bs-theme-color-dark)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, log out!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: base_url + 'user/user/logout_user',
+                type: 'POST',
+                data: { user_id: user_id },
+                success: function(response) {
+                    let res = JSON.parse(response);
+                    if (res.success == 1) {
+                        toaster('success', res.message);
+                    } else {
+                        toaster('error', res.message);
+                    }
+                }
+            });
+        }
+    });
+}
+
+function logoutAllUsers() {
+    swal({
+        title: 'Are you sure?',
+        text: "This will log out ALL users from both web and mobile applications.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'var(--bs-theme-color-dark)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, log out all!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: base_url + 'user/user/logout_all_users',
+                type: 'POST',
+                success: function(response) {
+                    let res = JSON.parse(response);
+                    if (res.success == 1) {
+                        toaster('success', res.message);
+                        setTimeout(function(){
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        toaster('error', res.message);
+                    }
+                }
+            });
+        }
+    });
 }

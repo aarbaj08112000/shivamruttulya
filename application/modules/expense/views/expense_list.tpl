@@ -55,7 +55,7 @@
                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                           <form id="addExpenseForm" action="<%base_url('expense/expense/add_expense_action')%>" method="POST">
+                           <form id="addExpenseForm" action="<%base_url('expense/expense/add_expense_action')%>" method="POST" enctype="multipart/form-data">
                               <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
                               <div class="row mb-3">
                                  <div class="col-12 mb-3">
@@ -92,12 +92,16 @@
                                     <label class="form-label" style="font-size: 12px;">Description</label>
                                     <textarea class="form-control" name="description" rows="3" placeholder="Enter description (optional)"></textarea>
                                  </div>
-                                 <div class="col-12">
+                                 <div class="col-12 mb-3">
                                     <label class="form-label" style="font-size: 12px;">Status</label>
                                     <select class="form-select" name="status">
                                        <option value="active">Active</option>
                                        <option value="inactive">Inactive</option>
                                     </select>
+                                 </div>
+                                 <div class="col-12">
+                                    <label class="form-label" style="font-size: 12px;">Attachment</label>
+                                    <input type="file" class="form-control" name="attachment" accept=".png, .jpg, .jpeg, .pdf, .heic">
                                  </div>
                               </div>
                            </form>
@@ -119,7 +123,7 @@
                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                           <form id="editExpenseForm" action="<%base_url('expense/expense/update_expense_action')%>" method="POST">
+                           <form id="editExpenseForm" action="<%base_url('expense/expense/update_expense_action')%>" method="POST" enctype="multipart/form-data">
                               <input type="hidden" name="expense_id" id="edit_expense_id">
                               <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
                               <div class="row mb-3">
@@ -157,12 +161,17 @@
                                     <label class="form-label" style="font-size: 12px;">Description</label>
                                     <textarea class="form-control" name="description" id="edit_description" rows="3" placeholder="Enter description (optional)"></textarea>
                                  </div>
-                                 <div class="col-12">
+                                 <div class="col-12 mb-3">
                                     <label class="form-label" style="font-size: 12px;">Status</label>
                                     <select class="form-select" name="status" id="edit_status">
                                        <option value="active">Active</option>
                                        <option value="inactive">Inactive</option>
                                     </select>
+                                 </div>
+                                 <div class="col-12">
+                                    <label class="form-label" style="font-size: 12px;">Attachment</label>
+                                    <input type="file" class="form-control" name="attachment" id="edit_attachment" accept=".png, .jpg, .jpeg, .pdf, .heic">
+                                    <div id="edit_attachment_preview" class="mt-2"></div>
                                  </div>
                               </div>
                            </form>
@@ -173,6 +182,61 @@
                         </div>
                      </div>
                      <!-- End Edit Offcanvas -->
+
+                     <!-- View Expense Offcanvas -->
+                     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewExpenseOffcanvas" aria-labelledby="viewExpenseOffcanvasLabel" style="width: 500px;">
+                        <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                           <div>
+                              <h5 class="offcanvas-title mb-1" id="viewExpenseOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">View Expense</h5>
+                              <p class="text-muted mb-0" style="font-size: 13px;">Expense details</p>
+                           </div>
+                           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                           <div class="text-center mb-3" id="view_expense_attachment_box" style="display:none;">
+                              <img id="view_expense_attachment" src="" class="rounded border" style="max-height: 150px;" />
+                           </div>
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Shop</label>
+                                 <div id="view_expense_shop" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Category</label>
+                                 <div id="view_expense_category" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Amount (₹)</label>
+                                 <div id="view_expense_amount" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Expense Date</label>
+                                 <div id="view_expense_date" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                           
+                           <h6 class="text-warning mb-3 mt-4" style="font-size: 13px; font-weight: bold;">Secondary Details</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Status</label>
+                                 <div id="view_expense_status" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Description</label>
+                                 <div id="view_expense_description" class="fw-bold" style="font-size: 14px; white-space: pre-wrap;"></div>
+                              </div>
+                              <div class="col-12 mb-3" id="view_expense_attachment_link_box" style="display:none;">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Attachment</label>
+                                 <div id="view_expense_attachment_link"></div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="offcanvas-footer p-3 border-top d-flex justify-content-end bg-white">
+                           <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Close</button>
+                        </div>
+                     </div>
+                     <!-- End View Offcanvas -->
                   </div>
                                     <!-- ./col -->
                                  </div>

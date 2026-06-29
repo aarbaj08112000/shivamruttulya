@@ -113,7 +113,7 @@ class Menu_master extends MY_Controller {
                 $img_url = base_url('public/uploads/menu/' . $value['image']);
                 $data[$key]['image_display'] = '<img src="'.$img_url.'" alt="menu" class="rounded" style="width:40px; height:40px; object-fit:cover; cursor:pointer;" onclick="window.open(\''.$img_url.'\', \'_blank\')" />';
             } else {
-                $data[$key]['image_display'] = '<span class="text-muted"><i class="bx bx-image fs-4"></i></span>';
+                $data[$key]['image_display'] = '<img src="" alt="menu" class="rounded" style="width:40px; height:40px; object-fit:cover;" />';
             }
             // Status column
             $status_color = ($value['status'] == 'active') ? '#006400' : '#C6011F';

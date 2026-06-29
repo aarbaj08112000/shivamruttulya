@@ -275,8 +275,8 @@ const page = {
                             $('#view_image_box').hide();
                         }
                         
-                        var modal = new bootstrap.Modal(document.getElementById('viewMenuModal'));
-                        modal.show();
+                        var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewMenuOffcanvas'));
+                        bsOffcanvas.show();
                     } else {
                         toaster('error', response.msg);
                     }

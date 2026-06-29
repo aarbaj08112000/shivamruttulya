@@ -263,8 +263,8 @@ const page = {
                         $('#view_description').text(data.description || '-');
                         $('#view_added_date').text(data.added_date ? new Date(data.added_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '-');
                         
-                        var modal = new bootstrap.Modal(document.getElementById('viewAccessoryModal'));
-                        modal.show();
+                        var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewAccessoryOffcanvas'));
+                        bsOffcanvas.show();
                     } else {
                         toaster('error', response.msg);
                     }

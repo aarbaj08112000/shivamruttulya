@@ -112,7 +112,8 @@ class Grocery_purchase extends MY_Controller {
             $data[$key]['purchase_date'] = date("d-M-Y", strtotime($value['purchase_date']));
             $data[$key]['qty_rate'] = $value['quantity'] . ' ' . $value['unit'] . ' x ₹' . $value['rate'];
             $data[$key]['total_amount'] = '₹' . number_format($value['total_amount'], 2);
-            $data[$key]['action'] = '<a href="javascript:void(0)" class="text-primary me-2 edit-purchase" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
+            $data[$key]['action'] = '<a href="javascript:void(0)" class="text-info me-2 view-purchase" data-id="'.$value['id'].'" title="View"><i class="bx bx-show fs-4"></i></a>
+                                     <a href="javascript:void(0)" class="text-primary me-2 edit-purchase" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
                                      <a href="javascript:void(0)" class="text-danger delete-purchase" data-id="'.$value['id'].'" title="Delete"><i class="bx bx-trash fs-4"></i></a>';
         }
         $response = array();

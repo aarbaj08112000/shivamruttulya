@@ -13,6 +13,7 @@ const page = {
         this.formValidation();
         this.editExpense();
         this.deleteExpense();
+        this.viewExpense();
     },
     dataTable: function(){
         table = new DataTable("#expense_management_table", {
@@ -143,7 +144,7 @@ const page = {
             },
             submitHandler: function(form) {
                 var url = $(form).attr('action');
-                var formData = $(form).serialize();
+                var formData = new FormData(form);
                 var submitBtn = $(form).closest('.offcanvas').find('.offcanvas-footer .btn-primary, .offcanvas-footer button:contains("Save")');
                 var originalText = submitBtn.html();
                 
@@ -153,6 +154,8 @@ const page = {
                     type: "POST",
                     url: url,
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     dataType: "json",
                     success: function(response) {
                         submitBtn.html(originalText).prop('disabled', false);
@@ -200,7 +203,7 @@ const page = {
             },
             submitHandler: function(form) {
                 var url = $(form).attr('action');
-                var formData = $(form).serialize();
+                var formData = new FormData(form);
                 var submitBtn = $(form).closest('.offcanvas').find('.offcanvas-footer .btn-primary, .offcanvas-footer button:contains("Save")');
                 var originalText = submitBtn.html();
                 
@@ -210,6 +213,8 @@ const page = {
                     type: "POST",
                     url: url,
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     dataType: "json",
                     success: function(response) {
                         submitBtn.html(originalText).prop('disabled', false);
@@ -250,6 +255,19 @@ const page = {
                         $('#edit_expense_date').val(data.expense_date);
                         $('#edit_description').val(data.description);
                         $('#edit_status').val(data.status);
+                        
+                        if (data.attachment && data.attachment !== "") {
+                            var ext = data.attachment.split('.').pop().toLowerCase();
+                            var previewHtml = '';
+                            if (['png', 'jpg', 'jpeg', 'gif'].includes(ext)) {
+                                previewHtml = '<a href="' + data.attachment + '" target="_blank"><img src="' + data.attachment + '" alt="Attachment" style="max-width: 100%; max-height: 150px; border-radius: 5px; margin-top: 10px;"></a>';
+                            } else {
+                                previewHtml = '<a href="' + data.attachment + '" target="_blank" class="btn btn-sm btn-outline-primary mt-2"><i class="ti ti-external-link"></i> View Document</a>';
+                            }
+                            $('#edit_attachment_preview').html(previewHtml);
+                        } else {
+                            $('#edit_attachment_preview').html('');
+                        }
                         
                         // Clear validation states
                         var form = $('#editExpenseForm');
@@ -312,6 +330,57 @@ const page = {
                             );
                         }
                     });
+                }
+            });
+        });
+    },
+    viewExpense: function() {
+        $(document).on('click', '.view-expense', function() {
+            var expense_id = $(this).data('id');
+            
+            $.ajax({
+                url: base_url + 'expense/expense/get_expense_details',
+                type: 'POST',
+                data: { id: expense_id },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success == 1) {
+                        var data = response.data;
+                        $('#view_expense_shop').text(data.shop_name || '-');
+                        $('#view_expense_category').text(data.category_name || '-');
+                        $('#view_expense_amount').text('₹ ' + parseFloat(data.amount || 0).toFixed(2));
+                        $('#view_expense_date').text(data.expense_date ? new Date(data.expense_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '-');
+                        
+                        var statusColor = data.status === 'active' ? '#006400' : '#C6011F';
+                        $('#view_expense_status').html('<span style="color: '+statusColor+'; font-weight: bold;">'+data.status.charAt(0).toUpperCase() + data.status.slice(1)+'</span>');
+                        
+                        $('#view_expense_description').text(data.description || '-');
+                        
+                        // Handle attachment preview
+                        if (data.attachment && data.attachment !== '') {
+                            var ext = data.attachment.split('.').pop().toLowerCase();
+                            if (['png', 'jpg', 'jpeg', 'gif'].includes(ext)) {
+                                $('#view_expense_attachment').attr('src', data.attachment);
+                                $('#view_expense_attachment_box').show();
+                                $('#view_expense_attachment_link_box').hide();
+                            } else {
+                                $('#view_expense_attachment_box').hide();
+                                $('#view_expense_attachment_link').html('<a href="' + data.attachment + '" target="_blank" class="btn btn-sm btn-outline-primary"><i class="ti ti-external-link"></i> View Document</a>');
+                                $('#view_expense_attachment_link_box').show();
+                            }
+                        } else {
+                            $('#view_expense_attachment_box').hide();
+                            $('#view_expense_attachment_link_box').hide();
+                        }
+                        
+                        var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewExpenseOffcanvas'));
+                        bsOffcanvas.show();
+                    } else {
+                        toaster('error', response.msg);
+                    }
+                },
+                error: function() {
+                    toaster('error', 'An error occurred while fetching expense details.');
                 }
             });
         });

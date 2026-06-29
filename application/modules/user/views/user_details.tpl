@@ -17,6 +17,9 @@
          <input type="text" name="reason" placeholder="Filter Search" class="form-control serarch-filter-input m-0" id="serarch-filter-input" style="width: 250px;">
          <button class="btn" style="background-color: var(--bs-theme-color) !important; color: white !important; border: none;" type="button" id="downloadCSVBtn" title="Download CSV"><i class="ti ti-file-type-csv fs-4"></i></button>
          <button class="btn" style="background-color: var(--bs-theme-color) !important; color: white !important; border: none;" type="button" id="downloadPDFBtn" title="Download PDF"><i class="ti ti-file-type-pdf fs-4"></i></button>
+         <button type="button" class="btn btn-danger me-2" id="logoutAllUsersBtn" title="Logout All Users" onclick="logoutAllUsers()">
+            <i class="ti ti-power me-1"></i> Logout All Users
+         </button>
          <button type="button" class="btn" style="background-color: var(--bs-theme-color-dark) !important; color: white !important; border: none;" data-bs-toggle="offcanvas" data-bs-target="#addPromoOffcanvas" aria-controls="addPromoOffcanvas">
             <i class="ti ti-plus me-1"></i> Add User
          </button>
@@ -104,8 +107,10 @@
                                  <td><%$u['mobile'] %></td>
                                  <td style="color: <%if $u['status']|lower eq 'active'%>#006400<%else%>#C6011F<%/if%>; font-weight: bold;"><%$u['status']|capitalize %></td>
                                  <td>
+                                    <a href="javascript:void(0)" class="text-info me-2 view-user" data-id="<%$i%>" title="View"><i class="bx bx-show fs-4"></i></a>
                                     <a data-bs-toggle="offcanvas" data-bs-target="#updatePromoOffcanvas<%$i%>" aria-controls="updatePromoOffcanvas<%$i%>" class="text-primary me-2" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
-                                    <a href="javascript:void(0)" class="text-danger" title="Delete"><i class="bx bx-trash fs-4"></i></a>
+                                    <a href="javascript:void(0)" class="text-danger me-2" title="Delete"><i class="bx bx-trash fs-4"></i></a>
+                                    <a href="javascript:void(0)" class="text-warning" title="Logout User" onclick="logoutUser(<%$u['id']%>)"><i class="ti ti-logout fs-4"></i></a>
                                     
                                     <!-- Edit User Offcanvas -->
                                     <div class="offcanvas offcanvas-end" tabindex="-1" id="updatePromoOffcanvas<%$i%>" aria-labelledby="updatePromoOffcanvasLabel<%$i%>" style="width: 500px;">
@@ -168,6 +173,54 @@
                         </table>
                      </div>
                      <!-- /.card-body -->
+                     
+                     <!-- View User Offcanvas -->
+                     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewUserOffcanvas" aria-labelledby="viewUserOffcanvasLabel" style="width: 500px;">
+                        <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                           <div>
+                              <h5 class="offcanvas-title mb-1" id="viewUserOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">View User</h5>
+                              <p class="text-muted mb-0" style="font-size: 13px;">User details</p>
+                           </div>
+                           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">User Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Full Name</label>
+                                 <div id="view_user_name" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Email</label>
+                                 <div id="view_user_email" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Mobile</label>
+                                 <div id="view_user_mobile" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Status</label>
+                                 <div id="view_user_status" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+
+                           <h6 class="text-warning mb-3 mt-4" style="font-size: 13px; font-weight: bold;">Additional Details</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Role</label>
+                                 <div id="view_user_role" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Added Date</label>
+                                 <div id="view_user_added_date" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="offcanvas-footer p-3 border-top d-flex justify-content-end bg-white">
+                           <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Close</button>
+                        </div>
+                     </div>
+                     <!-- End View Offcanvas -->
                   </div>
                   <!-- ./col -->
                </div>

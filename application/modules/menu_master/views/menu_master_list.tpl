@@ -168,36 +168,56 @@
                      </div>
                      <!-- End Edit Offcanvas -->
 
-                     <!-- View Menu Modal -->
-                     <div class="modal fade" id="viewMenuModal" tabindex="-1" aria-labelledby="viewMenuModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                           <div class="modal-content">
-                              <div class="modal-header" style="background-color: var(--bs-theme-color); color: white;">
-                                 <h5 class="modal-title" id="viewMenuModalLabel">Menu Item Details</h5>
-                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                     <!-- View Menu Offcanvas -->
+                     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewMenuOffcanvas" aria-labelledby="viewMenuOffcanvasLabel" style="width: 500px;">
+                        <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                           <div>
+                              <h5 class="offcanvas-title mb-1" id="viewMenuOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">View Menu Item</h5>
+                              <p class="text-muted mb-0" style="font-size: 13px;">Menu item details</p>
+                           </div>
+                           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                           <div class="text-center mb-3" id="view_image_box" style="display:none;">
+                              <img id="view_image" src="" class="rounded border" style="max-height: 150px;" />
+                           </div>
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Menu Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Menu Title</label>
+                                 <div id="view_menu_title" class="fw-bold" style="font-size: 14px;"></div>
                               </div>
-                              <div class="modal-body">
-                                 <div class="text-center mb-3" id="view_image_box" style="display:none;">
-                                    <img id="view_image" src="" class="rounded border" style="max-height: 150px;" />
-                                 </div>
-                                 <table class="table table-borderless mb-0">
-                                    <tbody>
-                                       <tr><td class="text-muted fw-bold" style="width:35%;">Menu Title</td><td id="view_menu_title"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Price (₹)</td><td id="view_price"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Shop</td><td id="view_shop_name"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Status</td><td id="view_status"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Description</td><td id="view_description"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Added Date</td><td id="view_added_date"></td></tr>
-                                    </tbody>
-                                 </table>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Price (₹)</label>
+                                 <div id="view_price" class="fw-bold" style="font-size: 14px;"></div>
                               </div>
-                              <div class="modal-footer">
-                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Shop</label>
+                                 <div id="view_shop_name" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                           
+                           <h6 class="text-warning mb-3 mt-4" style="font-size: 13px; font-weight: bold;">Additional Details</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Status</label>
+                                 <div id="view_status" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Added Date</label>
+                                 <div id="view_added_date" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mt-2">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Description</label>
+                                 <div id="view_description" class="fw-bold" style="font-size: 14px; white-space: pre-wrap;"></div>
                               </div>
                            </div>
                         </div>
+                        <div class="offcanvas-footer p-3 border-top d-flex justify-content-end bg-white">
+                           <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Close</button>
+                        </div>
                      </div>
-                     <!-- End View Modal -->
+                     <!-- End View Offcanvas -->
 
                   </div>
                                     <!-- ./col -->

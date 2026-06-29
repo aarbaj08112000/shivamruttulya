@@ -18,6 +18,7 @@ class User extends MY_Controller {
 		$data['user_info'] = $this->User_model->getUserData();
         $data['roles'] = $this->User_model->getRoles();
 		$data['no_data_message'] = NoDataFoundMessage("user");
+        $data['base_url'] = base_url();
 		$this->smarty->loadView('user_details.tpl', $data,'Yes','Yes');
 	}
 	public function addUsersData()
@@ -295,6 +296,35 @@ class User extends MY_Controller {
         echo json_encode($result);
         exit();
 	}
+	public function logout_user() {
+		$user_id = $this->input->post('user_id');
+		if($user_id) {
+			// Logout from Mobile
+			$this->db->where('id', $user_id);
+			$this->db->update('users', ['api_token' => NULL]);
+
+			// Logout from Web - Temporarily disabled as the app uses file-based sessions
+			// $this->db->like('data', '"user_id":"'.$user_id.'"');
+			// $this->db->or_like('data', '"user_id";s:'.strlen($user_id).':"'.$user_id.'"');
+			// $this->db->or_like('data', '"user_id";i:'.$user_id.';');
+			// $this->db->delete('ci_sessions');
+
+			echo json_encode(['success' => 1, 'message' => 'User logged out successfully.']);
+		} else {
+			echo json_encode(['success' => 0, 'message' => 'User ID is missing.']);
+		}
+	}
+
+	public function logout_all_users() {
+		// Logout from Mobile
+		$this->db->update('users', ['api_token' => NULL]);
+
+		// Logout from Web - Temporarily disabled as the app uses file-based sessions
+		// $this->db->empty_table('ci_sessions');
+
+		echo json_encode(['success' => 1, 'message' => 'All users logged out successfully.']);
+	}
+
 	public function api_document(){
 		$this->smarty->loadView('api_document.tpl', [], "Yes", "Yes");
 	}

@@ -105,7 +105,8 @@ class Expense extends MY_Controller {
             $data[$key]['expense_date'] = date("d-M-Y", strtotime($value['expense_date']));
             $data[$key]['amount'] = '₹' . number_format($value['amount'], 2);
             $data[$key]['description'] = !empty($value['description']) ? $value['description'] : '-';
-            $data[$key]['action'] = '<a href="javascript:void(0)" class="text-primary me-2 edit-expense" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
+            $data[$key]['action'] = '<a href="javascript:void(0)" class="text-info me-2 view-expense" data-id="'.$value['id'].'" title="View"><i class="bx bx-show fs-4"></i></a>
+                                     <a href="javascript:void(0)" class="text-primary me-2 edit-expense" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
                                      <a href="javascript:void(0)" class="text-danger delete-expense" data-id="'.$value['id'].'" title="Delete"><i class="bx bx-trash fs-4"></i></a>';
         }
         $response = array();

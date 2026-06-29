@@ -27,7 +27,7 @@ class Accessories_master extends MY_Controller {
         $column[] = [
             "data" => "description",
             "title" => "Description",
-            "width" => "30%",
+            "width" => "20%",
             "className" => "dt-left",
         ];
         $column[] = [
@@ -57,7 +57,7 @@ class Accessories_master extends MY_Controller {
         $column[] = [
             "data" => "action",
             "title" => "Action",
-            "width" => "10%",
+            "width" => "15%",
             "className" => "dt-center",
             "orderable" => false
         ];

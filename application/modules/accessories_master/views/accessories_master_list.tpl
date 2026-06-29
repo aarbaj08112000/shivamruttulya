@@ -156,33 +156,53 @@
                      </div>
                      <!-- End Edit Offcanvas -->
 
-                     <!-- View Accessory Modal -->
-                     <div class="modal fade" id="viewAccessoryModal" tabindex="-1" aria-labelledby="viewAccessoryModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                           <div class="modal-content">
-                              <div class="modal-header" style="background-color: var(--bs-theme-color); color: white;">
-                                 <h5 class="modal-title" id="viewAccessoryModalLabel">Accessory Details</h5>
-                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                     <!-- View Accessory Offcanvas -->
+                     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewAccessoryOffcanvas" aria-labelledby="viewAccessoryOffcanvasLabel" style="width: 500px;">
+                        <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                           <div>
+                              <h5 class="offcanvas-title mb-1" id="viewAccessoryOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">View Accessory</h5>
+                              <p class="text-muted mb-0" style="font-size: 13px;">Accessory details</p>
+                           </div>
+                           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Accessory Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Accessory Name</label>
+                                 <div id="view_name" class="fw-bold" style="font-size: 14px;"></div>
                               </div>
-                              <div class="modal-body">
-                                 <table class="table table-borderless mb-0">
-                                    <tbody>
-                                       <tr><td class="text-muted fw-bold" style="width:40%;">Accessory Name</td><td id="view_name"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Total Number</td><td id="view_total_number"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Shop</td><td id="view_shop_name"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Status</td><td id="view_status"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Description</td><td id="view_description"></td></tr>
-                                       <tr><td class="text-muted fw-bold">Added Date</td><td id="view_added_date"></td></tr>
-                                    </tbody>
-                                 </table>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Total Number</label>
+                                 <div id="view_total_number" class="fw-bold" style="font-size: 14px;"></div>
                               </div>
-                              <div class="modal-footer">
-                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Shop</label>
+                                 <div id="view_shop_name" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                           
+                           <h6 class="text-warning mb-3 mt-4" style="font-size: 13px; font-weight: bold;">Additional Details</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Status</label>
+                                 <div id="view_status" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Added Date</label>
+                                 <div id="view_added_date" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mt-2">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Description</label>
+                                 <div id="view_description" class="fw-bold" style="font-size: 14px; white-space: pre-wrap;"></div>
                               </div>
                            </div>
                         </div>
+                        <div class="offcanvas-footer p-3 border-top d-flex justify-content-end bg-white">
+                           <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Close</button>
+                        </div>
                      </div>
-                     <!-- End View Modal -->
+                     <!-- End View Offcanvas -->
 
                   </div>
                                     <!-- ./col -->

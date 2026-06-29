@@ -55,7 +55,7 @@
                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                           <form id="addPurchaseForm" action="<%base_url('grocery_purchase/grocery_purchase/add_grocery_purchase_action')%>" method="POST">
+                           <form id="addPurchaseForm" action="<%base_url('grocery_purchase/grocery_purchase/add_grocery_purchase_action')%>" method="POST" enctype="multipart/form-data">
                               <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
                               <div class="row mb-3">
                                  <div class="col-12 mb-3">
@@ -96,9 +96,13 @@
                                     <label class="form-label" style="font-size: 12px;">Rate (₹)<span class="text-danger">*</span></label>
                                     <input type="number" step="0.01" class="form-control calc-input" id="add_rate" name="rate" required>
                                  </div>
-                                 <div class="col-4">
+                                 <div class="col-4 mb-3">
                                     <label class="form-label" style="font-size: 12px;">Total (₹)</label>
                                     <input type="number" step="0.01" class="form-control" id="add_total_amount" name="total_amount" readonly>
+                                 </div>
+                                 <div class="col-12">
+                                    <label class="form-label" style="font-size: 12px;">Attachment</label>
+                                    <input type="file" class="form-control" name="attachment" accept=".png, .jpg, .jpeg, .pdf, .heic">
                                  </div>
                               </div>
                            </form>
@@ -120,7 +124,7 @@
                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                           <form id="editPurchaseForm" action="<%base_url('grocery_purchase/grocery_purchase/update_grocery_purchase_action')%>" method="POST">
+                           <form id="editPurchaseForm" action="<%base_url('grocery_purchase/grocery_purchase/update_grocery_purchase_action')%>" method="POST" enctype="multipart/form-data">
                               <input type="hidden" name="purchase_id" id="edit_purchase_id">
                               <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
                               <div class="row mb-3">
@@ -162,9 +166,14 @@
                                     <label class="form-label" style="font-size: 12px;">Rate (₹)<span class="text-danger">*</span></label>
                                     <input type="number" step="0.01" class="form-control calc-input-edit" id="edit_rate" name="rate" required>
                                  </div>
-                                 <div class="col-4">
+                                 <div class="col-4 mb-3">
                                     <label class="form-label" style="font-size: 12px;">Total (₹)</label>
                                     <input type="number" step="0.01" class="form-control" id="edit_total_amount" name="total_amount" readonly>
+                                 </div>
+                                 <div class="col-12">
+                                    <label class="form-label" style="font-size: 12px;">Attachment</label>
+                                    <input type="file" class="form-control" name="attachment" id="edit_attachment" accept=".png, .jpg, .jpeg, .pdf, .heic">
+                                    <div id="edit_attachment_preview" class="mt-2"></div>
                                  </div>
                               </div>
                            </form>
@@ -175,6 +184,65 @@
                         </div>
                      </div>
                      <!-- End Edit Offcanvas -->
+
+                     <!-- View Purchase Offcanvas -->
+                     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewPurchaseOffcanvas" aria-labelledby="viewPurchaseOffcanvasLabel" style="width: 500px;">
+                        <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                           <div>
+                              <h5 class="offcanvas-title mb-1" id="viewPurchaseOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">View Purchase</h5>
+                              <p class="text-muted mb-0" style="font-size: 13px;">Purchase details</p>
+                           </div>
+                           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                           <div class="text-center mb-3" id="view_purchase_attachment_box" style="display:none;">
+                              <img id="view_purchase_attachment" src="" class="rounded border" style="max-height: 150px;" />
+                           </div>
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Shop</label>
+                                 <div id="view_purchase_shop" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Grocery Item</label>
+                                 <div id="view_purchase_item" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Vendor</label>
+                                 <div id="view_purchase_vendor" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Purchase Date</label>
+                                 <div id="view_purchase_date" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                           
+                           <h6 class="text-warning mb-3 mt-4" style="font-size: 13px; font-weight: bold;">Calculation Details</h6>
+                           <div class="row mb-3">
+                              <div class="col-4 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Quantity</label>
+                                 <div id="view_purchase_quantity" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-4 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Rate (₹)</label>
+                                 <div id="view_purchase_rate" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-4 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Total (₹)</label>
+                                 <div id="view_purchase_total" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3" id="view_purchase_attachment_link_box" style="display:none;">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Attachment</label>
+                                 <div id="view_purchase_attachment_link"></div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="offcanvas-footer p-3 border-top d-flex justify-content-end bg-white">
+                           <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Close</button>
+                        </div>
+                     </div>
+                     <!-- End View Offcanvas -->
                   </div>
                                     <!-- ./col -->
                                  </div>

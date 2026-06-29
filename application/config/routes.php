@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 #------------ Login -----------------------------
-$route['default_controller'] = 'user/login/default';
+$route['default_controller'] = 'home';
 // $route['login'] = 'LogonDashboard/login';
 /* login & forgot password */
 $route['login'] = 'user/login/index';
@@ -43,6 +43,6 @@ $route['reports'] = 'reports/reports/collection_vs_expense';
 $route['WS/(.*)'] = "wsengine/api_execute/wscontroller/$1";
 
 $GLOBALS['is_ws'] = false;
-if (($this->uri->segments[1] == "WS" )) {
+if (isset($this->uri->segments[1]) && $this->uri->segments[1] == "WS") {
 $GLOBALS['is_ws'] = true;
 }

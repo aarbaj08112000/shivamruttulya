@@ -1015,7 +1015,8 @@
     "item_name": "Tea Powder",
     "unit": "Kg",
     "vendor_name": "Local Supplier",
-    "added_by_name": "User 123"
+    "added_by_name": "User 123",
+    "attachment": "http://domain.com/public/uploads/grocery_purchase/file.jpg"
   }
 }</code></pre>
                             </div>
@@ -1047,7 +1048,8 @@
   "quantity": "10",
   "rate": "50",
   "total_amount": "500",
-  "status": "active"
+  "status": "active",
+  "attachment": "base64_string_or_file"
 }</code></pre>
                                 
                                 <h6>Output Response (Success)</h6>
@@ -1057,7 +1059,8 @@
   "data": {
     "shop_id": "1",
     "grocery_item_id": "2",
-    "id": 2
+    "id": 2,
+    "attachment": "file.jpg"
   }
 }</code></pre>
                             </div>
@@ -1085,7 +1088,8 @@
   "id": "2",
   "vendor_name": "New Vendor",
   "quantity": "12",
-  "total_amount": "600"
+  "total_amount": "600",
+  "attachment": "base64_string_or_file"
 }</code></pre>
                                 
                                 <h6>Output Response (Success)</h6>
@@ -1480,7 +1484,8 @@
     "status": "active",
     "shop_name": "Shiv Amruttulya Chinchwad",
     "category_name": "Rent",
-    "added_by_name": "User 123"
+    "added_by_name": "User 123",
+    "attachment": "http://domain.com/public/uploads/expense/file.jpg"
   }
 }</code></pre>
                             </div>
@@ -1510,7 +1515,8 @@
   "amount": "1500",
   "expense_date": "2026-06-16",
   "description": "Electricity Bill",
-  "status": "active"
+  "status": "active",
+  "attachment": "base64_string_or_file"
 }</code></pre>
                                 
                                 <h6>Output Response (Success)</h6>
@@ -1520,7 +1526,8 @@
   "data": {
     "shop_id": "1",
     "category_id": "2",
-    "id": 3
+    "id": 3,
+    "attachment": "file.jpg"
   }
 }</code></pre>
                             </div>
@@ -1547,7 +1554,8 @@
                                 <pre class="bg-dark text-white p-3 rounded"><code>{
   "id": "3",
   "amount": "1600",
-  "description": "Updated Electricity Bill"
+  "description": "Updated Electricity Bill",
+  "attachment": "base64_string_or_file"
 }</code></pre>
                                 
                                 <h6>Output Response (Success)</h6>
