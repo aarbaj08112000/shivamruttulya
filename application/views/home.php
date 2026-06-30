@@ -44,6 +44,10 @@
             --text-light: #777777;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
@@ -61,38 +65,7 @@
             color: var(--primary-brown);
         }
 
-        /* Preloader */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--cream);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--light-gold);
-            border-top: 5px solid var(--secondary-brown);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
 
         /* Navbar */
         .navbar {
@@ -153,7 +126,7 @@
         /* Hero Section */
         #hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('<?php echo base_url("public/images/home/hero.png"); ?>') center/cover no-repeat fixed;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('<?php echo base_url("public/website/hero_background.png"); ?>') center/cover no-repeat fixed;
             display: flex;
             align-items: center;
             position: relative;
@@ -535,6 +508,14 @@
             border-color: var(--gold);
         }
 
+        .contact-form label.error {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
         .map-container {
             border-radius: 15px;
             overflow: hidden;
@@ -671,12 +652,9 @@
     </style>
 </head>
 
-<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="100">
+<body>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="spinner"></div>
-    </div>
+
 
     <!-- Navbar -->
     <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
@@ -697,6 +675,7 @@
                     <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#franchise">Franchise</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -1094,6 +1073,27 @@
         </div>
     </section>
 
+    <!-- Franchise Section -->
+    <section id="franchise">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Own a Franchise</h2>
+                <p class="text-muted mt-3">Interested in opening a Shiv Amruttulya franchise in your city? Apply now!</p>
+            </div>
+
+            <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-8 text-center">
+                    <div class="contact-info-box" style="text-align: center;">
+                        <i class="fas fa-store" style="font-size: 3rem; color: var(--gold); margin-bottom: 20px;"></i>
+                        <h4 class="mb-3">Become a Franchise Partner</h4>
+                        <p class="text-muted mb-4">Join the Shiv Amruttulya family and bring the authentic taste of premium tea to your city. We provide full support including setup, training, supply chain, and marketing.</p>
+                        <a href="#" class="btn-custom" data-bs-toggle="offcanvas" data-bs-target="#franchiseOffcanvas" aria-controls="franchiseOffcanvas">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact & Visit Section -->
     <section id="contact">
         <div class="container">
@@ -1142,22 +1142,27 @@
                 </div>
 
                 <div class="col-lg-7" data-aos="fade-left">
-                    <form class="contact-form">
+                    <form class="contact-form" id="contactForm">
+                        <div id="form-message" class="alert d-none"></div>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Your Name" required>
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Mobile Number" required>
+                                <input type="text" name="phone" class="form-control" placeholder="Mobile Number"
+                                    required>
                             </div>
                             <div class="col-12">
-                                <input type="email" class="form-control" placeholder="Email Address">
+                                <input type="email" name="email" class="form-control" placeholder="Email Address"
+                                    required>
                             </div>
                             <div class="col-12">
-                                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                                <textarea name="message" class="form-control" rows="5" placeholder="Your Message"
+                                    required></textarea>
                             </div>
                             <div class="col-12 text-end">
-                                <button type="submit" class="btn-custom border-0 w-100">Send Message</button>
+                                <button type="submit" class="btn-custom border-0 w-100" id="submitBtn">Send
+                                    Message</button>
                             </div>
                         </div>
                     </form>
@@ -1200,6 +1205,7 @@
                         <li><a href="#menu">Our Menu</a></li>
                         <li><a href="#features">Features</a></li>
                         <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#franchise">Franchise</a></li>
                     </ul>
                 </div>
 
@@ -1216,13 +1222,17 @@
                 <div class="col-lg-3 col-md-6 footer-links">
                     <h4>Franchise</h4>
                     <p class="footer-text">Interested in opening a Shiv Amruttulya franchise in your city?</p>
-                    <a href="#" class="btn-custom" style="padding: 8px 20px; font-size: 0.9rem;">Apply Now</a>
+                    <a href="#" class="btn-custom" style="padding: 8px 20px; font-size: 0.9rem;"
+                        data-bs-toggle="offcanvas" data-bs-target="#franchiseOffcanvas"
+                        aria-controls="franchiseOffcanvas">Apply Now</a>
                 </div>
             </div>
 
             <div class="copyright d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <p class="mb-2 mb-md-0">&copy; <?php echo date('Y'); ?> Shiv Amruttulya. All Rights Reserved.</p>
-                <p class="mb-0">Designed by <strong>Code Crafter</strong></p>
+                <p class="mb-0">Designed and Developed by <strong><a href="https://codecrafterinfotech.com/"
+                            target="_blank" style="color: inherit; text-decoration: none;">Code Crafter
+                            Infotech</a></strong></p>
             </div>
         </div>
     </footer>
@@ -1232,7 +1242,48 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <!-- Franchise Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="franchiseOffcanvas" aria-labelledby="franchiseOffcanvasLabel"
+        style="width: 500px; max-width: 100vw;">
+        <div class="offcanvas-header bg-light border-bottom">
+            <h5 class="offcanvas-title" id="franchiseOffcanvasLabel"
+                style="color: var(--primary-brown); font-family: 'Playfair Display', serif; font-weight: 700;">Franchise
+                Application</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p class="text-muted mb-4" style="font-size: 0.9rem;">Fill out the form below to show your interest in a
+                Shiv Amruttulya franchise. Our team will contact you soon.</p>
+            <form class="contact-form" id="franchiseForm">
+                <div id="franchise-form-message" class="alert d-none"></div>
+
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+                <input type="text" name="phone" class="form-control" placeholder="Mobile Number" required>
+                <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                <input type="text" name="city" class="form-control" placeholder="Preferred Franchise City" required>
+
+                <select name="investment_budget" class="form-control" required style="color: var(--text-dark);">
+                    <option value="">Select Investment Budget</option>
+                    <option value="1-5 Lakhs">1 - 5 Lakhs</option>
+                    <option value="5-10 Lakhs">5 - 10 Lakhs</option>
+                    <option value="10-15 Lakhs">10 - 15 Lakhs</option>
+                    <option value="15-20 Lakhs">15 - 20 Lakhs</option>
+                    <option value="Above 20 Lakhs">Above 20 Lakhs</option>
+                </select>
+
+                <textarea name="message" class="form-control" rows="3"
+                    placeholder="Additional Message (Optional)"></textarea>
+
+                <button type="submit" class="btn-custom border-0 w-100" id="franchiseSubmitBtn">Submit
+                    Application</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -1241,14 +1292,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Preloader
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }, 1000);
+
 
             // Init AOS
             AOS.init({
@@ -1261,7 +1305,49 @@
             const navbar = document.querySelector('.navbar');
             const scrollTopBtn = document.getElementById('scroll-top');
 
+            // Custom ScrollSpy and Smooth Scroll Logic
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const headerOffset = navbar.offsetHeight;
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    if (this.hash !== "" && this.hash !== "#") {
+                        e.preventDefault();
+                        const targetId = this.hash;
+                        const targetSection = document.querySelector(targetId);
+
+                        if (targetSection) {
+                            const elementPosition = targetSection.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
             window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+
+                    if (window.scrollY >= (sectionTop - headerOffset - 50)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (current && link.hash === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+
                 if (window.scrollY > 50) {
                     navbar.classList.add('scrolled');
                     scrollTopBtn.classList.add('active');
@@ -1313,6 +1399,150 @@
                 loop: true,
                 autoplayVideos: true
             });
+
+            // Contact Form Submit with jQuery Validation
+            if ($('#contactForm').length) {
+                $.validator.addMethod("customEmail", function (value, element) {
+                    return this.optional(element) || /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+                }, "Please enter a valid email address");
+
+                $('#contactForm').validate({
+                    rules: {
+                        name: "required",
+                        phone: {
+                            required: true,
+                            digits: true,
+                            minlength: 10
+                        },
+                        email: {
+                            required: true,
+                            customEmail: true
+                        },
+                        message: "required"
+                    },
+                    messages: {
+                        name: "Please enter your name",
+                        phone: {
+                            required: "Please enter your mobile number",
+                            digits: "Please enter a valid phone number",
+                            minlength: "Your phone number must be at least 10 digits"
+                        },
+                        email: {
+                            required: "Please enter your email address",
+                            customEmail: "Please enter a valid email address"
+                        },
+                        message: "Please enter your message"
+                    },
+                    submitHandler: function (form) {
+                        const submitBtn = $('#submitBtn');
+                        const formMessage = $('#form-message');
+
+                        submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Sending...').prop('disabled', true);
+
+                        $.ajax({
+                            url: '<?php echo base_url("home/send_message"); ?>',
+                            type: 'POST',
+                            data: $(form).serialize(),
+                            dataType: 'json',
+                            success: function (response) {
+                                formMessage.removeClass('d-none alert-success alert-danger');
+                                if (response.status === 'success') {
+                                    formMessage.addClass('d-none');
+                                    form.reset();
+                                    Swal.fire({
+                                        title: 'Thank You!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        timer: 3000,
+                                        showConfirmButton: false
+                                    });
+                                } else {
+                                    formMessage.addClass('alert-danger').html(response.message);
+                                }
+                            },
+                            error: function () {
+                                formMessage.removeClass('d-none alert-success alert-danger');
+                                formMessage.addClass('alert-danger').html('An error occurred. Please try again.');
+                            },
+                            complete: function () {
+                                submitBtn.html('Send Message').prop('disabled', false);
+                            }
+                        });
+                    }
+                });
+            }
+            // Franchise Form Submit with jQuery Validation
+            if ($('#franchiseForm').length) {
+                $('#franchiseForm').validate({
+                    rules: {
+                        name: "required",
+                        phone: {
+                            required: true,
+                            digits: true,
+                            minlength: 10
+                        },
+                        email: {
+                            required: true,
+                            customEmail: true
+                        },
+                        city: "required",
+                        investment_budget: "required"
+                    },
+                    messages: {
+                        name: "Please enter your name",
+                        phone: {
+                            required: "Please enter your mobile number",
+                            digits: "Please enter a valid phone number",
+                            minlength: "Your phone number must be at least 10 digits"
+                        },
+                        email: {
+                            required: "Please enter your email address",
+                            customEmail: "Please enter a valid email address"
+                        },
+                        city: "Please enter your city",
+                        investment_budget: "Please select an investment budget"
+                    },
+                    submitHandler: function (form) {
+                        const submitBtn = $('#franchiseSubmitBtn');
+                        const formMessage = $('#franchise-form-message');
+
+                        submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Submitting...').prop('disabled', true);
+
+                        $.ajax({
+                            url: '<?php echo base_url("home/franchise_enquiry"); ?>',
+                            type: 'POST',
+                            data: $(form).serialize(),
+                            dataType: 'json',
+                            success: function (response) {
+                                formMessage.removeClass('d-none alert-success alert-danger');
+                                if (response.status === 'success') {
+                                    formMessage.addClass('d-none');
+                                    form.reset();
+                                    var offcanvasEl = document.getElementById('franchiseOffcanvas');
+                                    var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+                                    if (offcanvas) offcanvas.hide();
+                                    Swal.fire({
+                                        title: 'Thank You!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        timer: 3000,
+                                        showConfirmButton: false
+                                    });
+                                } else {
+                                    formMessage.addClass('alert-danger').html(response.message);
+                                }
+                            },
+                            error: function () {
+                                formMessage.removeClass('d-none alert-success alert-danger');
+                                formMessage.addClass('alert-danger').html('An error occurred. Please try again.');
+                            },
+                            complete: function () {
+                                submitBtn.html('Submit Application').prop('disabled', false);
+                            }
+                        });
+                    }
+                });
+            }
         });
     </script>
 </body>
