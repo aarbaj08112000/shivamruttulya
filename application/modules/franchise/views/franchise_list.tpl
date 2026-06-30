@@ -169,6 +169,62 @@
                         </div>
                      </div>
                      <!-- End Edit Offcanvas -->
+                     
+                     <!-- View Franchise Offcanvas -->
+                     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewFranchiseOffcanvas" aria-labelledby="viewFranchiseOffcanvasLabel" style="width: 500px;">
+                        <div class="offcanvas-header pb-2" style="border-bottom: 1px solid #eee;">
+                           <div>
+                              <h5 class="offcanvas-title mb-1" id="viewFranchiseOffcanvasLabel" style="color: var(--bs-theme-color-dark); font-weight: bold;">View Franchise</h5>
+                              <p class="text-muted mb-0" style="font-size: 13px;">Franchise details</p>
+                           </div>
+                           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                           <h6 class="text-primary mb-3 mt-2" style="font-size: 13px; font-weight: bold;">Primary Information</h6>
+                           <div class="row mb-3">
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Franchise Code</label>
+                                 <div id="view_franchise_code" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Joining Date</label>
+                                 <div id="view_joining_date" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Franchise Name</label>
+                                 <div id="view_franchise_name" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Owner Name</label>
+                                 <div id="view_owner_name" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                           
+                           <h6 class="text-warning mb-3 mt-4" style="font-size: 13px; font-weight: bold;">Contact Details</h6>
+                           <div class="row mb-3">
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Mobile</label>
+                                 <div id="view_mobile" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-6 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Email</label>
+                                 <div id="view_email" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Address</label>
+                                 <div id="view_address" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Status</label>
+                                 <div id="view_status" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="offcanvas-footer p-3 border-top d-flex justify-content-end bg-white">
+                           <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Close</button>
+                        </div>
+                     </div>
+                     <!-- End View Offcanvas -->
                   </div>
                                     <!-- ./col -->
                                  </div>
@@ -199,4 +255,4 @@
     var end_date = <%$end_date|json_encode%>;
 </script>
 
-<script src="<%$base_url%>public/js/franchise/franchise_list.js"></script>
+<script src="<%$base_url%>public/js/franchise/franchise_list.js?v=<%time()%>"></script>

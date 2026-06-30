@@ -198,11 +198,14 @@ const user_app = {
                 }
             },
             submitHandler: function(form) {
+                var formData = new FormData(form);
                 // Perform AJAX form submission
                 $.ajax({
                     url: $(form).attr('action'),
                     type: 'POST',
-                    data: $(form).serialize(),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         // Handle successful response
                         if(response != '' && response != null && typeof response != 'undefined'){
@@ -379,6 +382,12 @@ const user_app = {
                 var statusColor = data.status === 'active' ? '#006400' : '#C6011F';
                 var statusText = data.status ? (data.status.charAt(0).toUpperCase() + data.status.slice(1).toLowerCase()) : '-';
                 $('#view_user_status').html('<span style="color: '+statusColor+'; font-weight: bold;">'+statusText+'</span>');
+                
+                if (data.profile_image) {
+                    $('#view_user_profile_image').html('<img src="' + base_url + 'public/uploads/users/' + data.profile_image + '" alt="Profile Image" width="80" height="80" style="object-fit: cover; border-radius: 50%;">');
+                } else {
+                    $('#view_user_profile_image').html('-');
+                }
                 
                 $('#view_user_role').text(data.role_name || '-');
                 $('#view_user_added_date').text(data.added_date ? new Date(data.added_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '-');

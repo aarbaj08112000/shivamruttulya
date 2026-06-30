@@ -1513,7 +1513,7 @@
      float: right;
      position: relative;
      height: 100vh;
-     background: linear-gradient(109deg, rgba(196, 154, 108, 0.7) 0%, rgba(109, 76, 65, 0.9) 100%), url('../../../public/uploads/bg.png') center center no-repeat;
+     background: url('../../../public/uploads/bg.png') center center no-repeat;
      background-size: cover;
      display: flex;
      align-items: center;

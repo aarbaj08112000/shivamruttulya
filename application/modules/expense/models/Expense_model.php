@@ -78,9 +78,11 @@ class Expense_model extends CI_Model {
     }
 
     public function get_expense_by_id($id) {
-        $this->db->select('*');
-        $this->db->from('expenses');
-        $this->db->where('id', $id);
+        $this->db->select('e.*, s.shop_name, c.category_name');
+        $this->db->from('expenses as e');
+        $this->db->join("shops as s", "s.id = e.shop_id", "left");
+        $this->db->join("expense_categories as c", "c.id = e.category_id", "left");
+        $this->db->where('e.id', $id);
         $result_obj = $this->db->get();
         return is_object($result_obj) ? $result_obj->row_array() : [];
     }

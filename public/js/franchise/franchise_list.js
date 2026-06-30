@@ -13,6 +13,7 @@ const page = {
         this.formValidation();
         this.editFranchise();
         this.deleteFranchise();
+        this.viewFranchise();
     },
     dataTable: function(){
         table = new DataTable("#franchise_management_table", {
@@ -310,6 +311,41 @@ const page = {
                             );
                         }
                     });
+                }
+            });
+        });
+    },
+    viewFranchise: function() {
+        $(document).on('click', '.view-franchise', function() {
+            var franchise_id = $(this).data('id');
+            
+            $.ajax({
+                url: base_url + 'franchise/franchise/get_franchise_details',
+                type: 'POST',
+                data: { id: franchise_id },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success == 1) {
+                        var data = response.data;
+                        $('#view_franchise_code').text(data.franchise_code || '-');
+                        $('#view_joining_date').text(data.joining_date ? new Date(data.joining_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '-');
+                        $('#view_franchise_name').text(data.franchise_name || '-');
+                        $('#view_owner_name').text(data.owner_name || '-');
+                        $('#view_mobile').text(data.mobile || '-');
+                        $('#view_email').text(data.email || '-');
+                        $('#view_address').text(data.address || '-');
+                        
+                        var statusHtml = (data.status == 'active') ? '<span class="text-success fw-bold">Active</span>' : '<span class="text-danger fw-bold">Inactive</span>';
+                        $('#view_status').html(statusHtml);
+                        
+                        var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewFranchiseOffcanvas'));
+                        bsOffcanvas.show();
+                    } else {
+                        toaster('error', response.msg);
+                    }
+                },
+                error: function() {
+                    toaster('error', 'An error occurred while fetching franchise details.');
                 }
             });
         });

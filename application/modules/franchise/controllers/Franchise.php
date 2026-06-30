@@ -109,7 +109,8 @@ class Franchise extends MY_Controller {
             $status_color = ($value['status'] == 'active') ? '#006400' : '#C6011F';
             $data[$key]['status'] = '<span style="color: '.$status_color.'; font-weight: bold;">'.ucfirst($value['status']).'</span>';
 
-            $data[$key]['action'] = '<a href="javascript:void(0)" class="text-primary me-2 edit-franchise" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
+            $data[$key]['action'] = '<a href="javascript:void(0)" class="text-info me-2 view-franchise" data-id="'.$value['id'].'" title="View"><i class="bx bx-show fs-4"></i></a>
+                                     <a href="javascript:void(0)" class="text-primary me-2 edit-franchise" data-id="'.$value['id'].'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
                                      <a href="javascript:void(0)" class="text-danger delete-franchise" data-id="'.$value['id'].'" title="Delete"><i class="bx bx-trash fs-4"></i></a>';
         }
         

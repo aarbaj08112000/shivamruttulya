@@ -78,9 +78,11 @@ class Grocery_purchase_model extends CI_Model {
     }
 
     public function get_grocery_purchase_by_id($id) {
-        $this->db->select('*');
-        $this->db->from('grocery_purchases');
-        $this->db->where('id', $id);
+        $this->db->select('p.*, s.shop_name, i.item_name, i.unit');
+        $this->db->from('grocery_purchases as p');
+        $this->db->join("shops as s", "s.id = p.shop_id", "left");
+        $this->db->join("grocery_items as i", "i.id = p.grocery_item_id", "left");
+        $this->db->where('p.id', $id);
         $result_obj = $this->db->get();
         return is_object($result_obj) ? $result_obj->row_array() : [];
     }

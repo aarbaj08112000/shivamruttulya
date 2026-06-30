@@ -35,6 +35,10 @@ $route['daily_collection_list'] = 'daily_collection/daily_collection/daily_colle
 $route['online_payment_list'] = 'online_payment/online_payment/online_payment_list';
 $route['reports'] = 'reports/reports/collection_vs_expense';
 
+/* Website Enquiries */
+$route['contact_enquiries'] = 'enquiries/enquiries/contact_enquiries';
+$route['franchise_partner_enquiries'] = 'enquiries/enquiries/franchise_partner_enquiries';
+
 // /*   api execute */
 // $route['WS'] = "wsengine/api_execute/wscontroller";
 // $route['WS/(:any)'] = "wsengine/api_execute/wscontroller/$1";

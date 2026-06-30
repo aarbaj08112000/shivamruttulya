@@ -407,6 +407,24 @@
 
             <li class="menu-item menu-item menu-header small text-uppercase p-0 open-menu">
                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <div data-i18n="Website Enquiries">Website Enquiries</div>
+               </a>
+               <ul class="menu-sub" style="display: block;">
+                  <li class="menu-item">
+                     <a href="<%$base_url%>contact_enquiries" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-envelope"></i><div data-i18n="Contact Us">Contact Us</div>
+                     </a>
+                  </li>
+                  <li class="menu-item">
+                     <a href="<%$base_url%>franchise_partner_enquiries" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-store"></i><div data-i18n="Franchise Partner">Franchise Partner</div>
+                     </a>
+                  </li>
+               </ul>
+            </li>
+
+            <li class="menu-item menu-item menu-header small text-uppercase p-0 open-menu">
+               <a href="javascript:void(0);" class="menu-link menu-toggle">
                   <div data-i18n="Settings">Settings</div>
                </a>
                <ul class="menu-sub" style="display: block;">
@@ -503,7 +521,7 @@
                         <div data-rr-ui-dropdown-item="" class=" ">
                            <ul class="top-menu ps-0">
                               <li class="top-child-menu">
-                                    <a hijacked="yes" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" title="Reset Password" class="top-menu-link">
+                                    <a hijacked="yes" href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#resetPasswordModal" title="Reset Password" class="top-menu-link">
                                         <span class="las la-key"></span>Reset Password
                                     </a>
                               </li>
@@ -649,7 +667,7 @@
                         <div data-rr-ui-dropdown-item="" class=" ">
                            <ul class="top-menu ps-0">
                               <li class="top-child-menu">
-                                    <a hijacked="yes" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" title="Reset Password" class="top-menu-link">
+                                    <a hijacked="yes" href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#resetPasswordModal" title="Reset Password" class="top-menu-link">
                                         <span class="las la-key"></span>Reset Password
                                     </a>
                               </li>
@@ -763,36 +781,32 @@
           }
       </style>
 
-      <!-- Reset Password Modal -->
-      <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-               <div class="modal-header" style="background-color: var(--bs-theme-color); color: white;">
-                  <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      <!-- Reset Password Offcanvas -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="resetPasswordModal" aria-labelledby="resetPasswordModalLabel">
+         <div class="offcanvas-header" style="background-color: var(--bs-theme-color); color: white;">
+            <h5 class="offcanvas-title" id="resetPasswordModalLabel" style="color: white;">Reset Password</h5>
+            <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+         </div>
+         <div class="offcanvas-body d-flex flex-column">
+            <form id="resetPasswordForm" class="flex-grow-1">
+               <div class="mb-3">
+                  <label for="old_password" class="form-label" style="font-size: 12px;">Old Password <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Enter old password" required>
                </div>
-               <div class="modal-body">
-                  <form id="resetPasswordForm">
-                     <div class="mb-3">
-                        <label for="old_password" class="form-label" style="font-size: 12px;">Old Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Enter old password" required>
-                     </div>
-                     <div class="mb-3">
-                        <label for="new_password" class="form-label" style="font-size: 12px;">New Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter new password" required>
-                     </div>
-                     <div class="mb-3">
-                        <label for="confirm_password" class="form-label" style="font-size: 12px;">Confirm Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm new password" required>
-                     </div>
-                  </form>
+               <div class="mb-3">
+                  <label for="new_password" class="form-label" style="font-size: 12px;">New Password <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter new password" required>
                </div>
-               <div class="modal-footer d-flex justify-content-between">
-                  <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn text-white px-4" id="btnResetPassword" style="background-color: var(--bs-theme-color-dark) !important;">
-                     <i class="ti ti-device-floppy me-2"></i> Save
-                  </button>
+               <div class="mb-3">
+                  <label for="confirm_password" class="form-label" style="font-size: 12px;">Confirm Password <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm new password" required>
                </div>
+            </form>
+            <div class="mt-auto d-flex justify-content-between pt-3 border-top">
+               <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="offcanvas">Cancel</button>
+               <button type="button" class="btn text-white px-4" id="btnResetPassword" style="background-color: var(--bs-theme-color-dark) !important;">
+                  <i class="ti ti-device-floppy me-2"></i> Save
+               </button>
             </div>
          </div>
       </div>
@@ -854,7 +868,9 @@
                           
                           if (response.success == 1) {
                               toaster('success', response.msg);
-                              $('#resetPasswordModal').modal('hide');
+                              var offcanvasEl = document.getElementById('resetPasswordModal');
+                              var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+                              if(offcanvas) offcanvas.hide();
                               $('#resetPasswordForm')[0].reset();
                               $('#resetPasswordForm').validate().resetForm();
                               $('#resetPasswordForm').find('.is-invalid').removeClass('is-invalid');

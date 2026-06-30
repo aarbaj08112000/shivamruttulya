@@ -12,8 +12,6 @@
       </nav>
       <div class="d-flex align-items-center gap-2">
          <select class="form-select theme-dropdown" id="month-filter-input" style="width: 200px; border-color: var(--bs-theme-color); color: var(--bs-theme-color); border-radius: 16px; font-weight: 500;">
-            <option value="">All Months</option>
-            <%assign var="current_month" value=$smarty.now|date_format:"%B %Y"%>
             <%foreach from=$months item=m%>
                 <option value="<%$m.month_year%>" <%if $m.month_year == $current_month%>selected<%/if%>><%$m.month_year%></option>
             <%/foreach%>

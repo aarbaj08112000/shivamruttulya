@@ -59,6 +59,10 @@
                                  <input required type="password" name="user_password" placeholder="Enter Password" class="form-control" value="">
                               </div>
                               <div class="col-12 mb-3">
+                                 <label class="form-label" style="font-size: 12px;">Profile Image</label>
+                                 <input type="file" name="profile_image" class="form-control" accept="image/*">
+                              </div>
+                              <div class="col-12 mb-3">
                                  <label class="form-label" style="font-size: 12px;">Mobile<span class="text-danger">*</span></label>
                                  <input required type="text" name="mobile" placeholder="Enter Mobile" class="form-control" value="">
                               </div>
@@ -135,6 +139,15 @@
                                                    <input type="email" name="user_email" placeholder="Enter Email" class="form-control required-input" value="<%$u['email'] %>" disabled>
                                                 </div>
                                                 <div class="col-12 mb-3">
+                                                   <label class="form-label" style="font-size: 12px;">Profile Image</label>
+                                                   <input type="file" name="profile_image" class="form-control" accept="image/*">
+                                                   <%if !empty($u['profile_image'])%>
+                                                      <div class="mt-2">
+                                                         <img src="<%$base_url%>public/uploads/users/<%$u['profile_image']%>" alt="Profile Image" width="50" height="50" style="object-fit: cover; border-radius: 50%;">
+                                                      </div>
+                                                   <%/if%>
+                                                </div>
+                                                <div class="col-12 mb-3">
                                                    <label class="form-label" style="font-size: 12px;">Mobile<span class="text-danger">*</span></label>
                                                    <input type="text" name="mobile" placeholder="Enter Mobile" class="form-control required-input" value="<%$u['mobile'] %>">
                                                 </div>
@@ -189,6 +202,10 @@
                               <div class="col-12 mb-3">
                                  <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Full Name</label>
                                  <div id="view_user_name" class="fw-bold" style="font-size: 14px;"></div>
+                              </div>
+                              <div class="col-12 mb-3">
+                                 <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Profile Image</label>
+                                 <div id="view_user_profile_image" class="fw-bold" style="font-size: 14px;"></div>
                               </div>
                               <div class="col-12 mb-3">
                                  <label class="form-label text-muted" style="font-size: 12px; margin-bottom: 2px;">Email</label>

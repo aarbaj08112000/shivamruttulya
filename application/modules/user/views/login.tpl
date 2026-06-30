@@ -11,10 +11,11 @@
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
       <meta http-equiv="cache-control" content="no-cache" />
       <meta http-equiv="pragma" content="no-cache" />
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="<%$base_url%>public/css/gilroy-fonts.css" />
       <link rel="stylesheet" href="<%$base_url%>public/css/tabler_css/tabler_icons.css">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-      <link rel="stylesheet" href="<%$base_url%>public/css/login/login_page.css">
+      <link rel="stylesheet" href="<%$base_url%>public/css/login/login_page.css?v=<%time()%>">
       <!-- toaster -->
        <link rel="stylesheet" href="public/css/toaster/custom_toaster.css" />
         <link rel="stylesheet" href="public/css/fontawesome/font_awesome.css">
@@ -149,7 +150,7 @@
                </div>
                <div class="login_rt_panel">
                   <div class="welcome-text-panel" style="color: #ffffff; text-align: center; padding: 40px; max-width: 80%;">
-                      <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Sip the Tradition</h1>
+                      <h1 style="font-family: 'Playfair Display', serif !important; font-size: 3rem; font-weight: 700; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Sip the Tradition</h1>
                       <p style="font-size: 1.2rem; opacity: 0.9; line-height: 1.6; text-shadow: 1px 1px 3px rgba(0,0,0,0.1);">Welcome to the official Shiv Amruttulya management portal.<br>Manage your franchise, sales, and inventory with ease.</p>
                   </div>
                </div>

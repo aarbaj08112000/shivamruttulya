@@ -65,6 +65,7 @@ class Reports extends MY_Controller {
         $data["admin_url"] = base_url();
         $data["base_url"] = base_url();
         $data["months"] = $this->Reports_model->get_available_months();
+        $data["current_month"] = date('F Y');
         
         $this->smarty->loadView('collection_vs_expense.tpl', $data,'Yes','Yes');
     }
