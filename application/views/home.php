@@ -667,7 +667,7 @@
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="<?php echo base_url('public/uploads/fav_shiv_amruttulya.png'); ?>" alt="Shiv Amruttulya Logo"
                     height="50" class="me-2">
-                <span class="d-none d-sm-inline">Shiv Amruttulya</span>
+                <span>Shiv Amruttulya</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
