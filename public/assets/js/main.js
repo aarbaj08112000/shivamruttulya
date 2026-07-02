@@ -1,3 +1,17 @@
+// Add DataTable default row callback to show '--' for empty cells
+if ($.fn.dataTable) {
+    $.extend(true, $.fn.dataTable.defaults, {
+        rowCallback: function(row, data, displayNum, displayIndex, dataIndex) {
+            $('td', row).each(function() {
+                var cellHtml = $(this).html().trim();
+                if (cellHtml === '' || cellHtml === 'null' || cellHtml === 'undefined') {
+                    $(this).html('--');
+                }
+            });
+        }
+    });
+}
+
 $( document ).ready(function() {
     app.init();
 });

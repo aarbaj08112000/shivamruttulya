@@ -181,6 +181,7 @@
              width: 0 !important;
              overflow: hidden !important;
          }
+         
          /* Side Menu Close Icon Visibility */
          html.layout-menu-collapsed #close-vertical-btn {
              display: none !important;
@@ -462,7 +463,7 @@
       <!-- / Navbar -->
 
       <nav class="navbar navbar-expand-lg bg-navbar-theme navbar-classic py-0" style="min-height: 60px; height: 60px;">
-         <div class="container-fluid">
+         <div class="container-fluid flex-nowrap">
             <div class="d-flex align-items-center">
                <a href="dashboard" class="app-brand-link navbar-brand" style="display: flex; align-items: center; gap: 10px; margin-right: 0;">
                <span class="app-brand-logo demo">
@@ -502,20 +503,20 @@
             <%/if%>
 
 
-            <div class="navbar-right-wrap ms-2 d-flex align-items-center nav-top-wrap navbar-nav login-nav-block login-nav-block-mobile">
+            <div class="navbar-right-wrap ms-auto d-flex align-items-center nav-top-wrap navbar-nav login-nav-block login-nav-block-mobile">
                <div class="header_userprofile_blk">
-                   <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 35px; height: 35px; font-size: 16px;">
+                   <div class="text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 35px; height: 35px; font-size: 16px; background-color: var(--bs-theme-color) !important;">
                        <%$session_data['user_name']|substr:0:1|upper%>
                    </div>
                </div>
-               <span class="profile-name" >
+               <span class="profile-name d-none d-sm-block" >
                 <%$session_data['user_name']%>
                <em title="Admin []" ><%$session_data['role']%></em>
                </span>
-               <ul class="navbar-right-wrap ms-auto d-flex nav-top-wrap navbar-nav">
-                  <li class="ms-2 dropdown">
-                     <a class="dropdownUser inactive" id="dropdownUser" aria-expanded="false">
-                        <i class="las la-angle-down"></i>
+               <ul class="navbar-right-wrap d-flex nav-top-wrap navbar-nav mb-0" style="margin-left: 2px;">
+                  <li class="dropdown d-flex align-items-center">
+                     <a class="dropdownUser inactive d-flex align-items-center" id="dropdownUser" aria-expanded="false" style="cursor: pointer;">
+                        <i class="las la-angle-down" style="font-size: 16px; margin-top: 2px;"></i>
                      </a>
                      <div data-bs-popper="static" class="dropdown-menu dropdown-menu-end  dropdown-menu dropdown-menu-end dropdownUserNav" aria-labelledby="dropdownUser" id="dropdownUserNav">
                         <div data-rr-ui-dropdown-item="" class=" ">

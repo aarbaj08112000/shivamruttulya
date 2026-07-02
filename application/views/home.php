@@ -44,6 +44,12 @@
             --text-light: #777777;
         }
 
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -52,7 +58,6 @@
             font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
             background-color: var(--off-white);
-            overflow-x: hidden;
         }
 
         h1,
@@ -1244,7 +1249,7 @@
 
     <!-- Franchise Offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="franchiseOffcanvas" aria-labelledby="franchiseOffcanvasLabel"
-        style="width: 500px; max-width: 100vw;">
+        style="width: 500px; max-width: 100%;">
         <div class="offcanvas-header bg-light border-bottom">
             <h5 class="offcanvas-title" id="franchiseOffcanvasLabel"
                 style="color: var(--primary-brown); font-family: 'Playfair Display', serif; font-weight: 700;">Franchise

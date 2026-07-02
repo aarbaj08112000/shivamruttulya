@@ -24222,6 +24222,8 @@ html:not(.layout-footer-fixed) .content-wrapper {
         /*transform: translate3d(-100%, 0, 0);*/
         /*will-change: transform;*/
         width: 0px;
+        overflow: hidden;
+        transition: width 0.3s ease;
     }
     #toggle-horizontal-menu-bar .ti {
             position: relative;
@@ -24246,7 +24248,10 @@ html:not(.layout-footer-fixed) .content-wrapper {
     }
 
     .layout-menu-expanded .layout-menu {
-        transform: translate3d(0, 0, 0) !important
+        transform: translate3d(0, 0, 0) !important;
+        width: 16.25rem !important;
+        overflow: visible !important;
+        transition: width 0.3s ease, transform 0.3s ease;
     }
 
     .layout-menu-expanded body {
@@ -29672,7 +29677,7 @@ table.dataTable.no-footer {
         text-overflow: ellipsis;
     }
     .login-nav-block.login-nav-block-mobile {
-        border-left: 1px solid #dadada;
+        border-left: none;
     }
     .navbar-toggler{
         position: relative;
