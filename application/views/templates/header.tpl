@@ -426,14 +426,22 @@
 
             <li class="menu-item menu-item menu-header small text-uppercase p-0 open-menu">
                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                  <div data-i18n="Settings">Settings</div>
+                  <div data-i18n="User Management">User Management</div>
                </a>
                <ul class="menu-sub" style="display: block;">
                   <li class="menu-item">
                      <a href="<%$base_url%>user_list" class="menu-link" >
-                        <i class="menu-icon tf-icons bx bx-user-circle"></i><div data-i18n="User Management">User Management</div>
+                        <i class="menu-icon tf-icons bx bx-user-circle"></i><div data-i18n="Users">Users</div>
                      </a>
                   </li>
+               </ul>
+            </li>
+
+            <li class="menu-item menu-item menu-header small text-uppercase p-0 open-menu">
+               <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <div data-i18n="Settings">Settings</div>
+               </a>
+               <ul class="menu-sub" style="display: block;">
                   <!-- <li class="menu-item">
                      <a href="<%$base_url%>group_master" class="menu-link" >
                         <i class="menu-icon tf-icons bx bx-group"></i><div data-i18n="Group Master">Group Master</div>
@@ -447,6 +455,11 @@
                   <li class="menu-item">
                      <a href="<%$base_url%>app_version" class="menu-link" >
                         <i class="menu-icon tf-icons bx bx-mobile"></i><div data-i18n="App Version">App Version</div>
+                     </a>
+                  </li>
+                  <li class="menu-item">
+                     <a href="<%$base_url%>manual_documentation" class="menu-link" >
+                        <i class="menu-icon tf-icons bx bx-book"></i><div data-i18n="Manual / Documentation">Manual / Documentation</div>
                      </a>
                   </li>
                </ul>

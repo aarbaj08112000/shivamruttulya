@@ -1,411 +1,252 @@
-var table = '';
-var file_name = "erp_users";
-var pdf_title = "ERP Users";
-var accessGroupsModel = new bootstrap.Modal(document.getElementById('accessGroups'))
-$(document).ready(function() {
-   grid.setDefaultView(module_name);
-   user_app.init();
-
+$(document).ready(function () {
+    page.init();
 });
 
+var table = '';
+var file_name = 'user_list';
+var pdf_title = 'User List';
 
-const user_app = {
-    init: function(){
-        this.formInit();
-        this.dataTableInit();
+const page = {
+    init: function () {
+        this.dataTable();
+        this.filter();
         this.viewUser();
+        this.editUser();
     },
-    dataTableInit: function(){
 
-    // Initialize the DataTable
-    table = $("#erp_users").DataTable({
-        dom: "Bfrtilp",
-        buttons: [
-            {
-                extend: "csv",
-                text: '<i class="ti ti-file-type-csv"></i>',
-                init: function (api, node, config) {
-                    $(node).attr("title", "Download CSV");
-                },
-                customize: function (csv) {
-                        var lines = csv.split('\n');
-                        var modifiedLines = lines.map(function(line) {
-                            var values = line.split(',');
-                            values.splice(7, 1);
-                            return values.join(',');
-                        });
-                        return modifiedLines.join('\n');
+    dataTable: function () {
+        table = new DataTable('#erp_users', {
+            dom: 'Bfrtilp',
+            buttons: [
+                {
+                    extend: 'csv',
+                    text: '<i class="ti ti-file-type-csv"></i>',
+                    init: function (api, node, config) {
+                        $(node).attr('title', 'Download CSV');
                     },
-                    filename : file_name,
+                    filename: file_name,
                     exportOptions: {
                         columns: ':visible:not(:last-child)'
                     }
                 },
-          
-            {
-                extend: "pdf",
-                text: '<i class="ti ti-file-type-pdf"></i>',
-                init: function (api, node, config) {
-                    $(node).attr("title", "Download Pdf");
-                },
-                filename: file_name,
-                exportOptions: {
-                    columns: ':visible:not(:last-child)'
-                },
-                customize: function (doc) {
-                    doc.pageMargins = [15, 15, 15, 15];
-                    doc.content[0].text = pdf_title;
-                    doc.content[0].color = theme_color;
-                    // doc.content[1].table.widths = ["19%", "19%", "13%", "13%", "15%", "15%"];
-                    doc.content[1].table.body[0].forEach(function (cell) {
-                        cell.fillColor = theme_color;
-                    });
-                    doc.content[1].table.body.forEach(function (row, index) {
-                        row.splice(7, 1);
-                        row.forEach(function (cell) {
-                            // Set alignment for each cell
-                            cell.alignment = "center"; // Change to 'left' or 'right' as needed
-                        });
-                    });
-                },
-            },
-        ],
-        language: {
-            // loadingRecords: "&nbsp;",
-            // processing: '<div class="spinner"></div>',
-            emptyTable: no_data_message,
-            zeroRecords: no_data_message
-            // paginate: {
-            //     first: "<<",
-            //     last: ">>",
-            //     next: ">",
-            //     previous: "<",
-            // },
-        },
-        searching: true,
-        scrollX: true,
-        scrollY: true,
-        bScrollCollapse: true,
-        // columnDefs: [{ sortable: false, targets: 7 }],
-        bPaginate: true,
-        pageLength: 10,
-        pagingType: "full_numbers",
-        "preDrawCallback": function(settings) {
-            // Get current page and page length
-            // var page = settings._iDisplayStart / settings._iDisplayLength + 1; // Current page (1-based)
-            // var pageLength = settings._iDisplayLength; // Page length (number of records per page)
-            
-            // // Get the data range that will be displayed
-            var start = settings._iDisplayStart; // The start index for the data to be displayed
-            var end = settings.fnDisplayEnd(); // The end index for the data to be displayed
-            
-            var pageData = settings.aoData.slice(start, end);
-            var html = grid.gridStructure(module_name,pageData,no_data_message);
-            $(".dataTables_wrapper .grid-block").remove();
-            var view_type = $(".toggle-grid-btn .grid").hasClass("active") ? "Grid" : "Table";
-            var grid_enable = !$(".toggle-grid-btn .grid").hasClass("active") ? "hide-grid-table" : "";
-            $(".dataTables_wrapper .dataTables_scroll").after("<div class='grid-block "+grid_enable+"'>"+html+"</div>");
-            if(view_type == "Grid"){
-                $(".dataTables_scroll").addClass("hide-grid-table");
-                $("body").addClass("grid-layout");
+                {
+                    extend: 'pdf',
+                    text: '<i class="ti ti-file-type-pdf"></i>',
+                    init: function (api, node, config) {
+                        $(node).attr('title', 'Download PDF');
+                    },
+                    filename: file_name,
+                    exportOptions: {
+                        columns: ':visible:not(:last-child)'
+                    },
+                    customize: function (doc) {
+                        doc.pageMargins = [15, 15, 15, 15];
+                        doc.content[0].text = pdf_title;
+                        if (doc.content[1] && doc.content[1].table) {
+                            doc.content[1].table.body[0].forEach(function (cell) {
+                                cell.fillColor = '#8B5E3C';
+                            });
+                        }
+                    }
+                }
+            ],
+            orderCellsTop: true,
+            fixedHeader: true,
+            lengthMenu: page_length_arr,
+            columns: column_details,
+            processing: true,
+            serverSide: is_serverSide,
+            searching: is_searching_enable,
+            ordering: is_ordering,
+            bSort: true,
+            orderMulti: false,
+            pagingType: 'full_numbers',
+            scrollCollapse: true,
+            scrollX: true,
+            scrollY: true,
+            paging: is_paging_enable,
+            info: true,
+            autoWidth: true,
+            lengthChange: true,
+            order: sorting_column,
+            ajax: {
+                url: base_url + 'user/user/get_user_list',
+                type: 'POST'
             }
-           
-        }
-       
-        
         });
-        $('#serarch-filter-input').on('keyup', function() {
+
+        // Remove extra label text from length dropdown
+        $('.dataTables_length').find('label').contents().filter(function () {
+            return this.nodeType === 3;
+        }).remove();
+
+        table.on('init.dt', function () {
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity
+            });
+        });
+
+        // Custom search input
+        $('#serarch-filter-input').on('keyup', function () {
             table.search(this.value).draw();
         });
 
-        $('#downloadCSVBtn').off('click').on('click', function() {
+        // CSV / PDF buttons
+        $('#downloadCSVBtn').off('click').on('click', function () {
             table.button('.buttons-csv').trigger();
         });
-        
-        $('#downloadPDFBtn').off('click').on('click', function() {
+
+        $('#downloadPDFBtn').off('click').on('click', function () {
             table.button('.buttons-pdf').trigger();
         });
 
-        // Hide default DataTables buttons and search since we have custom ones
+        // Hide default DT controls
         $('.dt-buttons').hide();
         $('.dataTables_filter').hide();
-
-        $('.dataTables_length').find('label').contents().filter(function() {
-                return this.nodeType === 3; // Filter out text nodes
-        }).remove();
-        setTimeout(function(){
-            $(".dataTables_length select").select2({
-                minimumResultsForSearch: Infinity
-            });
-        },1000)
-    // Custom search filter event
-  
-   setTimeout(function(){
-    $(".select2-multiple").select2()
-   },1000)
     },
-    formInit: function(){
+
+    filter: function () {
         let that = this;
-        $("#addTransporterForm").validate({
-            rules: {
-                user_name: {
-                    required: true,
-                    minlength: 3
-                },
-                user_email: {
-                    required: true,
-                    email: true
-                },
-                user_password: {
-                    required: true,
-                    minlength: 6
-                },
-                user_role: {
-                    required: true
-                },
-                'groups[]':{
-                     required: true
-                }
-            },
-            messages: {
-                user_name: {
-                    required: "Please enter the user full name",
-                    minlength: "The name must be at least 3 characters long"
-                },
-                user_email: {
-                    required: "Please enter the user email",
-                    email: "Please enter a valid email address"
-                },
-                user_password: {
-                    required: "Please enter the password",
-                    minlength: "The password must be at least 6 characters long"
-                },
-                user_role: {
-                    required: "Please select a role"
-                },
-                'client[]': {
-                    required: "Please select unit"
-                },
-                'groups[]': {
-                    required: "Please select groups"
-                }
-            },
-            errorPlacement: function(error, element){
-                if(element.context.type == 'checkbox'){
-                    $(element).parents(".form-group").find(".row").after(error)
-                }else{
-                    error.insertAfter(element); 
-                }
-            },
-            submitHandler: function(form) {
-                var formData = new FormData(form);
-                // Perform AJAX form submission
-                $.ajax({
-                    url: $(form).attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        // Handle successful response
-                        if(response != '' && response != null && typeof response != 'undefined'){
-                            let res = JSON.parse(response);
-                            if(res['success'] == 1){
-                               toaster("success",res['msg']);
-                                setTimeout(() => {
-                                    $('#addPromoOffcanvas').offcanvas('hide');
-                                    // Optionally, refresh the table or perform other actions
-                                    window.location.reload();
-                                }, 1000);
-                            }else{
-                                toaster("error",res['msg']);
-                            }
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle errors
-                        console.error('Form submission failed:', error);
-                    }
-                });
-            }
+        $('.search-filter').on('click', function () {
+            table.destroy();
+            that.dataTable();
+            $('.close-filter-btn').trigger('click');
         });
-
-        $(".update_users_data").submit(function(e){
-        e.preventDefault();
-        var href = $(this).attr("action");
-        var id = $(this).attr("id");
-        let flag = that.formValidate(id);
-        if(flag){
-          return;
-        }
-        
-        var formData = new FormData($('.'+id)[0]);
-
-        $.ajax({
-          type: "POST",
-          url: href,
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response) {
-            var responseObject = JSON.parse(response);
-            var msg = responseObject.messages;
-            var success = responseObject.success;
-            if (success == 1) {
-               toaster("success",msg);
-              $(this).parents(".offcanvas").offcanvas("hide")
-              setTimeout(function(){
-                window.location.reload();
-              },2000);
-
-            } else {
-                toaster("error",msg);
-            }
-          },
-          error: function (error) {
-            console.error("Error:", error);
-          },
+        $('.reset-filter').on('click', function () {
+            that.resetFilter();
         });
-      });
+    },
 
-        $(".page-access-btn").on("click",function(){
-        var groups = $(this).parents("form").find(".select2-multiple").val();
-        groups = groups != null && groups != undefined ? groups : [];
-        
-        if(groups.length > 0){
-            accessGroupsModel.show();
-            $(".modal-backdrop").eq(1).css("z-index",'1090');
-            $("#accessGroups").css("z-index",'1091');
+    resetFilter: function () {
+        $('#serarch-filter-input').val('');
+        table.destroy();
+        this.dataTable();
+    },
+
+    viewUser: function () {
+        $(document).on('click', '.view-user', function () {
+            var user_id = $(this).data('id');
+
             $.ajax({
-                url: base_url+'welcome/get_access_page',
+                url: base_url + 'user/user/get_user_details',
                 type: 'POST',
-                data: {groups:groups},
-                success: function(response) {
-                    if (response) {
-                        let res = JSON.parse(response);
-                        $("#accessGroups .modal-body .row").html(res.access_html)
+                data: { id: user_id },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success == 1) {
+                        var data = response.data;
+                        $('#view_user_name').text(data.user_name || '-');
+                        $('#view_user_email').text(data.user_email || '-');
+                        $('#view_user_mobile').text(data.mobile || '-');
+                        $('#view_user_role').text(data.role_name || '-');
+                        $('#view_user_added_date').text(
+                            data.added_date
+                                ? new Date(data.added_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+                                : '-'
+                        );
+
+                        var statusColor = data.status === 'active' ? '#006400' : '#C6011F';
+                        var statusText  = data.status
+                            ? data.status.charAt(0).toUpperCase() + data.status.slice(1).toLowerCase()
+                            : '-';
+                        $('#view_user_status').html('<span style="color:' + statusColor + '; font-weight:bold;">' + statusText + '</span>');
+
+                        if (data.profile_image) {
+                            $('#view_user_profile_image').html(
+                                '<img src="' + base_url + 'public/uploads/users/' + data.profile_image +
+                                '" alt="Profile Image" width="80" height="80" style="object-fit:cover; border-radius:50%;">'
+                            );
+                        } else {
+                            $('#view_user_profile_image').html('-');
+                        }
+
+                        var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewUserOffcanvas'));
+                        bsOffcanvas.show();
+                    } else {
+                        toaster('error', response.msg || 'Error loading user details.');
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('An error occurred: ' + errorThrown);
+                error: function () {
+                    toaster('error', 'An error occurred while loading user details.');
                 }
             });
-        }else{
-             toastr.error("Please select groups");
-        }
-        })
-    },
-    formValidate: function(form_class = ''){
-        let flag = false;
-        $(".custom-form."+form_class+" .required-input").each(function( index ) {
-          var value = $(this).val();
-          var dataMax = parseFloat($(this).attr('data-max'));
-          var dataMin = parseFloat($(this).attr('data-min'));
-          if(value == '' || value == null ){
-            flag = true;
-            var label = $(this).parents(".form-group").find("label").contents().filter(function() {
-              return this.nodeType === 3; // Filter out non-text nodes (nodeType 3 is Text node)
-            }).text().trim();
-            var exit_ele = $(this).parents(".form-group").find("label.error");
-            if(exit_ele.length == 0){
-              var start ="Please enter ";
-              if($(this).prop("localName") == "select"){
-                var start ="Please select ";
-              }
-              label = ((label.toLowerCase()).replace("enter", "")).replace("select", "");
-              var validation_message = start+(label.toLowerCase()).replace(/[^\w\s*]/gi, '');
-              var label_html = "<label class='error'>"+validation_message+"</label>";
-              $(this).parents(".form-group").append(label_html)
-            }
-          }
-          else if(dataMin !== undefined && dataMin > value){
-            flag = true;
-            var label = $(this).parents(".form-group").find("label").contents().filter(function() {
-              return this.nodeType === 3; // Filter out non-text nodes (nodeType 3 is Text node)
-            }).text().trim();
-            var exit_ele = $(this).parents(".form-group").find("label.error");
-            if(exit_ele.length == 0){
-              var end =" must be greater than or equal to "+dataMin;
-              label = ((label.toLowerCase()).replace("enter", "")).replace("select", "");
-              label = (label.toLowerCase()).replace(/[^\w\s*]/gi, '');
-              label = label.charAt(0).toUpperCase() + label.slice(1);
-              var validation_message =label +end;
-              var label_html = "<label class='error'>"+validation_message+"</label>";
-              $(this).parents(".form-group").append(label_html)
-            }
-            }else if(dataMax !== undefined && dataMax < value){
-              flag = true;
-              var label = $(this).parents(".form-group").find("label").contents().filter(function() {
-                return this.nodeType === 3; // Filter out non-text nodes (nodeType 3 is Text node)
-              }).text().trim();
-              var exit_ele = $(this).parents(".form-group").find("label.error");
-              if(exit_ele.length == 0){
-                var end =" must be less than or equal to "+dataMax;
-                label = ((label.toLowerCase()).replace("enter", "")).replace("select", "");
-                label = (label.toLowerCase()).replace(/[^\w\s*]/gi, '');
-                label = label.charAt(0).toUpperCase() + label.slice(1)
-                var validation_message =label +end;
-                var label_html = "<label class='error'>"+validation_message+"</label>";
-                $(this).parents(".form-group").append(label_html)
-              }
-          }
         });
-       
-
-        
-         const clients = $('.custom-form.'+form_class+' input[name="client[]"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-        if(clients.length == 0){
-            flag = true;
-            var exit_ele = $(".custom-form."+form_class+" .unit-box label.error");
-            if(exit_ele.length == 0){
-                $(".custom-form."+form_class+" .unit-box .row").after("<label class='error'>Please select unit</label>");
-            }
-        }else{
-            $(".custom-form."+form_class+" .unit-box label.error").remove();
-        }
-
-        return flag;
     },
-    viewUser: function() {
-        $(document).on('click', '.view-user', function() {
-            var tr = $(this).closest('tr');
-            var json_str = tr.find('td:last').text();
-            
-            try {
-                var data = JSON.parse(json_str);
-                $('#view_user_name').text(data.name || '-');
-                $('#view_user_email').text(data.email || '-');
-                $('#view_user_mobile').text(data.mobile || '-');
-                
-                var statusColor = data.status === 'active' ? '#006400' : '#C6011F';
-                var statusText = data.status ? (data.status.charAt(0).toUpperCase() + data.status.slice(1).toLowerCase()) : '-';
-                $('#view_user_status').html('<span style="color: '+statusColor+'; font-weight: bold;">'+statusText+'</span>');
-                
-                if (data.profile_image) {
-                    $('#view_user_profile_image').html('<img src="' + base_url + 'public/uploads/users/' + data.profile_image + '" alt="Profile Image" width="80" height="80" style="object-fit: cover; border-radius: 50%;">');
-                } else {
-                    $('#view_user_profile_image').html('-');
+
+    editUser: function () {
+        $(document).on('click', '.edit-user', function () {
+            var user_id = $(this).data('id');
+
+            $.ajax({
+                url: base_url + 'user/user/get_user_details',
+                type: 'POST',
+                data: { id: user_id },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success == 1) {
+                        var data = response.data;
+                        $('#edit_user_id').val(data.id);
+                        $('#edit_user_name').val(data.user_name);
+                        $('#edit_user_email').val(data.user_email);
+                        $('#edit_user_mobile').val(data.mobile);
+                        $('#edit_user_role').val(data.user_role);
+                        $('#edit_user_status').val(data.status);
+
+                        // Show profile image preview
+                        if (data.profile_image) {
+                            $('#edit_profile_image_preview').html(
+                                '<img src="' + base_url + 'public/uploads/users/' + data.profile_image +
+                                '" alt="Profile" width="50" height="50" style="object-fit:cover; border-radius:50%;" class="mt-2">'
+                            );
+                        } else {
+                            $('#edit_profile_image_preview').html('');
+                        }
+
+                        var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('editUserOffcanvas'));
+                        bsOffcanvas.show();
+                    } else {
+                        toaster('error', response.msg || 'Error loading user details.');
+                    }
+                },
+                error: function () {
+                    toaster('error', 'An error occurred while loading user details.');
                 }
-                
-                $('#view_user_role').text(data.role_name || '-');
-                $('#view_user_added_date').text(data.added_date ? new Date(data.added_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}) : '-');
-                
-                var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('viewUserOffcanvas'));
-                bsOffcanvas.show();
-            } catch (e) {
-                console.error("Error parsing user data: ", e);
-                toaster('error', 'Error loading user details.');
-            }
+            });
+        });
+
+        // Edit form submit
+        $('#editUserForm').on('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    var res = JSON.parse(response);
+                    if (res.success == 1) {
+                        toaster('success', res.messages || 'User updated successfully.');
+                        bootstrap.Offcanvas.getInstance(document.getElementById('editUserOffcanvas')).hide();
+                        table.ajax.reload(null, false);
+                    } else {
+                        toaster('error', res.messages || 'Failed to update user.');
+                    }
+                },
+                error: function () {
+                    toaster('error', 'An error occurred while updating user.');
+                }
+            });
         });
     }
-}
+};
 
 function logoutUser(user_id) {
     swal({
         title: 'Are you sure?',
-        text: "This will log out the user from both web and mobile applications.",
+        text: 'This will log out the user from both web and mobile applications.',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'var(--bs-theme-color-dark)',
@@ -417,7 +258,7 @@ function logoutUser(user_id) {
                 url: base_url + 'user/user/logout_user',
                 type: 'POST',
                 data: { user_id: user_id },
-                success: function(response) {
+                success: function (response) {
                     let res = JSON.parse(response);
                     if (res.success == 1) {
                         toaster('success', res.message);
@@ -433,7 +274,7 @@ function logoutUser(user_id) {
 function logoutAllUsers() {
     swal({
         title: 'Are you sure?',
-        text: "This will log out ALL users from both web and mobile applications.",
+        text: 'This will log out ALL users from both web and mobile applications.',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'var(--bs-theme-color-dark)',
@@ -444,11 +285,11 @@ function logoutAllUsers() {
             $.ajax({
                 url: base_url + 'user/user/logout_all_users',
                 type: 'POST',
-                success: function(response) {
+                success: function (response) {
                     let res = JSON.parse(response);
                     if (res.success == 1) {
                         toaster('success', res.message);
-                        setTimeout(function(){
+                        setTimeout(function () {
                             window.location.reload();
                         }, 1000);
                     } else {

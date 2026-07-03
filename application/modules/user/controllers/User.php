@@ -13,14 +13,187 @@ class User extends MY_Controller {
 
 	public function user_list()
 	{
-		$data['client'] = $this->User_model->getClientData();
-        $data['groups'] = [];
-		$data['user_info'] = $this->User_model->getUserData();
-        $data['roles'] = $this->User_model->getRoles();
-		$data['no_data_message'] = NoDataFoundMessage("user");
-        $data['base_url'] = base_url();
-		$this->smarty->loadView('user_details.tpl', $data,'Yes','Yes');
+		/* datatable columns */
+		$column[] = [
+			'data'      => 'id',
+			'title'     => 'Id',
+			'width'     => '5%',
+			'className' => 'dt-center',
+			'visible'   => false
+		];
+		$column[] = [
+			'data'      => 'user_name',
+			'title'     => 'Name',
+			'width'     => '18%',
+			'className' => 'dt-left',
+		];
+		$column[] = [
+			'data'      => 'user_email',
+			'title'     => 'Email',
+			'width'     => '20%',
+			'className' => 'dt-left',
+		];
+		$column[] = [
+			'data'      => 'mobile',
+			'title'     => 'Mobile',
+			'width'     => '12%',
+			'className' => 'dt-left',
+		];
+		$column[] = [
+			'data'      => 'role_name',
+			'title'     => 'Role',
+			'width'     => '12%',
+			'className' => 'dt-left',
+		];
+		$column[] = [
+			'data'      => 'status',
+			'title'     => 'Status',
+			'width'     => '10%',
+			'className' => 'dt-center',
+		];
+		$column[] = [
+			'data'      => 'added_date',
+			'title'     => 'Added Date',
+			'width'     => '12%',
+			'className' => 'dt-center',
+		];
+		$column[] = [
+			'data'      => 'action',
+			'title'     => 'Action',
+			'width'     => '11%',
+			'className' => 'dt-center',
+			'orderable' => false
+		];
+
+		$data['data']                 = $column;
+		$data['is_searching_enable']  = true;
+		$data['is_paging_enable']     = true;
+		$data['is_serverSide']        = true;
+		$data['is_ordering']          = true;
+		$data['no_data_message']      = NoDataFoundMessage('user');
+		$data['is_top_searching_enable'] = true;
+		$data['sorting_column']       = json_encode([[0, 'desc']]);
+		$data['page_length_arr']      = [[10, 50, 100, 200], [10, 50, 100, 200]];
+		$data['base_url']             = base_url();
+		$data['roles']                = $this->User_model->getRoles();
+		$this->smarty->loadView('user_details.tpl', $data, 'Yes', 'Yes');
 	}
+
+	public function get_user_list()
+	{
+		$post_data   = $this->input->post();
+		$column_index = isset($post_data['columns']) ? array_column($post_data['columns'], 'data') : [];
+		$order_by    = '';
+		if (isset($post_data['order']) && is_array($post_data['order'])) {
+			foreach ($post_data['order'] as $key => $val) {
+				if (isset($val['column']) && isset($column_index[$val['column']])) {
+					$col = $column_index[$val['column']];
+					// Map DataTable column names to actual DB columns
+					$col_map = [
+						'role_name' => 'r.role_name',
+						'user_name' => 'u.user_name',
+						'user_email' => 'u.user_email',
+						'mobile'    => 'u.mobile',
+						'status'    => 'u.status',
+						'added_date'=> 'u.added_date',
+					];
+					$db_col = isset($col_map[$col]) ? $col_map[$col] : 'u.'.$col;
+					$order_by .= ($key == 0 ? '' : ',') . $db_col . ' ' . $val['dir'];
+				}
+			}
+		}
+
+		$condition_arr['order_by'] = $order_by;
+		$condition_arr['start']    = isset($post_data['start']) ? $post_data['start'] : 0;
+		$condition_arr['length']   = isset($post_data['length']) ? $post_data['length'] : 10;
+		$base_url                  = $this->config->item('base_url');
+		$search                    = isset($post_data['search']) ? $post_data['search'] : '';
+
+		$data = $this->User_model->get_user_list_data($condition_arr, $search);
+
+		foreach ($data as $key => $value) {
+			$status_color         = ($value['status'] == 'active') ? '#006400' : '#C6011F';
+			$data[$key]['status'] = '<span style="color: '.$status_color.'; font-weight: bold;">'.ucfirst($value['status'] ?? '').'</span>';
+			$data[$key]['added_date'] = date('d-M-Y', strtotime($value['added_date'] ?? date('Y-m-d')));
+
+			$data[$key]['action'] =
+				'<a href="javascript:void(0)" class="text-primary me-2 view-user" data-id="'.($value['id'] ?? '').'" title="View"><i class="bx bx-show fs-4"></i></a>
+				 <a href="javascript:void(0)" class="text-warning me-2 edit-user" data-id="'.($value['id'] ?? '').'" title="Edit"><i class="bx bx-edit-alt fs-4"></i></a>
+				 <a href="javascript:void(0)" class="text-danger logout-user" data-id="'.($value['id'] ?? '').'" title="Logout User" onclick="logoutUser('.($value['id'] ?? '').')"><i class="bx bx-log-out fs-4"></i></a>';
+		}
+
+		$total_record               = $this->User_model->get_user_list_count($search);
+		$total_count                = isset($total_record['total_record']) ? $total_record['total_record'] : 0;
+		$response['data']           = $data;
+		$response['recordsTotal']   = $total_count;
+		$response['recordsFiltered'] = $total_count;
+		echo json_encode($response);
+		exit();
+	}
+
+	public function get_user_details()
+	{
+		$user_id = $this->input->post('id');
+		if (!$user_id) {
+			echo json_encode(['success' => 0, 'msg' => 'User ID is missing.']);
+			exit();
+		}
+
+		$this->db->select('u.id, u.name as user_name, u.email as user_email, u.mobile, u.status, u.role_id as user_role, u.added_date, u.profile_image, r.role_name');
+		$this->db->from('users as u');
+		$this->db->join('roles as r', 'r.id = u.role_id', 'left');
+		$this->db->where('u.id', $user_id);
+		$query = $this->db->get();
+		$user  = $query ? $query->row_array() : [];
+
+		if ($user) {
+			echo json_encode(['success' => 1, 'data' => $user]);
+		} else {
+			echo json_encode(['success' => 0, 'msg' => 'User not found.']);
+		}
+		exit();
+	}
+
+	public function update_user_action()
+	{
+		$response = ['success' => 0, 'messages' => 'An error occurred while updating the user.'];
+
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			$user_id = $this->input->post('user_id', TRUE);
+
+			$data = [
+				'user_name'  => $this->input->post('user_name', TRUE),
+				'mobile'     => $this->input->post('mobile', TRUE),
+				'user_role'  => $this->input->post('user_role', TRUE),
+				'status'     => $this->input->post('status', TRUE),
+			];
+
+			// Handle profile image upload
+			if (!empty($_FILES['profile_image']['name'])) {
+				$config['upload_path']   = FCPATH . 'public/uploads/users/';
+				$config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
+				$config['max_size']      = 5120;
+				$config['encrypt_name']  = TRUE;
+				$this->load->library('upload', $config);
+				if ($this->upload->do_upload('profile_image')) {
+					$upload_data         = $this->upload->data();
+					$data['profile_image'] = $upload_data['file_name'];
+				}
+			}
+
+			$result = $this->User_model->updateUserData($data, $user_id);
+			if ($result) {
+				$response['success']  = 1;
+				$response['messages'] = 'User updated successfully.';
+			} else {
+				$response['messages'] = 'Failed to update user.';
+			}
+		}
+
+		echo json_encode($response);
+		exit();
+	}
+
 	public function addUsersData()
 	{
 		$ret_arr = [];
@@ -327,6 +500,10 @@ class User extends MY_Controller {
 
 	public function api_document(){
 		$this->smarty->loadView('api_document.tpl', [], "Yes", "Yes");
+	}
+
+	public function manual_documentation(){
+		$this->smarty->loadView('manual_documentation.tpl', [], "Yes", "Yes");
 	}
 }
 

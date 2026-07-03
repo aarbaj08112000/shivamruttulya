@@ -21,6 +21,58 @@ class User_model extends CI_Model {
         $ret_data = is_object($result_obj) ? $result_obj->result_array() : [];
         return $ret_data;
     }
+
+    /* Server-side DataTable methods */
+    public function get_user_list_data($condition_arr = [], $search_params = '') {
+        $this->db->select('u.id, u.name as user_name, u.email as user_email, u.mobile, u.status, u.role_id as user_role, u.added_date, u.profile_image, r.role_name');
+        $this->db->from('users as u');
+        $this->db->join('roles as r', 'r.id = u.role_id', 'left');
+        $this->db->where('u.is_delete', '0');
+
+        if (count($condition_arr) > 0) {
+            $this->db->limit($condition_arr['length'], $condition_arr['start']);
+            if ($condition_arr['order_by'] != '') {
+                $this->db->order_by($condition_arr['order_by']);
+            }
+        }
+
+        if (is_array($search_params) && count($search_params) > 0) {
+            if ($search_params['value'] != '') {
+                $search = $search_params['value'];
+                $this->db->group_start();
+                $this->db->like('u.name', $search);
+                $this->db->or_like('u.email', $search);
+                $this->db->or_like('u.mobile', $search);
+                $this->db->or_like('r.role_name', $search);
+                $this->db->group_end();
+            }
+        }
+
+        $result_obj = $this->db->get();
+        return is_object($result_obj) ? $result_obj->result_array() : [];
+    }
+
+    public function get_user_list_count($search_params = '') {
+        $this->db->select('COUNT(u.id) as total_record');
+        $this->db->from('users as u');
+        $this->db->join('roles as r', 'r.id = u.role_id', 'left');
+        $this->db->where('u.is_delete', '0');
+
+        if (is_array($search_params) && count($search_params) > 0) {
+            if ($search_params['value'] != '') {
+                $search = $search_params['value'];
+                $this->db->group_start();
+                $this->db->like('u.name', $search);
+                $this->db->or_like('u.email', $search);
+                $this->db->or_like('u.mobile', $search);
+                $this->db->or_like('r.role_name', $search);
+                $this->db->group_end();
+            }
+        }
+
+        $result_obj = $this->db->get();
+        return is_object($result_obj) ? $result_obj->row_array() : [];
+    }
     public function getRoles(){
         $this->db->select('r.*');
         $this->db->from('roles as r');
