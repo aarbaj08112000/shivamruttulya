@@ -53,7 +53,7 @@
 
                 <!-- Main Content -->
                 <div class="col-lg-9 col-md-8">
-                    <div class="card">
+                    <div class="card" id="doc-content-card" style="max-height: calc(100vh - 100px); overflow-y: auto;">
                         <div class="card-body doc-content" data-bs-spy="scroll" data-bs-target="#docs-navbar" data-bs-offset="0" tabindex="0">
                             
                             <!-- 1. Introduction -->
@@ -396,14 +396,17 @@
     .doc-nav .nav-link {
         transition: all 0.3s ease;
     }
-    .sticky-top::-webkit-scrollbar {
+    .sticky-top::-webkit-scrollbar,
+    #doc-content-card::-webkit-scrollbar {
         width: 4px;
     }
-    .sticky-top::-webkit-scrollbar-thumb {
+    .sticky-top::-webkit-scrollbar-thumb,
+    #doc-content-card::-webkit-scrollbar-thumb {
         background-color: rgba(0,0,0,0.15);
         border-radius: 4px;
     }
-    .sticky-top {
+    .sticky-top,
+    #doc-content-card {
         scroll-behavior: smooth;
     }
 </style>
@@ -433,9 +436,11 @@ $(document).ready(function() {
                 }, 600);
             }
 
-            // Smooth scroll to target section
-            $('html, body').stop().animate({
-                scrollTop: $target.offset().top - 80
+            // Smooth scroll to target section inside the new container
+            var $docContainer = $('#doc-content-card');
+            var targetTop = $target[0].offsetTop;
+            $docContainer.stop().animate({
+                scrollTop: targetTop - 20 // 20px offset
             }, 800, 'swing', function() {
                 isScrolling = false;
             });
@@ -444,32 +449,36 @@ $(document).ready(function() {
 
     // Throttled scroll-spy: highlight active TOC link on scroll
     var scrollTimer = null;
-    $(window).on('scroll', function() {
+    $('#doc-content-card').on('scroll', function() {
         if (isScrolling) return;
         if (scrollTimer) clearTimeout(scrollTimer);
+        var $docContainer = $(this);
         scrollTimer = setTimeout(function() {
-            var scrollPos = $(window).scrollTop() + 140;
+            var scrollPos = $docContainer.scrollTop() + 50; // offset
             var activeFound = false;
             // Loop in reverse so the last section that fits wins
             $($('.doc-scroll-link').get().reverse()).each(function() {
                 if (activeFound) return;
                 var targetId = $(this).data('target');
                 var $section = $('#' + targetId);
-                if ($section.length && scrollPos >= $section.offset().top) {
-                    if (!$(this).hasClass('active')) {
-                        $('.doc-scroll-link').removeClass('active');
-                        $(this).addClass('active');
-                        // Auto-scroll TOC sidebar
-                        var $tocContainer = $(this).closest('.card');
-                        var linkTop = $(this).position().top;
-                        var containerHeight = $tocContainer.height();
-                        if (linkTop > containerHeight - 60 || linkTop < 40) {
-                            $tocContainer.stop().animate({
-                                scrollTop: $tocContainer.scrollTop() + linkTop - (containerHeight / 3)
-                            }, 300);
+                if ($section.length) {
+                    var sectionTop = $section[0].offsetTop;
+                    if (scrollPos >= sectionTop) {
+                        if (!$(this).hasClass('active')) {
+                            $('.doc-scroll-link').removeClass('active');
+                            $(this).addClass('active');
+                            // Auto-scroll TOC sidebar
+                            var $tocContainer = $(this).closest('.card');
+                            var linkTop = $(this).position().top;
+                            var containerHeight = $tocContainer.height();
+                            if (linkTop > containerHeight - 60 || linkTop < 40) {
+                                $tocContainer.stop().animate({
+                                    scrollTop: $tocContainer.scrollTop() + linkTop - (containerHeight / 3)
+                                }, 300);
+                            }
                         }
+                        activeFound = true;
                     }
-                    activeFound = true;
                 }
             });
         }, 50);
